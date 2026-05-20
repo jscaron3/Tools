@@ -1,23 +1,28 @@
 import fs from "fs";
+import path from "path";
 
-const basePath = "./tools";
+const basePath = path.resolve(process.cwd(), "tools");
+const outputPath = path.resolve(process.cwd(), "index.html");
 
 const dirs = fs.readdirSync(basePath, { withFileTypes: true })
   .filter(d => d.isDirectory())
   .map(d => d.name);
 
 const links = dirs
-  .map(dir => `<a href="/Tools/tools/${dir}/">${dir}</a>`)
+  .map(dir => `<a href="./tools/${dir}/">${dir}</a>`)
   .join("\n");
 
-fs.writeFileSync(
-  "index.html",
-  `<!doctype html>
+const html = `<!doctype html>
 <html>
+<head>
+  <meta charset="utf-8" />
+  <title>Tools</title>
+</head>
 <body>
 ${links}
 </body>
-</html>`
-);
+</html>`;
 
-console.log("Generated links:", dirs);
+fs.writeFileSync(outputPath, html);
+
+console.log("Generated index.html with:", dirs);
