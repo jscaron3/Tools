@@ -17,9 +17,12 @@ const html = `<!doctype html>
 <head>
   <meta charset="utf-8" />
   <title>Tools</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<div class="buttons">
 ${links}
+</div>
 </body>
 </html>`;
 
