@@ -18,10 +18,10 @@ jobs:
         with:
           node-version: 20
 
-      - run: node Tools/build-links.js
+      - run: node build-links.js
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Tools
+          publish_dir: .
