@@ -399,6 +399,9 @@ main.dark {
   margin-top: 24px;
   border: solid 1px var(--black);
   border-radius: var(--radius);
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
   
   .result-group {
     /* // grid-column: 1 / -1; */
