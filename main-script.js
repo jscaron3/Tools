@@ -11,7 +11,6 @@ const tools = {
 
 const params = new URLSearchParams(window.location.search);
 const toolName = params.get("tool");
-const app = document.getElementById("app");
 const title = document.getElementById("page-title");
 const toolList = document.getElementById("tool-list");
 const toolMount = document.getElementById("tool-mount");
@@ -117,7 +116,7 @@ async function loadTool(name) {
 	await loadScripts(scripts, baseUrl);
 }
 
-if (!app || !title || !toolList || !toolMount || !toolBack) {
+if (!title || !toolList || !toolMount || !toolBack) {
 	throw new Error("Template shell is missing required elements.");
 }
 
