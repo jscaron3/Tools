@@ -1,4 +1,7 @@
 import { Pane } from "https://esm.sh/tweakpane@4.0.4";
+import { ensureToolShell } from "../tool-shell.js";
+
+ensureToolShell();
 
 jQuery(document).ready(function () {
   const config = {
