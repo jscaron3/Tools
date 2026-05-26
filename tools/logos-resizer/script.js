@@ -546,7 +546,7 @@ function downloadOne(item) {
 
 	const type = getExportData(item);
 	const exportCanvas = getExportCanvas(item, type);
-	const name = item.card.querySelector(".filename").value;
+	const name = item.card.querySelector(".filename").textContent.trim() || item.fileName;
 	const name_output = name != item.fileName ? name : item.fileName;
 
 	// const name = 
@@ -571,7 +571,7 @@ async function downloadAll() {
 
 		const base64 = exportCanvas.toDataURL(type.mime, 0.95).split(",")[1];
 
-		const name = item.card.querySelector(".filename").value;
+		const name = item.card.querySelector(".filename").textContent.trim() || item.fileName;
 		const name_output = name != item.fileName ? name : item.fileName;
 
 		zip.file(name_output + "." + type.ext, base64, { base64: true });

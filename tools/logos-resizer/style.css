@@ -116,7 +116,7 @@ body {
 	min-width: 0;
 }
 
-.file-meta [contenteditable]:focus {
+.file-meta [contenteditable]:focus, .file-meta [contenteditable]:hover {
    text-overflow: initial;
    overflow: visible;
    white-space: normal;
