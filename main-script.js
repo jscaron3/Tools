@@ -164,6 +164,10 @@ export function Notif_link(text, link_text, link) {
     }
 }
 
+// Make Notif and Notif_link globally accessible for loaded tools
+window.Notif = Notif;
+window.Notif_link = Notif_link;
+
 function showNextNotification(type = '') {
     if (notifQueue.length) {
         notifInProgress = true;
