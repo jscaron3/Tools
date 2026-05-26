@@ -97,7 +97,8 @@ async function loadTool(name) {
 	toolList.hidden = true;
 	toolMount.hidden = false;
 	toolBack.hidden = false;
-	toolBack.href = "./template.html";
+	// toolBack.href = "./template.html";
+	toolBack.href = "./";
 
 	const bodyChildren = Array.from(parsed.body.children);
 	const scripts = [
