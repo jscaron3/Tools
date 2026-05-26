@@ -14,7 +14,7 @@ const dirs = fs.readdirSync(basePath, { withFileTypes: true })
 
 
   const links = dirs
-  .map(dir => `<a href="./tools/${dir}/">${dir.replaceAll("-", " ")}</a>`)
+  .map(dir => `<a href="./tools/${dir}/">${dir}</a>`)
   .join("\n");
 
 const html = `<!doctype html>
