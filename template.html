@@ -9,12 +9,12 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Outfit", sans-serif;
+      /* font-family: "Outfit", sans-serif; */
       /* background:
         radial-gradient(circle at top left, rgba(255, 198, 87, 0.22), transparent 36%),
         radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.06), transparent 28%),
         #f4f4f4; */
-      color: #212a37;
+      /* color: #212a37; */
     }
 
     .template-shell {
@@ -27,29 +27,32 @@
 
     .template-topbar {
       display: flex;
-      justify-content: center;
+      /* justify-content: center; */
       align-items: center;
       gap: 1rem;
       /* margin-bottom: 2rem; */
-		padding: 1rem 0;
+		  padding: 1rem 20px;
+      border-bottom: solid 1px;
     }
 
     .template-title {
       margin: 0;
       font-size: clamp(2rem, 3vw, 3.5rem);
       line-height: 1;
+      font-size: 25px;
+      line-height: 1.2em;
     }
 
     .template-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1rem;
+      /* display: inline-flex; */
+      /* align-items: center; */
+      /* gap: 0.5rem; */
+      padding: 0.5rem 1rem;
       border-radius: 999px;
       text-decoration: none;
       color: #fff;
       background: #212a37;
-      box-shadow: 0 12px 30px rgba(33, 42, 55, 0.18);
+      /* box-shadow: 0 12px 30px rgba(33, 42, 55, 0.18); */
     }
 
     .tool-list {
@@ -80,8 +83,8 @@
 <body>
   <div class="template-shell">
     <div class="template-topbar">
-      <h1 class="template-title" id="page-title">Tools</h1>
       <a class="template-back" id="tool-back" href="./index.html">Back</a>
+      <h1 class="template-title" id="page-title">Tools</h1>
     </div>
 
     <div class="tool-list" id="tool-list"></div>
