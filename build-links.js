@@ -8,14 +8,21 @@ const dirs = fs.readdirSync(basePath, { withFileTypes: true })
   .filter(d => d.isDirectory())
   .map(d => d.name);
 
-const links = dirs
-  .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
+
+    // const links = dirs
+  // .map(dir => `<a href="./tools/${dir}/">${dir}</a>`)
+  // .join("\n");
+  
+// const links = dirs
+//   .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
+//   .join("\n");
+
+  const links = dirs
+  .map(dir => `<a href="./template.html?tool=${dir}">${dir}</a>`)
   .join("\n");
 
 
-  // const links = dirs
-  // .map(dir => `<a href="./tools/${dir}/">${dir}</a>`)
-  // .join("\n");
+
 
 const html = `<!doctype html>
 <html>
