@@ -3,6 +3,10 @@ const tools = {
         label: 'color-converter',
         url: './tools/color-converter/index.html'
     },
+	 'logos-resizer': {
+        label: 'logos-resizer',
+        url: './tools/logos-resizer/index.html'
+    },
     typescale: {
         label: 'typescale',
         url: './tools/typescale/index.html'
