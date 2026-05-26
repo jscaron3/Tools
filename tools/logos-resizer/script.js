@@ -102,24 +102,15 @@ function createCard(item) {
 	card.innerHTML = `
         <div class="card-top">
             <div class="file-meta">
-                <div class="filename">${item.fileName}</div>
+                <div class="filename" contenteditable="true">${item.fileName}</div>
                 <div class="file-infos"><div class="filetype">${item.ext}</div>${ogSize}</div>
-								${rendered_sizes}
-                
-								
+								${rendered_sizes}			
             </div>
 
             <div style="display:flex;gap:6px;">
-                
-								<span class="download-one" title="Download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="#000000"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></g></svg></span>
-								
-								<span class="reset-size" title="Reset size"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="M13 3a9 9 0 0 0-9 9H1l4 3.99L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8H12z" fill="#000000"></path></g></svg>
-	
-	</span>
-								<span class="delete-btn" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="M14.7404 9L14.3942 18M9.60577 18L9.25962 9M19.2276 5.79057C19.5696 5.84221 19.9104 5.89747 20.25 5.95629M19.2276 5.79057L18.1598 19.6726C18.0696 20.8448 17.0921 21.75 15.9164 21.75H8.08357C6.90786 21.75 5.93037 20.8448 5.8402 19.6726L4.77235 5.79057M19.2276 5.79057C18.0812 5.61744 16.9215 5.48485 15.75 5.39432M3.75 5.95629C4.08957 5.89747 4.43037 5.84221 4.77235 5.79057M4.77235 5.79057C5.91878 5.61744 7.07849 5.48485 8.25 5.39432M15.75 5.39432V4.47819C15.75 3.29882 14.8393 2.31423 13.6606 2.27652C13.1092 2.25889 12.5556 2.25 12 2.25C11.4444 2.25 10.8908 2.25889 10.3394 2.27652C9.16065 2.31423 8.25 3.29882 8.25 4.47819V5.39432M15.75 5.39432C14.5126 5.2987 13.262 5.25 12 5.25C10.738 5.25 9.48744 5.2987 8.25 5.39432" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg></span>
-								
-						
-							
+					<span class="download-one" title="Download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="#000000"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></g></svg></span>
+					<span class="reset-size" title="Reset size"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="M13 3a9 9 0 0 0-9 9H1l4 3.99L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8H12z" fill="#000000"></path></g></svg></span>
+					<span class="delete-btn" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="M14.7404 9L14.3942 18M9.60577 18L9.25962 9M19.2276 5.79057C19.5696 5.84221 19.9104 5.89747 20.25 5.95629M19.2276 5.79057L18.1598 19.6726C18.0696 20.8448 17.0921 21.75 15.9164 21.75H8.08357C6.90786 21.75 5.93037 20.8448 5.8402 19.6726L4.77235 5.79057M19.2276 5.79057C18.0812 5.61744 16.9215 5.48485 15.75 5.39432M3.75 5.95629C4.08957 5.89747 4.43037 5.84221 4.77235 5.79057M4.77235 5.79057C5.91878 5.61744 7.07849 5.48485 8.25 5.39432M15.75 5.39432V4.47819C15.75 3.29882 14.8393 2.31423 13.6606 2.27652C13.1092 2.25889 12.5556 2.25 12 2.25C11.4444 2.25 10.8908 2.25889 10.3394 2.27652C9.16065 2.31423 8.25 3.29882 8.25 4.47819V5.39432M15.75 5.39432C14.5126 5.2987 13.262 5.25 12 5.25C10.738 5.25 9.48744 5.2987 8.25 5.39432" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></svg></span>
             </div>
         </div>
 
@@ -127,22 +118,18 @@ function createCard(item) {
 
         <div class="controls">
 				
-						<div class="scale-dragger" data-scale-drag>
-								<div class="knob"></div>
-						</div>
+				<div class="scale-dragger" data-scale-drag>
+						<div class="knob"></div>
+				</div>
 
-						
+            <label for="x-pos">X</label>
+            <input id="x-pos" type="range" min="-50" max="150" value="50" data-key="x">
 
-            
+            <label for="y-pos">Y</label>
+            <input id="y-pos" type="range" min="-50" max="150" value="50" data-key="y">
 
-            <label>X</label>
-            <input type="range" min="-50" max="150" value="50" data-key="x">
-
-            <label>Y</label>
-            <input type="range" min="-50" max="150" value="50" data-key="y">
-
-            <label>
-                <input type="checkbox" data-key="allowUpscale">
+            <label for="allowUpscale">
+                <input id="allowUpscale" type="checkbox" data-key="allowUpscale">
                 Allow Upscale
             </label>
 						
@@ -554,12 +541,19 @@ function getExportCanvas(item, type) {
 function downloadOne(item) {
 	draw(item);
 
+	console.log(item);
+	// get .filename value from card
+
 	const type = getExportData(item);
 	const exportCanvas = getExportCanvas(item, type);
+	const name = item.card.querySelector(".filename").value;
+	const name_output = name != item.fileName ? name : item.fileName;
+
+	// const name = 
 
 	exportCanvas.toBlob(
 		(blob) => {
-			saveAs(blob, item.fileName + "." + type.ext);
+			saveAs(blob, name_output + "." + type.ext);
 		},
 		type.mime,
 		0.95
@@ -577,7 +571,10 @@ async function downloadAll() {
 
 		const base64 = exportCanvas.toDataURL(type.mime, 0.95).split(",")[1];
 
-		zip.file(item.fileName + "." + type.ext, base64, { base64: true });
+		const name = item.card.querySelector(".filename").value;
+		const name_output = name != item.fileName ? name : item.fileName;
+
+		zip.file(name_output + "." + type.ext, base64, { base64: true });
 	});
 
 	const blob = await zip.generateAsync({ type: "blob" });

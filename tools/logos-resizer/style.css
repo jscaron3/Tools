@@ -44,17 +44,18 @@ body {
 /* 	font-family: Arial, sans-serif; */
 	font-family: "Outfit", sans-serif;
 	
-	padding: 102px 20px;
+	/* padding: 102px 20px; */
 	margin: 0;
 	display: grid;
 	gap: 100px;
 /* 	grid-template-rows: auto 1fr; */
 	align-items: center;
-	min-height: 100vh;
+	/* min-height: 100vh; */
 	background-color: var(--white);
 }
 .topbar {
-	position: fixed;
+	/* position: fixed; */
+	position: sticky;
 	top: 20px;
 	left: 0;
 	top: 0;
@@ -74,7 +75,9 @@ body {
 	height: 40px!important;
 }
 
-
+.content {
+	padding: 0 20px;
+}
 
 #grid {
 	display: flex;
@@ -108,9 +111,17 @@ body {
 	gap: 10px;
 	margin-bottom: 8px;
 }
+
 .file-meta {
 	min-width: 0;
 }
+
+.file-meta [contenteditable]:focus {
+   text-overflow: initial;
+   overflow: visible;
+   white-space: normal;
+}
+
 .filename {
 	font-size: 12px;
 	white-space: nowrap;

@@ -1,204 +1,199 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tools</title>
-  <link rel="stylesheet" href="./style.css" />
-  <style>
-
-    :root {
-      --white: #f4f4f4;
-    }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      /* font-family: "Outfit", sans-serif; */
-      /* background:
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Tools</title>
+        <link rel="stylesheet" href="./style.css" />
+        <style>
+            :root {
+                --white: #f4f4f4;
+            }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                /* font-family: "Outfit", sans-serif; */
+                /* background:
         radial-gradient(circle at top left, rgba(255, 198, 87, 0.22), transparent 36%),
         radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.06), transparent 28%),
         #f4f4f4; */
-      /* color: #212a37; */
-      background-color: var(--white);
-    }
+                /* color: #212a37; */
+                background-color: var(--white);
+            }
 
-    .template-shell {
-      min-height: 100vh;
-		width: 100%;
-		    display: flex;
-    flex-direction: column;
-      /* padding: 1.5rem; */
-    }
+            .template-shell {
+                min-height: 100vh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                /* padding: 1.5rem; */
+            }
 
-    .template-topbar {
-      display: flex;
-      /* justify-content: center; */
-      align-items: center;
-      gap: 1rem;
-      /* margin-bottom: 2rem; */
-		  padding: 1rem 20px;
-      border-bottom: solid 1px;
-    }
+            .template-topbar {
+                display: flex;
+                /* justify-content: center; */
+                align-items: center;
+                gap: 1rem;
+                /* margin-bottom: 2rem; */
+                padding: 1rem 20px;
+                border-bottom: solid 1px;
+            }
 
-    .template-title {
-      margin: 0;
-      font-size: clamp(2rem, 3vw, 3.5rem);
-      line-height: 1;
-      font-size: 25px;
-      line-height: 1.2em;
-      margin-bottom: 0!important;
-    }
+            .template-title {
+                margin: 0;
+                font-size: clamp(2rem, 3vw, 3.5rem);
+                line-height: 1;
+                font-size: 25px;
+                line-height: 1.2em;
+                margin-bottom: 0 !important;
+            }
 
-    .template-back {
-      /* display: inline-flex; */
-      /* align-items: center; */
-      /* gap: 0.5rem; */
-      padding: 0.5rem 1rem;
-      border-radius: 999px;
-      text-decoration: none;
-      color: #fff;
-      background: #212a37;
-      /* box-shadow: 0 12px 30px rgba(33, 42, 55, 0.18); */
-    }
+            .template-back {
+                /* display: inline-flex; */
+                /* align-items: center; */
+                /* gap: 0.5rem; */
+                padding: 0.5rem 1rem;
+                border-radius: 999px;
+                text-decoration: none;
+                color: #fff;
+                background: #212a37;
+                /* box-shadow: 0 12px 30px rgba(33, 42, 55, 0.18); */
+            }
 
-    .tool-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      max-width: 900px;
-    }
+            .tool-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
+                max-width: 900px;
+            }
 
-    .tool-card {
-      display: block;
-      padding: 1.25rem 1.5rem;
-      border-radius: 1rem;
-      background: rgba(255, 255, 255, 0.82);
-      color: inherit;
-      text-decoration: none;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-      backdrop-filter: blur(12px);
-    }
+            .tool-card {
+                display: block;
+                padding: 1.25rem 1.5rem;
+                border-radius: 1rem;
+                background: rgba(255, 255, 255, 0.82);
+                color: inherit;
+                text-decoration: none;
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+                backdrop-filter: blur(12px);
+            }
 
-    .tool-frame {
-      width: 100%;
-		display: block;
-		position: relative;
-    }
+            .tool-frame {
+              display: grid;
+	            gap: 100px;
+	            align-items: center;
+              width: 100%;
+              min-height: calc(100vh - 68px);
+              display: block;
+              position: relative;
+            }
 
+            /* Notif */
+            .notif {
+                opacity: 0;
+                animation-name: fadeInNotif;
+                animation-duration: 300ms;
+                animation-fill-mode: forwards;
+            }
 
+            .notif:not(:has(.link)) {
+                position: fixed;
+                right: 25px;
+                bottom: 25px;
+                padding: 12px 20px;
+                background-color: #ededed;
+                z-index: 1000000;
+                font-family: 'Montserrat', sans-serif !important;
+                color: #232323;
 
+                display: grid;
+                grid-template-columns: auto 25px;
+                gap: 8px;
+                place-items: center;
 
-    /* Notif */
-.notif {
-	opacity: 0;
-	animation-name: fadeInNotif;
-  animation-duration: 300ms;
-  animation-fill-mode:forwards;
-}
+                path {
+                    fill: #232323;
+                }
+            }
 
-.notif:not(:has(.link)) {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-  padding: 12px 20px;
-  background-color: #ededed;
-  z-index: 1000000;
-  font-family: 'Montserrat', sans-serif !important;
-  color: #232323;
-  
- 
-	display: grid;
-  grid-template-columns: auto 25px;
-  gap: 8px;
-  place-items: center;
-	
-	path {
-		fill: #232323;
-	}
-	
-}
+            .notif.fade-out {
+                opacity: 1;
+                animation-name: fadeOutNotif;
+                animation-duration: 300ms;
+                animation-fill-mode: forwards;
+            }
 
-.notif.fade-out {
-  opacity: 1;
-  animation-name: fadeOutNotif;
-  animation-duration: 300ms;
-  animation-fill-mode:forwards;
-}
+            @keyframes fadeInNotif {
+                from {
+                    opacity: 0;
+                    translate: 0 20%;
+                }
 
-@keyframes fadeInNotif {
-  from {
-    opacity: 0;
-    translate: 0 20%;
-  }
+                to {
+                    opacity: 1;
+                    translate: 0 0%;
+                }
+            }
 
-  to {
-    opacity: 1;
-    translate: 0 0%;
-  }
-}
+            @keyframes fadeOutNotif {
+                from {
+                    opacity: 1;
+                    translate: 0 0%;
+                }
 
-@keyframes fadeOutNotif {
-  from {
-    opacity: 1;
-    translate: 0 0%;
-  }
+                to {
+                    opacity: 0;
+                    translate: 0 20%;
+                }
+            }
 
-  to {
-    opacity: 0;
-    translate: 0 20%;
-  }
-}
+            /* END Notif */
 
-/* END Notif */
+            .notif.w-link {
+                position: fixed;
+                left: 25px;
+                bottom: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #232323;
+                color: #fff;
+                padding: 20px;
+                width: fit-content;
+                border-radius: 20px;
 
+                .text {
+                    display: flex;
+                    align-items: center;
 
+                    &:after {
+                        content: '';
+                        margin: 0 10px;
+                        height: 30px;
+                        width: 2px;
+                        background-color: #fff;
+                        display: inline-block;
+                        position: relative;
+                    }
+                }
+                .link {
+                    color: #fff;
+                }
+            }
+            /* END Notif w-link */
+        </style>
+    </head>
+    <body>
+        <div class="template-shell">
+            <div class="template-topbar">
+                <a class="template-back" id="tool-back" href="./index.html">Back</a>
+                <h1 class="template-title" id="page-title">Tools</h1>
+            </div>
 
-.notif.w-link {
-	
-		position: fixed;
-		left: 25px;
-		bottom: 25px;
-		display: flex;
-		align-items: center; 
-		justify-content: center;
-		background-color: #232323;
-		color: #fff;
-		padding: 20px;
-		width: fit-content;
-		border-radius: 20px;
+            <div class="tool-list" id="tool-list"></div>
+            <div class="tool-frame" id="tool-mount" hidden></div>
+        </div>
 
-		.text {
-			display: flex;
-			align-items: center;
-			
-			&:after {
-				content: '';
-				margin: 0 10px;
-				height: 30px;
-				width: 2px;
-				background-color: #fff;
-				display: inline-block;
-				position: relative;
-			}
-		}
-		.link {
-			color: #fff;
-		}
-	}
-	/* END Notif w-link */
-  </style>
-</head>
-<body>
-  <div class="template-shell">
-    <div class="template-topbar">
-      <a class="template-back" id="tool-back" href="./index.html">Back</a>
-      <h1 class="template-title" id="page-title">Tools</h1>
-    </div>
-
-    <div class="tool-list" id="tool-list"></div>
-    <div class="tool-frame" id="tool-mount" hidden></div>
-  </div>
-
-  <script type="module" src="./main-script.js"></script>
-</body>
+        <script type="module" src="./main-script.js"></script>
+    </body>
 </html>
