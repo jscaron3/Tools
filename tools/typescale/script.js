@@ -15,10 +15,6 @@ jQuery(document).ready(function () {
 	
 	
 	
-	
-	
-	
-	
 	// Type scale
 	
 	
