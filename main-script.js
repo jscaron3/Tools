@@ -9,6 +9,7 @@ const tools = {
     }
 };
 
+
 const params = new URLSearchParams(window.location.search);
 const toolName = params.get('tool');
 const title = document.getElementById('page-title');

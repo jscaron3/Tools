@@ -1,0 +1,82 @@
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+
+<div class="topbar">
+	
+<div class="inputs-wrapper">
+<div class="input-wrap">
+<label>Width</label>
+<input type="number" id="cw" value="400" style="width:80px;">
+</div>
+
+<div class="input-wrap">
+<label>Height</label>
+<input type="number" id="ch" value="300" style="width:80px;">
+</div>
+
+	
+<!-- <button onclick="applyCanvasSize()">Apply</button> -->
+<span id="apply-size" class="apply-size icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="#000000"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></g></svg></span>
+</div>
+	
+<!--<label>
+<input type="checkbox" id="allowUpscale">
+Allow Upscale
+</label> -->
+	<div class="bg-choice-wrap">
+	<label>Background</label>
+	<div class="color-presets">
+    <label>
+        <input type="radio" name="bg-color" value="transparent" checked>
+        <span class="preset transparent" title="Transparent"></span>
+    </label>
+
+    <label>
+        <input type="radio" name="bg-color" value="#ffffff">
+        <span class="preset white" title="White"></span>
+    </label>
+
+    <label>
+        <input type="radio" name="bg-color" value="#000000">
+        <span class="preset black" title="Black"></span>
+    </label>
+
+    <label class="custom-picker">
+        <input type="radio" name="bg-color" value="custom">
+        <span class="preset picker" title="Custom color"></span>
+        <input type="color" class="color-input">
+    </label>
+</div>
+	</div>
+	
+
+<div class="dl-wrap">
+<label>Export</label>
+<select id="exportFormat">
+	<option value="original">Original Type</option>
+	<option value="png">PNG</option>
+	<option value="jpeg">JPEG</option>
+</select>
+	
+	<span id="download-all" class="download-all icon-wrap" title="Download All"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="#000000"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></g></svg></span>
+
+<!-- <button onclick="downloadAll()">Download All</button> -->
+</div>
+</div>
+	
+<div class="content">
+
+<div id="grid"></div>
+
+		
+<div id="dropZone">
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="#000000"><path d="M12 3v12"></path><path d="m17 8-5-5-5 5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></g></svg>
+	<span>Drop images here or click to upload</span>
+</div>
+	
+<input type="file" id="upload" multiple accept=".png,.jpg,.jpeg,.svg,.webp" hidden>
+</div>	
