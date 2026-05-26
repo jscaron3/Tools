@@ -176,6 +176,13 @@ canvas {
 	margin-bottom: 8px;
 }
 
+.controls button {
+	text-box: trim-both cap alphabetic;
+	padding: 6px 6px !important;
+   border-radius: 7px;
+   font-size: 13px;
+}
+
 
 svg {
 	display: block;

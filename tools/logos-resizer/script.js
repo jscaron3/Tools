@@ -541,15 +541,11 @@ function getExportCanvas(item, type) {
 function downloadOne(item) {
 	draw(item);
 
-	console.log(item);
-	// get .filename value from card
-
 	const type = getExportData(item);
 	const exportCanvas = getExportCanvas(item, type);
-	const name = item.card.querySelector(".filename").textContent.trim() || item.fileName;
-	const name_output = name != item.fileName ? name : item.fileName;
-
-	// const name = 
+	const name = item.card.querySelector(".filename").textContent || item.fileName;
+	let name_output = name != item.fileName ? name : item.fileName;
+	name_output = name_output.replaceAll(' ', '-').trim();
 
 	exportCanvas.toBlob(
 		(blob) => {
@@ -571,8 +567,9 @@ async function downloadAll() {
 
 		const base64 = exportCanvas.toDataURL(type.mime, 0.95).split(",")[1];
 
-		const name = item.card.querySelector(".filename").textContent.trim() || item.fileName;
-		const name_output = name != item.fileName ? name : item.fileName;
+		const name = item.card.querySelector(".filename").textContent || item.fileName;
+		let name_output = name != item.fileName ? name : item.fileName;
+		name_output = name_output.replaceAll(' ', '-').trim();
 
 		zip.file(name_output + "." + type.ext, base64, { base64: true });
 	});
