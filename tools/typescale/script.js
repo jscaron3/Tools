@@ -9,6 +9,12 @@ import { Pane } from "https://esm.sh/tweakpane@4.0.4";
 // 	Notif_link
 // } from "https://codepen.io/jean-samuel-caron/pen/oNrbMMK.js";
 
+
+import {
+	Notif,
+	Notif_link
+} from "../main-script.js";
+
 jQuery(document).ready(function () {
 	
 	
