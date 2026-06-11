@@ -97,7 +97,8 @@ body {
 }
 
 .card {
-	width: 320px;
+	/* width: 320px; */
+	width: 424px;
 /* 	width: 450px; */
 	border: 1px solid #ddd;
 	padding: 10px;
