@@ -451,7 +451,7 @@ async function draw(item) {
     ctx.translate(centerX, centerY);
     ctx.rotate((item.rotation * Math.PI) / 180);
 
-    if (item.card.querySelector('.smoothing-checkbox').checked) {
+    if (document.querySelector('.smoothing-checkbox').checked) {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
     } /*else {
