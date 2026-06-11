@@ -451,8 +451,14 @@ async function draw(item) {
     ctx.translate(centerX, centerY);
     ctx.rotate((item.rotation * Math.PI) / 180);
 
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
+    if (item.card.querySelector('.smoothing-checkbox').checked) {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+    } /*else {
+        ctx.imageSmoothingEnabled = false;
+    }*/
+
+
     ctx.drawImage(item.img, -w / 2, -h / 2, w, h); // .imageSmoothingEnabled
     // ctx.drawImage(bitmap, -w / 2, -h / 2); // KEEP for bitmap image smoothing
 
@@ -558,14 +564,14 @@ async function downloadAll() {
     saveAs(blob, 'logos.zip');
 }
 
-function updateAllCanvasBackground() {
+function updateAllCanvas() {
     items.forEach((item) => draw(item));
 }
 
-document.querySelectorAll('input[name="bg-color"]').forEach((el) => {
+document.querySelectorAll('input[name="bg-color"], input[name="smoothing"]').forEach((el) => {
     el.addEventListener('change', () => {
         // let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
-        updateAllCanvasBackground();
+        updateAllCanvas();
     });
 });
 
@@ -579,5 +585,5 @@ picker.addEventListener('input', (e) => {
     pickerRadio.value = color;
     pickerRadio.checked = true;
 
-    updateAllCanvasBackground();
+    updateAllCanvas();
 });
