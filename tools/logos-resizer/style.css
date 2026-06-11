@@ -497,3 +497,85 @@ span.icon-wrap:hover g {
     opacity:0;
     cursor:pointer;
 }
+
+
+
+
+
+
+
+
+
+/* Guides */
+
+#guide-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+#guide-overlay .clear-guides {
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	cursor: pointer;
+	pointer-events: all;
+	border: solid 1px;
+	border-radius: VAR(--radius);
+	padding: 8px 16px 6px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--black);
+	color: var(--white);
+	border-color: var(--black);
+	transition: all 200ms ease-in-out;
+}
+
+#guide-overlay .clear-guides.hidden {
+	display: none;
+}
+
+#guide-overlay .clear-guides:hover {
+	background-color: var(--white);
+	color: var(--black);
+}
+
+.g-line {
+  position: fixed;
+  background: #2979ff;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.1s, background 0.1s;
+}
+.g-line.h { left: 0; right: 0; height: 1px; }
+.g-line.v { top: 0; bottom: 0; width: 1px; }
+.g-line.selected { background: #ff1744; opacity: 1; }
+
+.g-hit {
+  position: fixed;
+  z-index: 1001;
+  cursor: ns-resize;
+  background: transparent;
+}
+.g-hit.v { cursor: ew-resize; }
+
+.g-label {
+  position: fixed;
+  font-size: 10px;
+  font-family: monospace;
+/*   color: #2979ff; */
+  color: #fff;
+/*   background: rgba(255,255,255,0.85); */
+	background-color: #2979ff;
+  padding: 1px 4px;
+  pointer-events: none;
+  z-index: 1002;
+  border-radius: 2px;
+}
+.g-label.selected { 
+/* 	color: #ff1744;  */
+	background-color: #ff1744; 
+}
