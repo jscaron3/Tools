@@ -2,104 +2,100 @@ let CANVAS_W = 400;
 let CANVAS_H = 300;
 let items = [];
 
-const dlAll = document.getElementById("download-all");
-dlAll.addEventListener("click", () => downloadAll());
+const dlAll = document.getElementById('download-all');
+dlAll.addEventListener('click', () => downloadAll());
 
-const applySize = document.getElementById("apply-size");
-applySize.addEventListener("click", () => applyCanvasSize());
+const applySize = document.getElementById('apply-size');
+applySize.addEventListener('click', () => applyCanvasSize());
 
-const upload = document.getElementById("upload");
-const dropZone = document.getElementById("dropZone");
+const upload = document.getElementById('upload');
+const dropZone = document.getElementById('dropZone');
 
 function handleFiles(fileList) {
-	[...fileList].forEach((file) => {
-		const img = new Image();
+    [...fileList].forEach((file) => {
+        const img = new Image();
 
-		img.onload = () => {
-			const item = {
-				fileName: file.name.replace(/\.[^/.]+$/, ""),
-				ext: file.name.split(".").pop().toLowerCase(),
-				img,
+        img.onload = () => {
+            const item = {
+                fileName: file.name.replace(/\.[^/.]+$/, ''),
+                ext: file.name.split('.').pop().toLowerCase(),
+                img,
 
-				ogWidth: img.naturalWidth,
-				ogHeight: img.naturalHeight,
+                ogWidth: img.naturalWidth,
+                ogHeight: img.naturalHeight,
 
-				scale: 100,
-				x: 50,
-				y: 50,
-				rotation: 0, // degrees (0, 90, 180, 270)
-				
-				canvas: null,
-				ctx: null,
-				card: null
-			};
+                scale: 100,
+                x: 50,
+                y: 50,
+                rotation: 0, // degrees (0, 90, 180, 270)
 
-			items.push(item);
-			createCard(item);
-		};
+                canvas: null,
+                ctx: null,
+                card: null
+            };
 
-		img.src = URL.createObjectURL(file);
-	});
+            items.push(item);
+            createCard(item);
+        };
+
+        img.src = URL.createObjectURL(file);
+    });
 }
 
 // native input still works
 upload.onchange = (e) => {
-	handleFiles(e.target.files);
-	upload.value = "";
+    handleFiles(e.target.files);
+    upload.value = '';
 };
 
-document.addEventListener("dragover", (e) => {
-	e.preventDefault();
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
 });
 
-document.addEventListener("drop", (e) => {
-	e.preventDefault();
+document.addEventListener('drop', (e) => {
+    e.preventDefault();
 });
 
 // click zone triggers input
-dropZone.addEventListener("click", () => upload.click());
+dropZone.addEventListener('click', () => upload.click());
 
 // drag events
-dropZone.addEventListener("dragover", (e) => {
-	e.preventDefault();
-	dropZone.classList.add("dragover");
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
 });
 
-dropZone.addEventListener("dragleave", () => {
-	dropZone.classList.remove("dragover");
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
 });
 
-dropZone.addEventListener("drop", (e) => {
-	e.preventDefault();
-	dropZone.classList.remove("dragover");
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
 
-	if (e.dataTransfer.files.length) {
-		handleFiles(e.dataTransfer.files);
-	}
+    if (e.dataTransfer.files.length) {
+        handleFiles(e.dataTransfer.files);
+    }
 });
 
 function createCard(item) {
-	item.allowUpscale = false;
+    item.allowUpscale = false;
 
-	const card = document.createElement("div");
-	card.className = "card";
+    const card = document.createElement('div');
+    card.className = 'card';
 
-	let ogW = item.ogWidth
-		? `<span class="file-width">${item.ogWidth}</span>`
-		: "";
-	let ogH = item.ogHeight
-		? `<span class="file-height">${item.ogHeight}</span>`
-		: "";
-	let ogSize = "";
+    let ogW = item.ogWidth ? `<span class="file-width">${item.ogWidth}</span>` : '';
+    let ogH = item.ogHeight ? `<span class="file-height">${item.ogHeight}</span>` : '';
+    let ogSize = '';
 
-	if (ogW && ogH) {
-		ogSize = ' - <span class="file-sizes">' + ogW + " x " + ogH + "</span>";
-	}
+    if (ogW && ogH) {
+        ogSize = ' - <span class="file-sizes">' + ogW + ' x ' + ogH + '</span>';
+    }
 
-	let rendered_sizes =
-		'<div class="rendered-sizes">Rendered: <span class="rendered-w"></span> x <span class="rendered-h"></span></div>';
+    let rendered_sizes =
+        '<div class="rendered-sizes">Rendered: <span class="rendered-w"></span> x <span class="rendered-h"></span></div>';
 
-	card.innerHTML = `
+    card.innerHTML = `
         <div class="card-top">
             <div class="file-meta">
                 <div class="filename"><span contenteditable="true">${item.fileName}</span></div>
@@ -140,58 +136,54 @@ function createCard(item) {
         </div>
     `;
 
-	const canvas = card.querySelector("canvas");
-	canvas.width = CANVAS_W;
-	canvas.height = CANVAS_H;
+    const canvas = card.querySelector('canvas');
+    canvas.width = CANVAS_W;
+    canvas.height = CANVAS_H;
 
-	item.canvas = canvas;
-	item.ctx = canvas.getContext("2d");
-	item.card = card;
+    item.canvas = canvas;
+    item.ctx = canvas.getContext('2d');
+    item.card = card;
 
-	card.querySelector(".controls").addEventListener("input", (e) => {
-		const key = e.target.dataset.key;
-		if (!key) return;
+    card.querySelector('.controls').addEventListener('input', (e) => {
+        const key = e.target.dataset.key;
+        if (!key) return;
 
-		if (e.target.type === "checkbox") {
-			item[key] = e.target.checked;
-		} else {
-			item[key] = parseInt(e.target.value);
-		}
+        if (e.target.type === 'checkbox') {
+            item[key] = e.target.checked;
+        } else {
+            item[key] = parseInt(e.target.value);
+        }
 
-		draw(item);
-	});
+        draw(item);
+    });
 
-	item.scaleValue = 0;
-	item.baseScale = 0;
-	item.dragOffset = 0;
-	item.fitMode = "none"; // none | contain | cover
-	item.fitBaseScale = null;
-	
-	
-	const drag = card.querySelector("[data-scale-drag]");
-	const knob = drag.querySelector(".knob");
+    item.scaleValue = 0;
+    item.baseScale = 0;
+    item.dragOffset = 0;
+    item.fitMode = 'none'; // none | contain | cover
+    item.fitBaseScale = null;
 
-	let dragging = false;
-	let startX = 0;
+    const drag = card.querySelector('[data-scale-drag]');
+    const knob = drag.querySelector('.knob');
 
-	function updateKnob() {
-		const width = drag.offsetWidth;
-		const offset = item.dragOffset;
-		const percent = 0.5 + offset / width;
+    let dragging = false;
+    let startX = 0;
 
-		knob.style.left = Math.max(Math.min(percent * 100, 100), 0) + "%";
-	}
-	
-	
-	
+    function updateKnob() {
+        const width = drag.offsetWidth;
+        const offset = item.dragOffset;
+        const percent = 0.5 + offset / width;
 
-	drag.addEventListener("mousedown", (e) => {
-		dragging = true;
-		startX = e.clientX;
-	});
+        knob.style.left = Math.max(Math.min(percent * 100, 100), 0) + '%';
+    }
 
-	// 	OG to keep
-	/*window.addEventListener("mousemove", (e) => {
+    drag.addEventListener('mousedown', (e) => {
+        dragging = true;
+        startX = e.clientX;
+    });
+
+    // 	OG to keep
+    /*window.addEventListener("mousemove", (e) => {
 		if (!dragging) return;
 
 		const dx = e.clientX - startX;
@@ -204,409 +196,388 @@ function createCard(item) {
 		updateKnob();
 		draw(item);
 	});*/
-	
-	
-	
-	// exponential curve
-	window.addEventListener("mousemove", (e) => {
-	if (!dragging) return;
 
-	const dx = e.clientX - startX;
-	startX = e.clientX;
+    // exponential curve
+    window.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
 
-	item.dragOffset += dx;
-	
-	if (item.dragOffset > 200) {
-		const excess = item.dragOffset - 200;
-		item.dragOffset = 200 + Math.sign(excess) * (Math.pow(Math.abs(excess), 1.00001));
-	} else if (item.dragOffset < -200) {
-		const excess = item.dragOffset + 200;
-		item.dragOffset = -200 + Math.sign(excess) * (Math.pow(Math.abs(excess), 1.00001));
-	}
+        const dx = e.clientX - startX;
+        startX = e.clientX;
 
-	console.log(item.dragOffset);
+        item.dragOffset += dx;
 
-	updateKnob();
-	draw(item);
-});
-	
+        if (item.dragOffset > 200) {
+            const excess = item.dragOffset - 200;
+            item.dragOffset = 200 + Math.sign(excess) * Math.pow(Math.abs(excess), 1.00001);
+        } else if (item.dragOffset < -200) {
+            const excess = item.dragOffset + 200;
+            item.dragOffset = -200 + Math.sign(excess) * Math.pow(Math.abs(excess), 1.00001);
+        }
 
-	window.addEventListener("mouseup", () => {
-		dragging = false;
+        console.log(item.dragOffset);
 
-		item.baseScale += item.dragOffset;
+        updateKnob();
+        draw(item);
+    });
 
-		// if (!item.allowUpscale) {
-		// 	item.baseScale = Math.min(item.baseScale, 1);
-		// }
+    window.addEventListener('mouseup', () => {
+        dragging = false;
 
-		item.dragOffset = 0;
+        item.baseScale += item.dragOffset;
 
-		console.log(item);
+        // if (!item.allowUpscale) {
+        // 	item.baseScale = Math.min(item.baseScale, 1);
+        // }
 
-		updateKnob();
-	});
-	
-	card.querySelectorAll("[data-fit]").forEach((btn) => {
-	btn.addEventListener("click", () => {
-		const imgW = item.img.width;
-		const imgH = item.img.height;
+        item.dragOffset = 0;
 
-		let fitScale =
-			btn.dataset.fit === "contain"
-				? Math.min(CANVAS_W / imgW, CANVAS_H / imgH)
-				: Math.max(CANVAS_W / imgW, CANVAS_H / imgH);
+        console.log(item);
 
-		// store absolute base
-		item.fitBaseScale = fitScale;
+        updateKnob();
+    });
 
-		// reset interaction offsets
-		// item.baseScale = 0;
-		item.baseScale = 1;
-		item.dragOffset = 0;
+    card.querySelectorAll('[data-fit]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const imgW = item.img.width;
+            const imgH = item.img.height;
 
-		draw(item);
-	});
-});
-	
-	card.querySelector(".rotate-btn").onclick = () => {
-		item.rotation = (item.rotation + 90) % 360;
-		draw(item);
-	};
+            let fitScale =
+                btn.dataset.fit === 'contain'
+                    ? Math.min(CANVAS_W / imgW, CANVAS_H / imgH)
+                    : Math.max(CANVAS_W / imgW, CANVAS_H / imgH);
 
-	card.querySelector(".reset-size").onclick = () => {
-		console.log(item);
-		item.baseScale = 0;
-		item.scaleValue = 0;
-		item.x = 50;
-		item.y = 50;
-		item.fitBaseScale = null;
-		item.baseScale = 0;
-		item.dragOffset = 0;
-		
-		// item.fitMode = "none";
+            // store absolute base
+            item.fitBaseScale = fitScale;
 
-		const inputs = card.querySelectorAll("[data-key]");
-		inputs.forEach((i) => {
-			if (i.type === "range") i.value = 50;
-			if (i.type === "checkbox") i.checked = false;
-		});
+            // reset interaction offsets
+            // item.baseScale = 0;
+            item.baseScale = 1;
+            item.dragOffset = 0;
 
-		draw(item);
-	};
+            draw(item);
+        });
+    });
 
-	card.querySelector(".delete-btn").onclick = () => removeItem(item);
-	card.querySelector(".download-one").onclick = () => downloadOne(item);
+    card.querySelector('.rotate-btn').onclick = () => {
+        item.rotation = (item.rotation + 90) % 360;
+        draw(item);
+    };
 
-	grid.appendChild(card);
+    card.querySelector('.reset-size').onclick = () => {
+        console.log(item);
+        item.baseScale = 0;
+        item.scaleValue = 0;
+        item.x = 50;
+        item.y = 50;
+        item.fitBaseScale = null;
+        item.baseScale = 0;
+        item.dragOffset = 0;
 
-	draw(item);
+        // item.fitMode = "none";
+
+        const inputs = card.querySelectorAll('[data-key]');
+        inputs.forEach((i) => {
+            if (i.type === 'range') i.value = 50;
+            if (i.type === 'checkbox') i.checked = false;
+        });
+
+        draw(item);
+    };
+
+    card.querySelector('.delete-btn').onclick = () => removeItem(item);
+    card.querySelector('.download-one').onclick = () => downloadOne(item);
+
+    grid.appendChild(card);
+
+    draw(item);
 }
 
 function resetSize(item, card) {
-	console.log(item, card);
-	item.scaleValue = 0;
-	item.x = 50;
-	item.y = 50;
-	item.fitBaseScale = null;
-	item.baseScale = 0;
-	item.dragOffset = 0;
+    console.log(item, card);
+    item.scaleValue = 0;
+    item.x = 50;
+    item.y = 50;
+    item.fitBaseScale = null;
+    item.baseScale = 0;
+    item.dragOffset = 0;
 
-	console.log(item);
+    console.log(item);
 
-	const inputs = card.querySelectorAll("[data-key]");
-	inputs.forEach((i) => {
-		if (i.type === "range") i.value = 0;
-		if (i.type === "checkbox") i.checked = false;
-	});
+    const inputs = card.querySelectorAll('[data-key]');
+    inputs.forEach((i) => {
+        if (i.type === 'range') i.value = 0;
+        if (i.type === 'checkbox') i.checked = false;
+    });
 
-	draw(item);
+    draw(item);
 }
 
 function removeItem(item) {
-	items = items.filter((x) => x !== item);
-	item.card.remove();
+    items = items.filter((x) => x !== item);
+    item.card.remove();
 }
 
 function applyCanvasSize() {
-	CANVAS_W = parseInt(cw.value) || 400;
-	CANVAS_H = parseInt(ch.value) || 300;
+    CANVAS_W = parseInt(cw.value) || 400;
+    CANVAS_H = parseInt(ch.value) || 300;
 
-	items.forEach((item) => {
-		item.canvas.width = CANVAS_W;
-		item.canvas.height = CANVAS_H;
-		draw(item);
-	});
+    items.forEach((item) => {
+        item.canvas.width = CANVAS_W;
+        item.canvas.height = CANVAS_H;
+        draw(item);
+    });
 }
 
-function draw(item) {
-	const ctx = item.ctx;
-	const canvas = item.canvas;
+async function draw(item) {
+    const ctx = item.ctx;
+    const canvas = item.canvas;
 
-	// ctx.clearRect(0,0,CANVAS_W,CANVAS_H);
+    // ctx.clearRect(0,0,CANVAS_W,CANVAS_H);
 
-	ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
 
-	let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
-	ctx.fillStyle = bgColor === "transparent" ? "transparent" : bgColor;
-	ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
+    ctx.fillStyle = bgColor === 'transparent' ? 'transparent' : bgColor;
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
-	
-	
-const imgW = item.img.width;
-const imgH = item.img.height;
+    const imgW = item.img.width;
+    const imgH = item.img.height;
 
-	
-	
-	
-// ----------------
+    // ----------------
 
-// 1. determine base scale
-let base =
-	item.fitBaseScale !== null
-		? item.fitBaseScale
-		: 1;
-	
-	console.log(base);
+    // 1. determine base scale
+    let base = item.fitBaseScale !== null ? item.fitBaseScale : 1;
 
-// 2. apply interactive delta on top of base
-let interactive = item.baseScale + item.dragOffset;
+    console.log(base);
 
-// convert interactive into multiplier around base
+    // 2. apply interactive delta on top of base
+    let interactive = item.baseScale + item.dragOffset;
 
-// let base = 1;
-	
-	let scale;
-	
-	if(interactive >= 0) {
-		// scale = base * (1 + interactive / 500);
-		scale = Math.min(3, base * (1 + interactive / CANVAS_H));
-		
-	} else {
-		scale = Math.max(0.01, base * (1 + interactive / CANVAS_W));
-	}
-	
-	
+    // convert interactive into multiplier around base
 
-	let ogWidth = item.ogWidth;
-	let ogHeight = item.ogHeight;
+    // let base = 1;
 
-	let maxReached = false;
+    let scale;
 
-	if (!item.allowUpscale && ["png", "jpg", "jpeg"].includes(item.ext)) {
-		if (scale > 1) {
-			scale = 1;
-			maxReached = true;
-		}
-	}
-	const w = item.img.width * scale;
-	const h = item.img.height * scale;
+    if (interactive >= 0) {
+        // scale = base * (1 + interactive / 500);
+        scale = Math.min(3, base * (1 + interactive / CANVAS_H));
+    } else {
+        scale = Math.max(0.01, base * (1 + interactive / CANVAS_W));
+    }
 
-	// rendered_w =
+    let ogWidth = item.ogWidth;
+    let ogHeight = item.ogHeight;
 
-	let rendered_w = item.card.querySelector(".rendered-w");
-	let rendered_h = item.card.querySelector(".rendered-h");
+    let maxReached = false;
 
-	rendered_w.textContent = parseFloat(w)
-		.toFixed(2)
-		.replace(/\.?0+$/, "");
-	rendered_h.textContent = parseFloat(h)
-		.toFixed(2)
-		.replace(/\.?0+$/, "");
+    if (!item.allowUpscale && ['png', 'jpg', 'jpeg'].includes(item.ext)) {
+        if (scale > 1) {
+            scale = 1;
+            maxReached = true;
+        }
+    }
+    const w = item.img.width * scale;
+    const h = item.img.height * scale;
 
-	
-	// V1
-	// const cx = CANVAS_W / 2 + item.x;
-	// const cy = CANVAS_H / 2 + item.y;
-	
-	// let cx = CANVAS_W / 2 + ((item.x/ 100) * w );
-	// let cy = CANVAS_H / 2 + ((item.y/ 100) * h );
-	
-	// let overflowX = Math.max(0, w - CANVAS_W);
-	// let overflowY = Math.max(0, h - CANVAS_H);
-	
-	let overflowX = w - CANVAS_W;
-	let overflowY = h - CANVAS_H;
-	
-	
-	
+    // rendered_w =
 
-	let px = Math.min(150, Math.max(-50, item.x)) / 100;
-	let py = Math.min(150, Math.max(-50, item.y)) / 100;
-	
-	// let px = Math.min(100, Math.max(0, item.x)) / 100;
-	// let py = Math.min(100, Math.max(0, item.y)) / 100;
-	
-	// let cx = -(overflowX * px);
-	// let cy = -(overflowY * py);
+    let rendered_w = item.card.querySelector('.rendered-w');
+    let rendered_h = item.card.querySelector('.rendered-h');
 
-	let cx, cy;
-		// cx = -(overflowX * px);
-		// cy = -(overflowY * py);
-	
-	
+    rendered_w.textContent = parseFloat(w)
+        .toFixed(2)
+        .replace(/\.?0+$/, '');
+    rendered_h.textContent = parseFloat(h)
+        .toFixed(2)
+        .replace(/\.?0+$/, '');
 
-	if (CANVAS_W >= imgW) {
-		// cx = (CANVAS_W - w) / 2;
-		// cx = (overflowX * px);
-		cx = (CANVAS_W - w) * px;
-		
-	} else {
-		cx = -(overflowX * px);
-	}
+    // V1
+    // const cx = CANVAS_W / 2 + item.x;
+    // const cy = CANVAS_H / 2 + item.y;
 
-	if (CANVAS_H >= imgH) {
-		// cy = (CANVAS_H - h) / 2;
-		// cy = (overflowY * py);
-		cy = (CANVAS_H - h) * py;
-		
-	} else {
-		cy = -(overflowY * py);
-	}
-	
-	console.log(cx, cy);
-	
-	
+    // let cx = CANVAS_W / 2 + ((item.x/ 100) * w );
+    // let cy = CANVAS_H / 2 + ((item.y/ 100) * h );
 
-	// V3
-	ctx.save();
+    // let overflowX = Math.max(0, w - CANVAS_W);
+    // let overflowY = Math.max(0, h - CANVAS_H);
 
-	const centerX = cx + w / 2;
-	const centerY = cy + h / 2;
+    let overflowX = w - CANVAS_W;
+    let overflowY = h - CANVAS_H;
 
-	ctx.translate(centerX, centerY);
-	ctx.rotate((item.rotation * Math.PI) / 180);
+    let px = Math.min(150, Math.max(-50, item.x)) / 100;
+    let py = Math.min(150, Math.max(-50, item.y)) / 100;
 
-	ctx.imageSmoothingEnabled = true;
-	ctx.imageSmoothingQuality = "high";
-	ctx.drawImage(item.img, -w / 2, -h / 2, w, h);
+    // let px = Math.min(100, Math.max(0, item.x)) / 100;
+    // let py = Math.min(100, Math.max(0, item.y)) / 100;
 
-	ctx.restore();
-	
-	// V2
-	// ctx.drawImage(item.img, cx, cy, w, h);
-	
-	// V1
-	// ctx.drawImage(item.img, cx - w / 2, cy - h / 2, w, h);
+    // let cx = -(overflowX * px);
+    // let cy = -(overflowY * py);
 
-	canvas.style.border = maxReached ? "1px solid red" : "1px solid #ccc";
+    let cx, cy;
+    // cx = -(overflowX * px);
+    // cy = -(overflowY * py);
 
+    if (CANVAS_W >= imgW) {
+        // cx = (CANVAS_W - w) / 2;
+        // cx = (overflowX * px);
+        cx = (CANVAS_W - w) * px;
+    } else {
+        cx = -(overflowX * px);
+    }
+
+    if (CANVAS_H >= imgH) {
+        // cy = (CANVAS_H - h) / 2;
+        // cy = (overflowY * py);
+        cy = (CANVAS_H - h) * py;
+    } else {
+        cy = -(overflowY * py);
+    }
+
+    console.log(cx, cy);
+
+    const bitmap = await createImageBitmap(item.img, {
+        resizeWidth: w,
+        resizeHeight: h,
+        resizeQuality: 'high' // Uses a high-quality (often bicubic) algorithm
+    });
+
+    // V3
+    ctx.save();
+
+    const centerX = cx + w / 2;
+    const centerY = cy + h / 2;
+
+    ctx.translate(centerX, centerY);
+    ctx.rotate((item.rotation * Math.PI) / 180);
+
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(item.img, -w / 2, -h / 2, w, h); // .imageSmoothingEnabled
+    // ctx.drawImage(bitmap, -w / 2, -h / 2); // KEEP for bitmap image smoothing
+
+    ctx.restore();
+
+    // V2
+    // ctx.drawImage(item.img, cx, cy, w, h);
+
+    // V1
+    // ctx.drawImage(item.img, cx - w / 2, cy - h / 2, w, h);
+
+    canvas.style.border = maxReached ? '1px solid red' : '1px solid #ccc';
 }
 
 function getExportData(item) {
-	const selected = exportFormat.value;
+    const selected = exportFormat.value;
 
-	if (selected === "png") {
-		return { mime: "image/png", ext: "png" };
-	}
+    if (selected === 'png') {
+        return { mime: 'image/png', ext: 'png' };
+    }
 
-	if (selected === "jpeg") {
-		return { mime: "image/jpeg", ext: "jpg" };
-	}
+    if (selected === 'jpeg') {
+        return { mime: 'image/jpeg', ext: 'jpg' };
+    }
 
-	if (["jpg", "jpeg"].includes(item.ext)) {
-		return { mime: "image/jpeg", ext: "jpg" };
-	}
+    if (['jpg', 'jpeg'].includes(item.ext)) {
+        return { mime: 'image/jpeg', ext: 'jpg' };
+    }
 
-	return { mime: "image/png", ext: "png" };
+    return { mime: 'image/png', ext: 'png' };
 }
 
 // V2
 
 function getExportCanvas(item, type) {
-	if (type.mime !== "image/jpeg" && type.mime !== "image/png") {
-		return item.canvas;
-	}
+    if (type.mime !== 'image/jpeg' && type.mime !== 'image/png') {
+        return item.canvas;
+    }
 
-	const temp = document.createElement("canvas");
-	temp.width = CANVAS_W;
-	temp.height = CANVAS_H;
+    const temp = document.createElement('canvas');
+    temp.width = CANVAS_W;
+    temp.height = CANVAS_H;
 
-	const tctx = temp.getContext("2d");
+    const tctx = temp.getContext('2d');
 
-	// Test
-	// tctx.imageSmoothingEnabled = true; // false = nearest-neighbor (pixelated)
-	// tctx.imageSmoothingQuality = "high"; // "low" | "medium" | "high"
+    // Test
+    // tctx.imageSmoothingEnabled = true; // false = nearest-neighbor (pixelated)
+    // tctx.imageSmoothingQuality = "high"; // "low" | "medium" | "high"
 
+    let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
 
-	let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
+    // change background here
+    if (type.mime == 'image/jpeg' && bgColor == 'transparent') {
+        tctx.fillStyle = '#ffffff';
+    } else {
+        tctx.fillStyle = bgColor;
+    }
 
-	// change background here
-	if (type.mime == "image/jpeg" && bgColor == "transparent") {
-		tctx.fillStyle = "#ffffff";
-	} else {
-		tctx.fillStyle = bgColor;
-	}
+    tctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
-	tctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    tctx.drawImage(item.canvas, 0, 0);
 
-	tctx.drawImage(item.canvas, 0, 0);
-
-	return temp;
+    return temp;
 }
 
-function downloadOne(item) {
-	draw(item);
+async function downloadOne(item) {
+    await draw(item);
 
-	const type = getExportData(item);
-	const exportCanvas = getExportCanvas(item, type);
-	const name = item.card.querySelector(".filename").textContent || item.fileName;
-	let name_output = name != item.fileName ? name : item.fileName;
-	name_output = name_output.trim().replaceAll(' ', '-');
+    const type = getExportData(item);
+    const exportCanvas = getExportCanvas(item, type);
+    const name = item.card.querySelector('.filename').textContent || item.fileName;
+    let name_output = name != item.fileName ? name : item.fileName;
+    name_output = name_output.trim().replaceAll(' ', '-');
 
-	exportCanvas.toBlob(
-		(blob) => {
-			saveAs(blob, name_output + "." + type.ext);
-		},
-		type.mime,
-		0.95
-	);
+    exportCanvas.toBlob(
+        (blob) => {
+            saveAs(blob, name_output + '.' + type.ext);
+        },
+        type.mime,
+        0.95
+    );
 }
 
 async function downloadAll() {
-	const zip = new JSZip();
+    const zip = new JSZip();
 
-	items.forEach((item) => {
-		draw(item);
+    items.forEach(async (item) => {
+        await draw(item);
 
-		const type = getExportData(item);
-		const exportCanvas = getExportCanvas(item, type);
+        const type = getExportData(item);
+        const exportCanvas = getExportCanvas(item, type);
 
-		const base64 = exportCanvas.toDataURL(type.mime, 0.95).split(",")[1];
+        const base64 = exportCanvas.toDataURL(type.mime, 0.95).split(',')[1];
 
-		const name = item.card.querySelector(".filename").textContent || item.fileName;
-		let name_output = name != item.fileName ? name : item.fileName;
-		name_output = name_output.trim().replaceAll(' ', '-');
+        const name = item.card.querySelector('.filename').textContent || item.fileName;
+        let name_output = name != item.fileName ? name : item.fileName;
+        name_output = name_output.trim().replaceAll(' ', '-');
 
-		zip.file(name_output + "." + type.ext, base64, { base64: true });
-	});
+        zip.file(name_output + '.' + type.ext, base64, { base64: true });
+    });
 
-	const blob = await zip.generateAsync({ type: "blob" });
-	saveAs(blob, "logos.zip");
+    const blob = await zip.generateAsync({ type: 'blob' });
+    saveAs(blob, 'logos.zip');
 }
 
 function updateAllCanvasBackground() {
-	items.forEach((item) => draw(item));
+    items.forEach((item) => draw(item));
 }
 
 document.querySelectorAll('input[name="bg-color"]').forEach((el) => {
-	el.addEventListener("change", () => {
-		// let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
-		updateAllCanvasBackground();
-	});
+    el.addEventListener('change', () => {
+        // let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
+        updateAllCanvasBackground();
+    });
 });
 
-const picker = document.querySelector(".custom-picker .color-input");
-const pickerRadio = document.querySelector(
-	'.custom-picker input[type="radio"]'
-);
-const pickerPreview = document.querySelector(".picker");
+const picker = document.querySelector('.custom-picker .color-input');
+const pickerRadio = document.querySelector('.custom-picker input[type="radio"]');
+const pickerPreview = document.querySelector('.picker');
 
-picker.addEventListener("input", (e) => {
-	const color = e.target.value;
-	pickerPreview.style.background = color;
-	pickerRadio.value = color;
-	pickerRadio.checked = true;
+picker.addEventListener('input', (e) => {
+    const color = e.target.value;
+    pickerPreview.style.background = color;
+    pickerRadio.value = color;
+    pickerRadio.checked = true;
 
-	updateAllCanvasBackground();
+    updateAllCanvasBackground();
 });
