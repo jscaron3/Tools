@@ -477,6 +477,8 @@ let interactive = item.baseScale + item.dragOffset;
 	ctx.translate(centerX, centerY);
 	ctx.rotate((item.rotation * Math.PI) / 180);
 
+	ctx.imageSmoothingEnabled = true;
+	ctx.imageSmoothingQuality = "high";
 	ctx.drawImage(item.img, -w / 2, -h / 2, w, h);
 
 	ctx.restore();
@@ -521,6 +523,11 @@ function getExportCanvas(item, type) {
 	temp.height = CANVAS_H;
 
 	const tctx = temp.getContext("2d");
+
+	// Test
+	// tctx.imageSmoothingEnabled = true; // false = nearest-neighbor (pixelated)
+	// tctx.imageSmoothingQuality = "high"; // "low" | "medium" | "high"
+
 
 	let bgColor = document.querySelector('input[name="bg-color"]:checked').value;
 
