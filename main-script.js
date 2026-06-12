@@ -1,17 +1,4 @@
-const tools = {
-    'color-converter': {
-        label: 'color-converter',
-        url: './tools/color-converter/index.html'
-    },
-	 'logos-resizer': {
-        label: 'logos-resizer',
-        url: './tools/logos-resizer/index.html'
-    },
-    typescale: {
-        label: 'typescale',
-        url: './tools/typescale/index.html'
-    }
-};
+let tools = {};
 
 
 const params = new URLSearchParams(window.location.search);
@@ -122,23 +109,32 @@ async function loadTool(name) {
     await loadScripts(scripts, baseUrl);
 }
 
-if (!title || !toolList || !toolMount || !toolBack) {
-    throw new Error('Template shell is missing required elements.');
+async function init() {
+    if (!title || !toolList || !toolMount || !toolBack) {
+        throw new Error('Template shell is missing required elements.');
+    }
+
+    const toolNames = await fetch('./tools.json').then(r => r.json());
+    tools = Object.fromEntries(
+        toolNames.map(name => [name, { label: name, url: `./tools/${name}/index.html` }])
+    );
+
+    if (!toolName) {
+        renderToolList();
+    } else {
+        loadTool(toolName).catch((error) => {
+            title.textContent = 'Tools';
+            toolMount.innerHTML = `<p>Unable to load tool: ${toolName}</p>`;
+            toolBack.hidden = false;
+            toolBack.href = './template.html';
+            toolMount.hidden = false;
+            toolList.hidden = true;
+            console.error(error);
+        });
+    }
 }
 
-if (!toolName) {
-    renderToolList();
-} else {
-    loadTool(toolName).catch((error) => {
-        title.textContent = 'Tools';
-        toolMount.innerHTML = `<p>Unable to load tool: ${toolName}</p>`;
-        toolBack.hidden = false;
-        toolBack.href = './template.html';
-        toolMount.hidden = false;
-        toolList.hidden = true;
-        console.error(error);
-    });
-}
+init();
 
 //
 

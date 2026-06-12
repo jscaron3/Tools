@@ -44,4 +44,7 @@ ${links}
 
 fs.writeFileSync(outputPath, html);
 
-console.log("Generated index.html with:", dirs);
+const toolsJsonPath = path.resolve(process.cwd(), "tools.json");
+fs.writeFileSync(toolsJsonPath, JSON.stringify(dirs, null, 2));
+
+console.log("Generated index.html and tools.json with:", dirs);
