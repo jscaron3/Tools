@@ -788,8 +788,9 @@ document.addEventListener('mousedown', e => {
 window.addEventListener('mousemove', e => {
   if (guideDragging) {
     const { guide } = guideDragging;
-    const raw = guide.type === 'h' ? e.clientY : e.clientX;
-    const max = guide.type === 'h' ? window.innerHeight : window.innerWidth;
+		console.log(window);
+    const raw = guide.type === 'h' ? e.clientY + window.pageYOffset : e.clientX;
+    const max = guide.type === 'h' ? window.innerHeight + window.pageYOffset : window.innerWidth;
     guide.pos = Math.max(0, Math.min(max, raw));
     positionGuide(guide);
     return;

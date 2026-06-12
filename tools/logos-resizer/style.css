@@ -66,6 +66,7 @@ body {
 	flex-wrap: wrap;
 	gap: 10px;
 	align-items: center;
+	z-index: 999;
 /* 	margin-bottom: 20px; */
 }
 .topbar input:not([type="checkbox"]):not([type="range"]),
@@ -568,7 +569,7 @@ span.icon-wrap:hover g {
 }
 
 #guide-overlay .clear-guides {
-	position: absolute;
+	position: fixed;
 	bottom: 30px;
 	right: 30px;
 	cursor: pointer;
@@ -584,6 +585,7 @@ span.icon-wrap:hover g {
 	color: var(--white);
 	border-color: var(--black);
 	transition: all 200ms ease-in-out;
+	z-index: 10000;
 }
 
 #guide-overlay .clear-guides.hidden {
@@ -595,7 +597,9 @@ span.icon-wrap:hover g {
 	color: var(--black);
 }
 
-
+.g-guide.locked .g-hit {
+	pointer-events: none;
+}
 
 .g-guide.locked .g-label:after {
 	content: "";
