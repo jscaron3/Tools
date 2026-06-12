@@ -33,6 +33,10 @@ const html = `<!doctype html>
 </head>
 <body>
 <div class="buttons">
+<a href="./template.html">All Tools</a>
+</div>
+
+<div class="buttons">
 ${links}
 </div>
 </body>
