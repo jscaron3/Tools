@@ -174,7 +174,54 @@ body {
 
 
 
+.canvas-wrap {
+	display: block;
+	position: relative;
+	margin-bottom: 10px;
+	width: 100%;
+	height: auto;
+}
 
+.canvas-wrap [class*="-pos-guides"] {
+	position: absolute;
+	pointer-events: none;
+}
+
+.canvas-wrap .v-pos-guides {
+	  height: 100%;
+    left: 50%;
+}
+
+.canvas-wrap [class*="-pos-guides"]:before, .canvas-wrap [class*="-pos-guides"]:after {
+	content: '';
+  background-color: #ccc;
+	position: absolute;
+}
+
+.canvas-wrap .v-pos-guides:before, .canvas-wrap .v-pos-guides:after {
+	width: 1px;
+	height: 10px;
+	translate: 0 -50%;
+}
+
+.canvas-wrap .h-pos-guides:before, .canvas-wrap .h-pos-guides:after {
+	width: 10px;
+	height: 1px;
+	translate: -50% ;
+}
+
+.canvas-wrap .v-pos-guides:after {
+	top: 100%;
+}
+
+.canvas-wrap .h-pos-guides {
+	width: 100%;
+	top: 50%;
+}
+
+.canvas-wrap .h-pos-guides:after {
+	left: 100%;
+}
 
 
 
