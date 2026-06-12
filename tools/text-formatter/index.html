@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Text formatter</title>
+    <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
+	 <link rel="preconnect" href="https://fonts.googleapis.com" />
+  	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body>
+  <header class="header">
+  <div class="header-brand">
+    <div class="header-icon">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 3h12M1 7h8M1 11h10"/>
+      </svg>
+    </div>
+    <span class="header-title">Text Formatter</span>
+    <span class="header-subtitle">HTML &amp; copy cleaner</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="btn-reset-options">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1.5 7a5.5 5.5 0 1 0 1.1-3.3"/><path d="M1.5 2.5V5H4"/>
+      </svg>
+      Reset
+    </button>
+  </div>
+</header>
+
+<div class="app-body">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <span class="section-label">Case</span>
+      <select class="field-select" id="opt-case">
+        <option value="none">No change</option>
+        <option value="capitalize-first">Capitalize first word</option>
+        <option value="lowercase">Lowercase</option>
+        <option value="uppercase">Uppercase</option>
+        <option value="title">Title case</option>
+        <option value="sentence">Sentence case</option>
+      </select>
+    </div>
+
+    <div class="sidebar-section">
+      <span class="section-label">Tag stripping</span>
+      <p class="tag-hint">
+        <span class="kept-color">Green = kept</span> · <span class="strip-color">red = stripped</span>. All other tags are always removed.
+      </p>
+      <div class="tag-grid" id="tag-toggles"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <span class="section-label">Cleanup</span>
+      <div>
+        <div class="toggle-row">
+          <span class="toggle-label">Remove empty tags</span>
+          <label class="switch"><input type="checkbox" id="opt-empty-tags" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Remove extra spaces</span>
+          <label class="switch"><input type="checkbox" id="opt-extra-spaces" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Remove empty lines</span>
+          <label class="switch"><input type="checkbox" id="opt-empty-lines" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Collapse consecutive &lt;br&gt;</span>
+          <label class="switch"><input type="checkbox" id="opt-consecutive-br" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Trim whitespace per line</span>
+          <label class="switch"><input type="checkbox" id="opt-trim-lines" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Normalize &amp;nbsp; → space</span>
+          <label class="switch"><input type="checkbox" id="opt-normalize-nbsp"><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Decode HTML entities</span>
+          <label class="switch"><input type="checkbox" id="opt-decode-entities"><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Smart quotes → straight</span>
+          <label class="switch"><input type="checkbox" id="opt-straighten-quotes"><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Remove inline styles</span>
+          <label class="switch"><input type="checkbox" id="opt-remove-styles" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Remove class &amp; id attributes</span>
+          <label class="switch"><input type="checkbox" id="opt-remove-attrs" checked><span class="track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Flatten nested tags (e.g. &lt;b&gt;&lt;b&gt;)</span>
+          <label class="switch"><input type="checkbox" id="opt-flatten-nested" checked><span class="track"></span></label>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Input panel -->
+  <section class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Input</span>
+      <div class="tab-group" role="tablist">
+        <button class="tab-btn active" data-target="input" data-view="visual" role="tab">Visual</button>
+        <button class="tab-btn" data-target="input" data-view="code" role="tab">Code</button>
+      </div>
+      <div class="panel-actions">
+        <span class="panel-meta" id="input-char-count">0 chars</span>
+        <button class="btn-icon" id="btn-clear-input" title="Clear input">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="view" id="input-code-view">
+        <textarea class="code-area" id="input-textarea" placeholder="Paste your HTML or plain text here…" spellcheck="false" autocomplete="off"></textarea>
+      </div>
+      <div class="view active" id="input-visual-view">
+        <div class="rich-view" id="input-visual" contenteditable="true" data-placeholder="Paste or type here — formatting is preserved…"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Output panel -->
+  <section class="panel is-output">
+    <div class="panel-header">
+      <span class="panel-title">Output</span>
+      <div class="tab-group" role="tablist">
+        <button class="tab-btn active" data-target="output" data-view="visual" role="tab">Visual</button>
+        <button class="tab-btn" data-target="output" data-view="code" role="tab">Code</button>
+      </div>
+      <div class="panel-actions">
+        <span class="panel-meta" id="output-char-count">0 chars</span>
+        <button class="btn btn-indent" id="btn-indent-toggle" title="Toggle code indentation">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="1" y1="3" x2="13" y2="3"/><line x1="4" y1="7" x2="13" y2="7"/><line x1="7" y1="11" x2="13" y2="11"/>
+            <polyline points="1,6 3,7 1,8"/>
+          </svg>
+          Indent
+        </button>
+        <button class="btn btn-copy" id="btn-copy-output">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 10V2h8"/>
+          </svg>
+          Copy
+        </button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="view active" id="output-visual-view">
+        <div class="rich-view" id="output-visual" data-placeholder="Formatted output will appear here…"></div>
+      </div>
+      <div class="view" id="output-code-view">
+        <textarea class="code-area" id="output-textarea" readonly placeholder="Formatted code will appear here…" spellcheck="false"></textarea>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script  src="./script.js"></script>
+</body>
