@@ -657,6 +657,7 @@ span.icon-wrap:hover g {
 	height: 17px;
     display: flex;
     align-items: center;
+	 cursor: pointer;
 }
 .g-label.selected { 
 /* 	color: #ff1744;  */
