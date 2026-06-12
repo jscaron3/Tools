@@ -591,202 +591,292 @@ picker.addEventListener('input', (e) => {
     updateAllCanvas();
 });
 
+
 // Guides feature
+
 
 // ── Global guide lines ───────────────────────────────────────────────────────
 
-const EDGE_HIT = 20; // px from viewport edge to trigger guide creation
-const HIT_THICK = 8; // px hit zone around each guide line
-let W = window.innerWidth,
-    H = window.innerHeight;
+const EDGE_HIT  = 20;   // px from viewport edge to trigger guide creation
+const HIT_THICK = 8;    // px hit zone around each guide line
+let W = window.innerWidth, H = window.innerHeight;
+
 
 const overlay = document.getElementById('guide-overlay');
 let guides = [];
 let selectedGuide = null;
 let guideDragging = null;
 
-function genId() {
-    return Math.random().toString(36).slice(2);
-}
+function genId() { return Math.random().toString(36).slice(2); }
 
 function createGuide(type, pos) {
-    const id = genId();
+//   const id = genId();
 
-    const line = document.createElement('div');
-    line.className = `g-line ${type}`;
+//   const line = document.createElement('div');
+//   line.className = `g-line ${type}`;
 
-    const hit = document.createElement('div');
-    hit.className = `g-hit ${type}`;
+//   const hit = document.createElement('div');
+//   hit.className = `g-hit ${type}`;
 
-    const label = document.createElement('div');
-    label.className = 'g-label';
+//   const label = document.createElement('div');
+//   label.className = 'g-label';
 
-    const guide = { id, type, pos, line, hit, label };
-    guides.push(guide);
+//   const guide = { id, type, pos, line, hit, label };
+	
+	
+	const id = genId();
 
-    overlay.appendChild(line);
-    document.body.appendChild(hit); // body so it's always on top
-    document.body.appendChild(label);
+  const container = document.createElement('div');
+  container.className = `g-guide ${type}`;
 
-    hit.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        selectGuide(guide);
-        guideDragging = { guide, startMouse: type === 'h' ? e.clientY : e.clientX, startPos: pos };
-    });
+  const line = document.createElement('div');
+  line.className = `g-line ${type}`;
 
-    positionGuide(guide);
-    return guide;
+  const hit = document.createElement('div');
+  hit.className = `g-hit ${type}`;
+
+  const label = document.createElement('div');
+  label.className = 'g-label';
+
+  container.appendChild(line);
+  container.appendChild(hit);
+  container.appendChild(label);
+  overlay.appendChild(container);
+
+  const guide = { id, type, pos, line, hit, label, container };
+	
+	
+	
+	
+  guides.push(guide);
+
+  // overlay.appendChild(line);
+  // document.body.appendChild(hit);   // body so it's always on top
+  // document.body.appendChild(label);
+
+	label.addEventListener('mousedown', e => {
+		e.preventDefault();
+		e.stopPropagation();
+	});
+	
+	label.addEventListener('click', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		toggleLockGuide(guide);
+	});
+	
+	
+	
+	hit.addEventListener('mousedown', e => {
+		if (guide.locked) return;
+		e.preventDefault();
+		e.stopPropagation();
+		selectGuide(guide);
+		guideDragging = { guide, startMouse: type === 'h' ? e.clientY : e.clientX, startPos: pos };
+	});
+	
+	
+  // hit.addEventListener('mousedown', e => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   selectGuide(guide);
+  //   guideDragging = { guide, startMouse: type === 'h' ? e.clientY : e.clientX, startPos: pos };
+  // });
+	
+	
+	
+	
+	
+	
+	
+	
+
+  positionGuide(guide);
+  return guide;
+}
+
+function toggleLockGuide(g) {
+  g.locked = !g.locked;
+  g.container.classList.toggle('locked', g.locked);
 }
 
 function positionGuide(g) {
-    const p = g.pos;
-    const HIT = HIT_THICK;
+  const p = g.pos;
+  const HIT = HIT_THICK;
 
-    if (g.type === 'h') {
-        g.line.style.cssText = `top:${p}px; left:0; right:0;`;
-        g.hit.style.cssText = `top:${p - HIT}px; left:0; right:0; height:${HIT * 2}px;`;
-        g.label.style.cssText = `top:${p + 3}px; left:6px;`;
-    } else {
-        g.line.style.cssText = `left:${p}px; top:0; bottom:0;`;
-        g.hit.style.cssText = `left:${p - HIT}px; top:0; bottom:0; width:${HIT * 2}px;`;
-        g.label.style.cssText = `left:${p + 3}px; top:4px;`;
-    }
+  if (g.type === 'h') {
+    g.line.style.cssText  = `top:${p}px; left:0; right:0;`;
+    g.hit.style.cssText   = `top:${p - HIT}px; left:0; right:0; height:${HIT * 2}px;`;
+    g.label.style.cssText = `top:${p + 3}px; left:6px;`;
+  } else {
+    g.line.style.cssText  = `left:${p}px; top:0; bottom:0;`;
+    g.hit.style.cssText   = `left:${p - HIT}px; top:0; bottom:0; width:${HIT * 2}px;`;
+    g.label.style.cssText = `left:${p + 3}px; top:4px;`;
+  }
 
-    g.label.textContent = Math.round(p) + 'px';
-    g.label.className = 'g-label' + (g.id === selectedGuide?.id ? ' selected' : '');
-    g.line.className = `g-line ${g.type}` + (g.id === selectedGuide?.id ? ' selected' : '');
+  g.label.textContent = Math.round(p) + 'px';
+  g.label.className   = 'g-label' + (g.id === selectedGuide?.id ? ' selected' : '');
+  g.line.className    = `g-line ${g.type}` + (g.id === selectedGuide?.id ? ' selected' : '');
 }
 
 function selectGuide(g) {
-    selectedGuide = g;
-    guides.forEach(positionGuide);
+  selectedGuide = g;
+  guides.forEach(positionGuide);
 }
 
+// function removeGuide(g) {
+//   g.line.remove();
+//   g.hit.remove();
+//   g.label.remove();
+//   guides = guides.filter(x => x.id !== g.id);
+//   if (selectedGuide?.id === g.id) selectedGuide = null;
+// }
+
+
+// function removeGuide(g) {
+//   g.container.remove();
+//   guides = guides.filter(x => x.id !== g.id);
+//   if (selectedGuide?.id === g.id) selectedGuide = null;
+// }
+
+
 function removeGuide(g) {
-    g.line.remove();
-    g.hit.remove();
-    g.label.remove();
-    guides = guides.filter((x) => x.id !== g.id);
-    if (selectedGuide?.id === g.id) selectedGuide = null;
+  if (g.locked) return;
+  g.container.remove();
+  guides = guides.filter(x => x.id !== g.id);
+  if (selectedGuide?.id === g.id) selectedGuide = null;
 }
 
 // Detect if mouse is near a viewport edge
 function edgeIntent(e) {
-    const x = e.clientX,
-        y = e.clientY;
-    ((W = window.innerWidth), (H = window.innerHeight));
-    if (y <= EDGE_HIT || y >= H - EDGE_HIT) return { type: 'h', pos: y };
-    if (x <= EDGE_HIT || x >= W - EDGE_HIT) return { type: 'v', pos: x };
-    return null;
+  const x = e.clientX, y = e.clientY;
+  W = window.innerWidth,
+	H = window.innerHeight;
+  if (y <= EDGE_HIT || y >= H - EDGE_HIT) return { type: 'h', pos: y };
+  if (x <= EDGE_HIT || x >= W - EDGE_HIT) return { type: 'v', pos: x };
+  return null;
 }
 
 // Check if mouse is near an existing guide (for cursor feedback)
 function guideNear(e) {
-    for (let i = guides.length - 1; i >= 0; i--) {
-        const g = guides[i];
-        const dist = g.type === 'h' ? Math.abs(e.clientY - g.pos) : Math.abs(e.clientX - g.pos);
-        if (dist <= HIT_THICK) return g;
-    }
-    return null;
+  for (let i = guides.length - 1; i >= 0; i--) {
+    const g = guides[i];
+    const dist = g.type === 'h' ? Math.abs(e.clientY - g.pos) : Math.abs(e.clientX - g.pos);
+    if (dist <= HIT_THICK) return g;
+  }
+  return null;
 }
 
-document.addEventListener('mousedown', (e) => {
-    // ignore clicks on guide hit zones (handled by their own listener)
-    if (e.target.classList.contains('g-hit')) return;
+document.addEventListener('mousedown', e => {
+  // ignore clicks on guide hit zones (handled by their own listener)
+  if (e.target.classList.contains('g-hit')) return;
 
-    const edge = edgeIntent(e);
-    if (edge) {
-        e.preventDefault();
-        const g = createGuide(edge.type, edge.pos);
-        selectGuide(g);
-        guideDragging = { guide: g, startMouse: edge.type === 'h' ? e.clientY : e.clientX, startPos: edge.pos };
-        return;
-    }
+  const edge = edgeIntent(e);
+  if (edge) {
+    e.preventDefault();
+    const g = createGuide(edge.type, edge.pos);
+    selectGuide(g);
+    guideDragging = { guide: g, startMouse: edge.type === 'h' ? e.clientY : e.clientX, startPos: edge.pos };
+    return;
+  }
 
-    // click elsewhere = deselect
-    selectedGuide = null;
-    guides.forEach(positionGuide);
+  // click elsewhere = deselect
+  selectedGuide = null;
+  guides.forEach(positionGuide);
 });
 
-window.addEventListener('mousemove', (e) => {
-    if (guideDragging) {
-        const { guide } = guideDragging;
-        const raw = guide.type === 'h' ? e.clientY : e.clientX;
-        const max = guide.type === 'h' ? window.innerHeight : window.innerWidth;
-        guide.pos = Math.max(0, Math.min(max, raw));
-        positionGuide(guide);
-        return;
-    }
+window.addEventListener('mousemove', e => {
+  if (guideDragging) {
+    const { guide } = guideDragging;
+    const raw = guide.type === 'h' ? e.clientY : e.clientX;
+    const max = guide.type === 'h' ? window.innerHeight : window.innerWidth;
+    guide.pos = Math.max(0, Math.min(max, raw));
+    positionGuide(guide);
+    return;
+  }
 
-    // cursor feedback near edges or guides
-    const edge = edgeIntent(e);
-    if (edge) {
-        document.body.style.cursor = edge.type === 'h' ? 'ns-resize' : 'ew-resize';
-        return;
-    }
-    document.body.style.cursor = '';
+  // cursor feedback near edges or guides
+  const edge = edgeIntent(e);
+  if (edge) {
+    document.body.style.cursor = edge.type === 'h' ? 'ns-resize' : 'ew-resize';
+    return;
+  }
+  document.body.style.cursor = '';
 });
 
-function toggleClearGuidesVisibility() {
-    if (document.querySelectorAll('.g-hit').length) {
-        if (document.querySelectorAll('.clear-guides.hidden').length) {
-            document.querySelector('.clear-guides.hidden').classList.remove('hidden');
-        }
-    } else {
-        document.querySelector('.clear-guides').classList.add('hidden');
-    }
+
+function toggleClearGuidesVisibility(){
+	if( document.querySelectorAll('.g-hit').length ) {
+		if (document.querySelectorAll('.clear-guides.hidden').length) {
+			document.querySelector('.clear-guides.hidden').classList.remove('hidden');
+		}
+	} else {
+		document.querySelector('.clear-guides').classList.add('hidden');
+	}
 }
 
-const heightOutput = document.querySelector('#height');
-const widthOutput = document.querySelector('#width');
+
+
+
+
+
+
+const heightOutput = document.querySelector("#height");
+const widthOutput = document.querySelector("#width");
 
 function repositionGHits() {
-    const newW = window.innerWidth;
-    const newH = window.innerHeight;
+  const newW = window.innerWidth;
+  const newH = window.innerHeight;
 
-    const diffW = (newW - W) / 2;
-    const diffH = (newH - H) / 2;
+  const diffW = (newW - W) / 2;
+  const diffH = (newH - H) / 2;
 
-    guides.forEach((g) => {
-        if (g.type === 'h') {
-            g.pos = Math.max(0, Math.min(newH, g.pos + diffH));
-        } else {
-            g.pos = Math.max(0, Math.min(newW, g.pos + diffW));
-        }
-        positionGuide(g);
-    });
+  guides.forEach(g => {
+    if (g.type === 'h') {
+      // g.pos = Math.max(0, Math.min(newH, g.pos + diffH));
+    } else {
+      g.pos = Math.max(0, Math.min(newW, g.pos + diffW));
+    }
+    positionGuide(g);
+  });
 
-    W = newW;
-    H = newH;
+  W = newW;
+  H = newH;
 }
 
 window.onresize = repositionGHits;
 
+
+
+
+
+
 window.addEventListener('mouseup', () => {
-    guideDragging = null;
-
-    toggleClearGuidesVisibility();
-
-    document.body.style.cursor = '';
+  guideDragging = null;
+	
+	toggleClearGuidesVisibility();
+	
+  document.body.style.cursor = '';
 });
 
-document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Delete' || e.key === 'Backspace') && selectedGuide) {
-        // don't delete when typing in an input
-        if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-        removeGuide(selectedGuide);
-        toggleClearGuidesVisibility();
-    }
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Delete' || e.key === 'Backspace') && selectedGuide) {
+    // don't delete when typing in an input
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    removeGuide(selectedGuide);
+		toggleClearGuidesVisibility();
+  }
 });
+
 
 function deleteAllGuides() {
-    [...guides].forEach(removeGuide);
-    toggleClearGuidesVisibility();
+  [...guides].forEach(removeGuide);
+  toggleClearGuidesVisibility();
 }
 
+
 document.querySelectorAll('.clear-guides').forEach((el) => {
-    el.addEventListener('click', () => {
-        deleteAllGuides();
-    });
+	el.addEventListener("click", () => {
+		deleteAllGuides();
+	});
 });
