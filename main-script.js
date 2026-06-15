@@ -136,6 +136,13 @@ async function init() {
 
 init();
 
+
+// Send the internal document height to the parent window
+window.addEventListener('load', () => {
+  const height = document.documentElement.scrollHeight;
+  window.parent.postMessage({ frameHeight: height }, '*');
+});
+
 //
 
 /*** TO MAKE

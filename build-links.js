@@ -18,7 +18,7 @@ const dirs = fs.readdirSync(basePath, { withFileTypes: true })
 //   .join("\n");
 
   const links = dirs
-  .map(dir => `<a class="" href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
+  .map(dir => `<iframe src="./template.html?tool=${dir}" id="my-iframe-${dir}"></iframe><a class="" href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
   .join("\n");
 
   // const links = dirs
@@ -34,9 +34,6 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-// <div class="buttons">
-// <a href="./template.html">All Tools</a>
-// </div>
 <div class="container">
 <h1 class="title">Tools</h1>
 
@@ -44,6 +41,15 @@ const html = `<!doctype html>
 ${links}
 </div>
 </div>
+<script type="text/javascript">
+// Listen for the height update and resize the iframe viewport
+window.addEventListener('message', (event) => {
+  if (event.data.frameHeight) {
+    const iframe = document.getElementById(`my-iframe-${event.data.tool}`);
+    iframe.style.height = event.data.frameHeight + 'px';
+  }
+});
+</script>
 
 </body>
 </html>`;
