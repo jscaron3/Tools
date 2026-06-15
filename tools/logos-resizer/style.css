@@ -124,7 +124,16 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 .dl-end { margin-left: auto; }
 
-.content { padding: 28px 24px; }
+.content { 
+  padding: 28px 24px;
+  height: 100%;
+}
+
+.content:has(#grid:empty) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 #grid {
   display: flex;
