@@ -18,7 +18,7 @@ const dirs = fs.readdirSync(basePath, { withFileTypes: true })
 //   .join("\n");
 
   const links = dirs
-  .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
+  .map(dir => `<a class="" href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
   .join("\n");
 
   // const links = dirs
@@ -34,13 +34,17 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<div class="buttons">
-<a href="./template.html">All Tools</a>
-</div>
+// <div class="buttons">
+// <a href="./template.html">All Tools</a>
+// </div>
+<div class="container">
+<h1 class="title">Tools</h1>
 
 <div class="buttons">
 ${links}
 </div>
+</div>
+
 </body>
 </html>`;
 
