@@ -6,19 +6,25 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-// <div class="buttons">
-// <a href="./template.html">All Tools</a>
-// </div>
 <div class="container">
 <h1 class="title">Tools</h1>
 
 <div class="buttons">
-<a class="" href="./template.html?tool=color-converter">color converter</a>
-<a class="" href="./template.html?tool=logos-resizer">logos resizer</a>
-<a class="" href="./template.html?tool=text-formatter">text formatter</a>
-<a class="" href="./template.html?tool=typescale">typescale</a>
+<iframe src="./template.html?tool=color-converter" id="my-iframe"></iframe><a class="" href="./template.html?tool=color-converter">color converter</a>
+<iframe src="./template.html?tool=logos-resizer" id="my-iframe"></iframe><a class="" href="./template.html?tool=logos-resizer">logos resizer</a>
+<iframe src="./template.html?tool=text-formatter" id="my-iframe"></iframe><a class="" href="./template.html?tool=text-formatter">text formatter</a>
+<iframe src="./template.html?tool=typescale" id="my-iframe"></iframe><a class="" href="./template.html?tool=typescale">typescale</a>
 </div>
 </div>
+<script type="text/javascript">
+// Listen for the height update and resize the iframe viewport
+window.addEventListener('message', (event) => {
+  if (event.data.frameHeight) {
+    const iframe = document.getElementById('my-iframe');
+    iframe.style.height = event.data.frameHeight + 'px';
+  }
+});
+</script>
 
 </body>
 </html>
