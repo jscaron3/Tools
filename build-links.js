@@ -8,22 +8,37 @@ const dirs = fs.readdirSync(basePath, { withFileTypes: true })
   .filter(d => d.isDirectory())
   .map(d => d.name);
 
+const escapeHtml = (value) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 
-    // const links = dirs
-  // .map(dir => `<a href="./tools/${dir}/">${dir}</a>`)
-  // .join("\n");
-  
-// const links = dirs
-//   .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
-//   .join("\n");
+const links = dirs
+  .map((dir) => {
+    const label = escapeHtml(dir.replaceAll("-", " "));
+    const previewUrl = `./tools/${dir}/index.html`;
+    const toolUrl = `./template.html?tool=${encodeURIComponent(dir)}`;
 
-  const links = dirs
-  .map(dir => `<iframe src="./template.html?tool=${dir}" id="my-iframe"></iframe><a class="" href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
+    return `
+      <a class="tool-card" href="${toolUrl}">
+        <span class="tool-card__preview" aria-hidden="true">
+          <iframe
+            src="${previewUrl}"
+            title="${label} preview"
+            loading="lazy"
+            tabindex="-1"
+          ></iframe>
+        </span>
+        <span class="tool-card__meta">
+          <span class="tool-card__title">${label}</span>
+          <span class="tool-card__action">Open tool</span>
+        </span>
+      </a>`;
+  })
   .join("\n");
-
-  // const links = dirs
-  // .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ").toUpperCase()}</a>`)
-  // .join("\n");
 
 
 const html = `<!doctype html>
@@ -41,15 +56,6 @@ const html = `<!doctype html>
 ${links}
 </div>
 </div>
-<script type="text/javascript">
-// Listen for the height update and resize the iframe viewport
-window.addEventListener('message', (event) => {
-  if (event.data.frameHeight) {
-    const iframe = document.getElementById('my-iframe');
-    iframe.style.height = event.data.frameHeight + 'px';
-  }
-});
-</script>
 
 </body>
 </html>`;
