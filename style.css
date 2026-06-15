@@ -27,7 +27,7 @@ h1,h2,h3,h4,h5,h6 {
 	max-width: 1600px;
 }
 
-.buttons {
+/* .buttons {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -39,4 +39,56 @@ h1,h2,h3,h4,h5,h6 {
 	padding: 2em;
 	background-color: #000;
 	color: #fff;
+} */
+
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	width: 100%;
+	max-width: 900px;
+}
+
+.buttons:first-of-type a {
+	min-width: 240px;
+	font-weight: 700;
+	background: #111827;
+	color: #fff;
+}
+
+.buttons a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 220px;
+	min-height: 80px;
+	padding: 1.25rem 1.5rem;
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #111827;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	box-shadow:
+		0 1px 3px rgba(0, 0, 0, 0.05),
+		0 8px 24px rgba(0, 0, 0, 0.04);
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease,
+		border-color 0.2s ease;
+}
+
+.buttons a:hover {
+	transform: translateY(-3px);
+	border-color: #cbd5e1;
+	box-shadow:
+		0 4px 12px rgba(0, 0, 0, 0.08),
+		0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+.buttons a:active {
+	transform: translateY(0);
 }

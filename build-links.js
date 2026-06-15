@@ -18,10 +18,12 @@ const dirs = fs.readdirSync(basePath, { withFileTypes: true })
 //   .join("\n");
 
   const links = dirs
-  .map(dir => `<a href="./template.html?tool=${dir}">${dir}</a>`)
+  .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ")}</a>`)
   .join("\n");
 
-
+  // const links = dirs
+  // .map(dir => `<a href="./template.html?tool=${dir}">${dir.replaceAll("-", " ").toUpperCase()}</a>`)
+  // .join("\n");
 
 
 const html = `<!doctype html>
