@@ -491,12 +491,14 @@ main.dark {
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 
     .title {
       width: 100%;
       text-align: center;
       font-weight: 900;
       font-size: 30px;
+      margin-bottom: 0!important;
     }
 
     a {
