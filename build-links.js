@@ -49,7 +49,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<div class="container">
+<div class="container main-container">
 <h1 class="title">Tools</h1>
 
 <div class="buttons">
@@ -66,3 +66,6 @@ const toolsJsonPath = path.resolve(process.cwd(), "tools.json");
 fs.writeFileSync(toolsJsonPath, JSON.stringify(dirs, null, 2));
 
 console.log("Generated index.html and tools.json with:", dirs);
+
+// To update the index.html file when running the project locally, run the following code in the terminal (OUTPUT) while opened in VS Code terminal:
+// node build-links.js
