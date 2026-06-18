@@ -127,6 +127,10 @@ function formatText(input) {
     text = text.replace(/&nbsp;/gi, ' ').replace(/\u00a0/g, ' ');
   }
 
+  if (opts.replaceWeirdSpaces) {
+    text = text.replace(/[\u0080-\u009F]/g, ' ');
+  }
+
   if (opts.removeStyles) {
     text = text.replace(/(<[^>]+?)\s+style\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
   }
@@ -248,6 +252,7 @@ function getOptions() {
   return {
     caseMode:         $('#opt-case').val(),
     emptyTags:        $('#opt-empty-tags').is(':checked'),
+    replaceWeirdSpaces: $('#opt-replace-weird-spaces').is(':checked'),
     extraSpaces:      $('#opt-extra-spaces').is(':checked'),
     emptyLines:       $('#opt-empty-lines').is(':checked'),
     consecutiveBr:    $('#opt-consecutive-br').is(':checked'),
