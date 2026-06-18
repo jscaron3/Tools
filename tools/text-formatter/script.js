@@ -128,7 +128,8 @@ function formatText(input) {
   }
 
   if (opts.replaceWeirdSpaces) {
-    text = text.replace(/[\u0080-\u009F]/g, ' ');
+    // text = text.replace(/[\u0080-\u009F]/g, ' ');
+    text = text.replace(/[\u00E2\u0080\u00A8]/g, '');
   }
 
   if (opts.removeStyles) {
