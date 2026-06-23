@@ -134,6 +134,7 @@ function formatText(input) {
 
     
     text = text.replace(/\u2022/g, ''); // •
+    text = text.replace(/\u0009/g, ' '); // tab
   }
 
   if (opts.removeStyles) {
