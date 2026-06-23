@@ -213,7 +213,7 @@ async function downloadOne(item){
 async function downloadAll(){
   const zip=new JSZip();
   items.forEach(async item=>{
-    await draw(item);
+    draw(item);
     const type=getExportData(item);
     const exportCanvas=getExportCanvas(item,type);
     const base64=exportCanvas.toDataURL(type.mime,0.95).split(',')[1];
@@ -241,6 +241,12 @@ picker.addEventListener('input',e=>{
   pickerRadio.value=color;pickerRadio.checked=true;
   updateAllCanvas();
 });
+
+
+
+
+
+
 
 // Guides
 const EDGE_HIT=20,HIT_THICK=8;
