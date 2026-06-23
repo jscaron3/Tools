@@ -131,6 +131,9 @@ function formatText(input) {
     // text = text.replace(/[\u0080-\u009F]/g, ' ');
     // text = text.replace(/[\u00E2\u0080\u00A8]/g, '');
     text = text.replace(/[\u2028\u2029]/g, ' ').replace(/[\u00A0\u202F]/g, ' ');
+
+    
+    text = text.replace(/\u2022/g, ''); // •
   }
 
   if (opts.removeStyles) {
@@ -338,6 +341,12 @@ function switchView(view) {
 
 $(document).on('click', '.tab-btn', function () {
   switchView($(this).data('view'));
+});
+
+jQuery('.toggle-label').click(function(){
+	jQuery(this).parent().find('input').prop('checked', function(i, value) {
+        return !value;
+    });
 });
 
 $tagToggles.on('change', 'input[type="checkbox"]', function () {
