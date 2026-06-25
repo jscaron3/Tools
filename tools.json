@@ -1,5 +1,6 @@
 [
   "color-converter",
+  "easing-generator",
   "logos-resizer",
   "text-formatter",
   "tool-extractor",
