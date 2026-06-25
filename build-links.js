@@ -45,6 +45,13 @@ const allToolPaths = [];
 const groupLinks = [];
 const flatLinks = [];
 
+
+// Add flatLinks in a <div class="tools-group"></div> just like groupLinks, but with a label "Other Tools" if there are any flatLinks
+
+flatLinks.push(`<div class="tools-group">
+  <span class="tools-group__label">Other Tools</span>
+`);
+
 dirs.forEach((dir) => {
   const dirPath = path.join(basePath, dir);
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
@@ -67,6 +74,12 @@ dirs.forEach((dir) => {
     flatLinks.push(buildCard(dir));
   }
 });
+
+
+flatLinks.push(`</div>`); // Close the "Other Tools" div
+
+
+
 
 const links = [...groupLinks, ...flatLinks].join("\n");
 
