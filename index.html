@@ -8,7 +8,6 @@
 <body>
 <div class="container main-container">
 <h1 class="title">Tools</h1>
-
 <div class="buttons">
 
       <a class="tool-card" href="./template.html?tool=color-converter">
@@ -56,10 +55,13 @@
         </span>
       </a>
 
-      <a class="tool-card" href="./template.html?tool=svg-tools">
+      <div class="tools-group">
+        <span class="tools-group__label">svg</span>
+        
+      <a class="tool-card" href="./template.html?tool=svg%2Fsvg-tools">
         <span class="tool-card__preview" aria-hidden="true">
           <iframe
-            src="./tools/svg-tools/index.html"
+            src="./tools/svg/svg-tools/index.html"
             title="svg tools preview"
             loading="lazy"
             tabindex="-1"
@@ -70,6 +72,7 @@
           <span class="tool-card__action">Open tool</span>
         </span>
       </a>
+      </div>
 
       <a class="tool-card" href="./template.html?tool=text-formatter">
         <span class="tool-card__preview" aria-hidden="true">
@@ -132,6 +135,5 @@
       </a>
 </div>
 </div>
-
 </body>
 </html>

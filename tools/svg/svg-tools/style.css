@@ -26,7 +26,6 @@
       color: var(--text-primary);
       min-height: 100vh;
 /*       padding: 2.5rem 1.5rem; */
-      padding: max(1.5rem, 7vh) 1.5rem;
 			display: flex;
 /* 			align-items: center; */
 			
@@ -34,12 +33,14 @@
 
     .container {
 			width: 100%;
+      max-width: 1450px;
       max-width: 1400px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 2.5rem;
-			
+      padding: max(1.5rem, 7vh) 1.5rem;
+		
     }
 .box {
 	width: 100%;
