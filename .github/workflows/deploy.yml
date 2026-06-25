@@ -6,13 +6,13 @@ permissions:
   contents: write
   pages: write
   id-token: write
-concurrency:
-  group: pages-${{ github.job }}
-  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    concurrency:
+      group: pages-build
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - name: Setup Pages
@@ -44,6 +44,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -51,7 +54,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
 
 
 
