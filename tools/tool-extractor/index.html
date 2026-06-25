@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Tool extractor</title>
+        <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+
+      
+
+
+      <div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-text">Extract<span class="accent">.</span></span>
+    </div>
+    <p class="tagline">Paste a Codepen-style export. Pull head metadata, scripts, styles and markup apart — copy each piece on its own.</p>
+  </header>
+
+  <main class="layout">
+
+    <section class="input-pane">
+      <label class="pane-label" for="source">Source HTML</label>
+      <textarea id="source" placeholder="Paste your full HTML document here…" spellcheck="false" autocomplete="off"></textarea>
+      <div class="btn-row">
+        <button id="extractBtn" class="btn-primary">Extract parts</button>
+        <button id="clearBtn" class="btn-ghost">Clear</button>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="output-pane" id="results">
+
+<!--       <article class="result-card">
+        <div class="result-head">
+          <span class="tag">&lt;head&gt;</span>
+          <div class="result-titles">
+            <h3>Title &amp; external links</h3>
+            <span>Title text + every external &lt;link&gt; tag</span>
+          </div>
+          <button class="copy-btn" data-target="head" disabled>Copy</button>
+        </div>
+        <pre class="code-block empty" id="out-head"><code>Nothing extracted yet.</code></pre>
+      </article> -->
+			
+			
+			
+			<article class="result-card">
+    <div class="result-head">
+        <span class="tag">&lt;head&gt;</span>
+        <div class="result-titles">
+            <h3>Title</h3>
+            <span>Contents of the &lt;title&gt; tag</span>
+        </div>
+        <button class="copy-btn" data-target="title" disabled>Copy</button>
+    </div>
+    <pre class="code-block empty" id="out-title"><code>Nothing extracted yet.</code></pre>
+</article>
+			
+			<article class="result-card">
+    <div class="result-head">
+        <span class="tag">&lt;head&gt;</span>
+        <div class="result-titles">
+            <h3>External links</h3>
+            <span>Every external &lt;link&gt; tag</span>
+        </div>
+        <button class="copy-btn" data-target="links" disabled>Copy</button>
+    </div>
+    <pre class="code-block empty" id="out-links"><code>Nothing extracted yet.</code></pre>
+</article>
+
+      <article class="result-card">
+        <div class="result-head">
+          <span class="tag">&lt;body&gt;</span>
+          <div class="result-titles">
+            <h3>External scripts</h3>
+            <span>Every &lt;script src="…"&gt; tag inside &lt;body&gt;</span>
+          </div>
+          <button class="copy-btn" data-target="extScripts" disabled>Copy</button>
+        </div>
+        <pre class="code-block empty" id="out-extScripts"><code>Nothing extracted yet.</code></pre>
+      </article>
+
+      <article class="result-card">
+        <div class="result-head">
+          <span class="tag">&lt;head&gt;</span>
+          <div class="result-titles">
+            <h3>Inline styles</h3>
+            <span>Contents of the inline &lt;style&gt; tag</span>
+          </div>
+          <button class="copy-btn" data-target="style" disabled>Copy</button>
+        </div>
+        <pre class="code-block empty" id="out-style"><code>Nothing extracted yet.</code></pre>
+      </article>
+
+      <article class="result-card">
+        <div class="result-head">
+          <span class="tag">&lt;body&gt;</span>
+          <div class="result-titles">
+            <h3>Inline scripts</h3>
+            <span>Contents of inline &lt;script&gt; tags (no src)</span>
+          </div>
+          <button class="copy-btn" data-target="inlineScript" disabled>Copy</button>
+        </div>
+        <pre class="code-block empty" id="out-inlineScript"><code>Nothing extracted yet.</code></pre>
+      </article>
+
+      <article class="result-card">
+        <div class="result-head">
+          <span class="tag">&lt;body&gt;</span>
+          <div class="result-titles">
+            <h3>Body markup</h3>
+            <span>&lt;body&gt; structure with every script removed</span>
+          </div>
+          <button class="copy-btn" data-target="bodyMarkup" disabled>Copy</button>
+        </div>
+        <pre class="code-block empty" id="out-bodyMarkup"><code>Nothing extracted yet.</code></pre>
+      </article>
+
+    </section>
+
+  </main>
+
+  <footer class="note">Built for typical head/body documents — link, style and script tags are matched by tag name, not a full HTML parser. Original spacing and indentation are preserved exactly as pasted.</footer>
+
+</div>
+
+        <script src="./script.js"></script>
+    </body>
+</html>
