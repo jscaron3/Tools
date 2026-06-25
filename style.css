@@ -31,10 +31,8 @@
 	box-sizing: border-box;
 }
 
- html { -webkit-font-smoothing: antialiased; }
-
-body {
-	
+html { 
+	-webkit-font-smoothing: antialiased; 
 }
 
 body:has(.container.main-container:last-child) {
