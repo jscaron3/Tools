@@ -2,6 +2,7 @@
   "color-converter",
   "easing-generator",
   "logos-resizer",
+  "svg-tools",
   "text-formatter",
   "tool-extractor",
   "tool-template",
