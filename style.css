@@ -163,6 +163,7 @@ body:has(.container.main-container:last-child) {
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
 	color: var(--color-muted);
+	min-width: 84px;
 }
 
 /* ─────────────────────────────────────────
