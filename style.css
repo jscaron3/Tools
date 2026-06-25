@@ -86,7 +86,6 @@ body:has(.container.main-container:last-child) {
 	width: 100%;
 }
 
-
 .container.main-container .tools-group {
 	grid-column: 1 / -1;
 }
