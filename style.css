@@ -84,8 +84,12 @@ body:has(.container.main-container:last-child) {
 	width: 100%;
 }
 
-.container.main-container .tools-group {
+.container.main-container .tools-group, .tools-group__label {
 	grid-column: 1 / -1;
+}
+
+.tools-group__label {
+	text-transform: uppercase;
 }
 
 /* ─────────────────────────────────────────
