@@ -2,6 +2,7 @@
   "color-converter",
   "logos-resizer",
   "text-formatter",
+  "tool-extractor",
   "tool-template",
   "typescale"
 ]
