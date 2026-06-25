@@ -90,6 +90,8 @@ body:has(.container.main-container:last-child) {
 
 .tools-group__label {
 	text-transform: uppercase;
+   color: var(--color-muted);
+   font-weight: 600;
 }
 
 /* ─────────────────────────────────────────

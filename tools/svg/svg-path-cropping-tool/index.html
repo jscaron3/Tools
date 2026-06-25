@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>SVG Path Cropping Tool</title>
+        <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+
+      <div class="panel">
+		<h3>SVG Crop</h3>
+
+		<textarea id="input" placeholder="Paste SVG or path"></textarea>
+		
+		
+		<div class="option-wrapper">
+			<div class="hint">Crop edges</div>
+
+			<div class="positions-wrap">
+				<span data-title="Top" class="input-wrap"><input id="pos-top" type="number" min="0" max="100" value="0"></span>
+				<span data-title="Bottom" class="input-wrap"><input id="pos-bottom" type="number" min="0" max="100" value="100"></span>
+				<span data-title="Left" class="input-wrap"><input id="pos-left" type="number" min="0" max="100" value="0"></span>
+				<span data-title="Right" class="input-wrap"><input id="pos-right" type="number" min="0" max="100" value="100"></span>
+			</div>
+			
+			<button onclick="resetCrop()">Reset crop</button>
+		</div>
+		
+		
+		
+
+		<!--   <label>Top</label>
+  <input id="top" type="range" min="0" max="400" value="0">
+
+  <label>Right</label>
+  <input id="right" type="range" min="0" max="400" value="400">
+
+  <label>Bottom</label>
+  <input id="bottom" type="range" min="0" max="400" value="400">
+
+  <label>Left</label>
+  <input id="left" type="range" min="0" max="400" value="0"> -->
+
+
+		<span class="separator"></span>
+		
+		<div class="option-wrapper">
+			<div class="hint">Derived size</div>
+			<div class="sizes-wrap">
+				<span data-title="Width" data-unit="px" class="input-wrap"><input id="w" type="text" readonly></span>
+				<span data-title="Height" data-unit="px" class="input-wrap"><input id="h" type="text" readonly></span>
+			</div>
+		</div>
+
+		
+		<textarea id="output" readonly></textarea>
+		
+		<button onclick="copyPathCoordinates()">Copy coordinates</button>
+		<button onclick="copyPath()">Copy path</button>
+	</div>
+
+	<div class="wrap">
+
+		<span class="svg-wrap">
+			<span class="range-wrap">
+				<label>Top</label>
+				<input id="top" type="range" min="0" max="400" value="0">
+			</span>
+
+			<span class="range-wrap">
+				<label>Right</label>
+				<input id="right" type="range" min="0" max="400" value="400">
+			</span>
+
+			<span class="range-wrap">
+				<input id="bottom" type="range" min="0" max="400" value="400">
+				<label>Bottom</label>
+			</span>
+
+			<span class="range-wrap">
+				<label>Left</label>
+				<input id="left" type="range" min="0" max="400" value="0">
+			</span>
+
+			<svg id="svg">
+				<defs>
+					<clipPath id="clip">
+						<rect id="clipRect"></rect>
+					</clipPath>
+				</defs>
+
+				<g id="content"></g>
+
+				<rect id="cropBox" />
+				<!--     <rect id="cropBox"
+          fill="none"
+          stroke="#e96a6a"
+          stroke-width="2"
+          cursor="move"/> -->
+
+				<rect id="dragBox" />
+
+				<!-- <rect id="handleDrag" class="drag" /> -->
+
+				<rect id="handleTop" class="handle" />
+				<rect id="handleRight" class="handle" />
+				<rect id="handleBottom" class="handle" />
+				<rect id="handleLeft" class="handle" />
+			</svg>
+
+		</span>
+	</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipper-lib@6.4.2/clipper.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/paper"></script>
+
+        <script src="./script.js"></script>
+    </body>
+</html>

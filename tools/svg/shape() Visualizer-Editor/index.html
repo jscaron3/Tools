@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>shape() Visualizer/Editor</title>
+        <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+        <div id="panel">
+            <div id="panel-top">
+                <div><div class="section-label">shape() Editor</div></div>
+                <div class="dim-row">
+                    <div class="field">
+                        <div class="section-label">Width (px)</div>
+                        <input type="number" id="iW" value="1800" min="1" />
+                    </div>
+                    <div class="field">
+                        <div class="section-label">Height (px)</div>
+                        <input type="number" id="iH" value="600" min="1" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="section-label">Preset shapes</div>
+                    <select id="preset">
+                        <option value="">— paste your own below —</option>
+                        <option value="calc">Chamfered (calc px)</option>
+                        <option value="pct">Chamfered (%)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <div class="section-label">Input shape()</div>
+                    <textarea id="ta-input" spellcheck="false"></textarea>
+                </div>
+                <div class="btn-row">
+                    <button onclick="doParse()">▶ Parse &amp; Render</button>
+                    <button class="secondary" onclick="doCopy()">⎘ Copy resolved</button>
+                    <button class="secondary" onclick="resetVP()">⊙ Reset view</button>
+                </div>
+                <div class="field">
+                    <div class="section-label">Resolved (original units preserved)</div>
+                    <textarea id="ta-output" readonly spellcheck="false"></textarea>
+                </div>
+            </div>
+            <div id="panel-points"><div class="section-label" style="padding: 2px 0 6px">Points</div></div>
+        </div>
+        <div id="canvas-wrap">
+            <svg id="svg" preserveAspectRatio="xMinYMid"></svg>
+            <div id="status">
+                <span>W: <span id="sW">1800</span> &nbsp;H: <span id="sH">600</span></span>
+                <span>Zoom: <span id="sZoom">100%</span></span>
+                <span style="color: #6a6a7a">scroll=zoom &nbsp;drag=pan &nbsp;double-click=reset</span>
+            </div>
+            <div id="toast">Copied!</div>
+        </div>
+
+        <script src="./script.js"></script>
+    </body>
+</html>

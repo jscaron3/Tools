@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>SVG Paths Extractor</title>
+        <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+
+      <div class="container">
+
+    <header>
+      <h1>SVG <span>→</span> Paths Extractor</h1>
+      <p class="subtitle">Paste the source of a valid SVG document and extract paths.</p>
+      <!--<div class="demos">
+        <span class="demos-label">Demos</span>
+        <button class="demo-btn" id="circle">Circle</button>
+        <button class="demo-btn" id="use">Symbol use</button>
+        <button class="demo-btn" id="animate">Animated</button>
+        <button class="demo-btn" id="trans">Transparent</button>
+        <button class="demo-btn" id="fenders">Fenders</button>
+        <button class="demo-btn" id="marker">Marker</button>
+      </div>-->
+    </header>
+
+    <hr class="divider">
+
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-label">SVG source</div>
+        <textarea id="svgInput" placeholder='<svg xmlns="http://www.w3.org/2000/svg" ...>&#10;  ...&#10;</svg>'></textarea>
+        <div class="toolbar">
+          <button class="btn" id="extractBtn">Extract</button>
+          
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Paths output <span class="count" id="count"></span></div>
+        <textarea id="path-output" placeholder="background-image: url(&quot;data:image/svg+xml;...&quot;);" readonly></textarea>
+        <div class="toolbar">
+          <button class="btn btn-ghost" id="copy-paths" data-copy="#path-output" data-copy-message=".copy-ok">Copy to clipboard</button>
+          <span class="copy-ok" id="copy-ok">&#10003; Copied</span>
+        </div>
+      </div>
+    </div>
+
+<!--     <div class="preview-section" id="preview-section">
+      <div class="preview-label">Live preview</div>
+      <div id="preview-bar"></div>
+    </div> -->
+
+	
+	
+  </div>
+
+        <script src="./script.js"></script>
+    </body>
+</html>
