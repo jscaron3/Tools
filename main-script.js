@@ -109,14 +109,21 @@ async function loadTool(name) {
     await loadScripts(scripts, baseUrl);
 }
 
+
 async function init() {
     if (!title || !toolList || !toolMount || !toolBack) {
         throw new Error('Template shell is missing required elements.');
     }
 
-    const toolNames = await fetch('./tools.json').then(r => r.json());
+    const toolPaths = await fetch('./tools.json').then(r => r.json());
     tools = Object.fromEntries(
-        toolNames.map(name => [name, { label: name, url: `./tools/${name}/index.html` }])
+        toolPaths.map(toolPath => [
+            toolPath,
+            {
+                label: toolPath.split('/').pop().replaceAll('-', ' '),
+                url: `./tools/${toolPath}/index.html`
+            }
+        ])
     );
 
     if (!toolName) {
@@ -133,6 +140,32 @@ async function init() {
         });
     }
 }
+
+
+// async function init() {
+//     if (!title || !toolList || !toolMount || !toolBack) {
+//         throw new Error('Template shell is missing required elements.');
+//     }
+
+//     const toolNames = await fetch('./tools.json').then(r => r.json());
+//     tools = Object.fromEntries(
+//         toolNames.map(name => [name, { label: name, url: `./tools/${name}/index.html` }])
+//     );
+
+//     if (!toolName) {
+//         renderToolList();
+//     } else {
+//         loadTool(toolName).catch((error) => {
+//             title.textContent = 'Tools';
+//             toolMount.innerHTML = `<p>Unable to load tool: ${toolName}</p>`;
+//             toolBack.hidden = false;
+//             toolBack.href = './template.html';
+//             toolMount.hidden = false;
+//             toolList.hidden = true;
+//             console.error(error);
+//         });
+//     }
+// }
 
 init();
 
