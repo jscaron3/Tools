@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+
+function buildLinks() {
 	document.querySelectorAll(".buttons a").forEach((link) => {
 		if (link.dataset.img) {
 			// link.style.setProperty("--img", `url(${link.dataset.img})`);
@@ -13,4 +14,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		}
 
 	});
-});
+} 
+
+buildLinks();

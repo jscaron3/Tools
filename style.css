@@ -79,11 +79,16 @@ body:has(.container.main-container:last-child) {
 	margin: 0 auto;
 }
 
-.container.main-container .buttons {
+.container.main-container .buttons, .container.main-container .tools-group {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 	gap: var(--space-6);
 	width: 100%;
+}
+
+
+.container.main-container .tools-group {
+	grid-column: 1 / -1;
 }
 
 /* ─────────────────────────────────────────
@@ -182,9 +187,11 @@ body:has(.container.main-container:last-child) {
 		padding: 1.5rem;
 	}
 
-	.container.main-container .buttons {
+	.container.main-container .buttons, .container.main-container .tools-group  {
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
+
+	
 }
 
 /* ─────────────────────────────────────────
@@ -201,7 +208,7 @@ body:has(.container.main-container:last-child) {
 		font-size: clamp(1.9rem, 11vw, 3rem);
 	}
 
-	.container.main-container .buttons {
+	.container.main-container .buttons, .container.main-container .tools-group  {
 		grid-template-columns: 1fr;
 		gap: 1rem;
 	}
