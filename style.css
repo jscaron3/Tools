@@ -190,8 +190,6 @@ body:has(.container.main-container:last-child) {
 	.container.main-container .buttons, .container.main-container .tools-group  {
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
-
-	
 }
 
 /* ─────────────────────────────────────────
