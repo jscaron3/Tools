@@ -79,9 +79,13 @@ body:has(.container.main-container:last-child) {
 
 .container.main-container .buttons, .container.main-container .tools-group {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
 	gap: var(--space-6);
 	width: 100%;
+}
+
+.container.main-container .buttons {
+	gap: 3rem var(--space-6);
 }
 
 .container.main-container .tools-group, .tools-group__label {
@@ -148,6 +152,7 @@ body:has(.container.main-container:last-child) {
 	justify-content: space-between;
 	gap: var(--space-4);
 	min-height: 2.5rem;
+	margin-top: auto;
 }
 
 .container.main-container .tool-card__title {
@@ -221,5 +226,29 @@ body:has(.container.main-container:last-child) {
 
 	.container.main-container .tool-card__meta {
 		align-items: center;
+	}
+}
+
+@media (max-width:768px) {
+	.container.main-container .tool-card {
+		padding: 0.85rem;
+		display: grid;
+		grid-template-columns: 60% 1fr;
+		
+	}
+
+	.container.main-container .tool-card__meta {
+		flex-direction: column;
+    	align-items: flex-start!important;
+	}
+}
+
+@media (max-width:500px) {
+	.container.main-container .tool-card{
+		--nb-columns: 2;
+		--gap-h: var(--space-4);
+		--gap-v: var(--space-4);
+		gap: var(--gap-v) var(--gap-h);
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, max(200px, calc((100% - ((var(--nb-columns) - 1) * var(--gap-h))) / var(--nb-columns)))), 1fr));
 	}
 }

@@ -248,3 +248,12 @@ function showNextNotification(type = '') {
         //}
     }
 }
+
+
+Coloris({
+  theme: 'polaroid',
+  formatToggle: true,
+  onChange: (color, inputEl) => {
+    console.log(`The new color is ${color}`);
+  }
+});
