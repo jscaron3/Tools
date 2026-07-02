@@ -160,6 +160,7 @@ body:has(.container.main-container:last-child) {
 	font-weight: 650;
 	text-transform: capitalize;
 	letter-spacing: -0.02em;
+	text-wrap: balance;
 }
 
 .container.main-container .tool-card__action {
