@@ -50,12 +50,15 @@ body .tool-frame {
 	font-size: 12px;
 	max-height: calc(100vh - 70px) !important;
    overflow: hidden;
+	position: relative;
 }
 #panel {
 	background: var(--panel-bg);
 	border-right: 1px solid var(--border);
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
+	max-height: calc(100vh - 70px) !important;
 	overflow: hidden;
 }
 #panel-top {
@@ -183,7 +186,8 @@ button.secondary:hover {
 	color: var(--text);
 }
 #canvas-wrap {
-	height: 100%;
+	/* height: 100%; */
+	height: calc(100vh - 70px) !important;
 	position: relative;
 	overflow: hidden;
 	background: radial-gradient(
