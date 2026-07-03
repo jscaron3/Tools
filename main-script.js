@@ -295,6 +295,19 @@ document.addEventListener('click', function (e) {
 
 
 
+jQuery(function($){
+    $("[contenteditable]").focusout(function(){
+        var element = $(this);        
+        if (!element.text().trim().length) {
+            element.empty();
+        }
+    });
+});
+
+
+
+
+
 Coloris({
   theme: 'polaroid',
   formatToggle: true,

@@ -971,6 +971,8 @@ jQuery(document).ready(function () {
 
 		if (!isNaN(original) && !isNaN(wanted)) {
 			$('.converter .em').text((wanted / original).toFixed(4).replace(/\.?0+$/, ''));
+		} else {
+			$('.converter .em').text('');
 		}
 	}
 

@@ -106,6 +106,19 @@
               
             }
 
+
+
+
+            [placeholder]:empty::before {
+                content: attr(placeholder);
+                color: var(--black, #000);
+                opacity: 0.6; 
+            }
+
+            [placeholder]:empty:focus::before {
+                content: "";
+            }
+
             /* Notif */
             .notif {
                 opacity: 0;
