@@ -39,10 +39,11 @@ html,
 body {
 	height: 100%;
 }
-body {
+
+body .tool-frame {
 	display: grid;
 	grid-template-columns: 420px 1fr;
-	height: 100vh;
+	/* height: 100vh; */
 	background: var(--bg);
 	color: var(--text);
 	font-family: "Courier New", Courier, monospace;
@@ -180,6 +181,7 @@ button.secondary:hover {
 	color: var(--text);
 }
 #canvas-wrap {
+	height: 100%;
 	position: relative;
 	overflow: hidden;
 	background: radial-gradient(

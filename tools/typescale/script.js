@@ -953,13 +953,27 @@ jQuery(document).ready(function () {
 	}
 	
 // 	Converter
-	$('.convert').click(function(){
+	// $('.convert').click(function(){
+	// 	let original = parseInt($('.converter .original').text());
+	// 	let wanted = parseInt($('.converter .wanted').text());
+		
+	// 	$('.converter .em').text((wanted / original).toFixed(4).replace(/\.?0+$/, ''));
+	// });
+
+
+	$(document).on('input', '.convert .original, .convert .wanted', function() {
+		convertWantedToEm();
+	});
+
+	function convertWantedToEm() {
 		let original = parseInt($('.converter .original').text());
 		let wanted = parseInt($('.converter .wanted').text());
-		
-		$('.converter .em').text((wanted / original).toFixed(4).replace(/\.?0+$/, ''));
-		
-	});
+
+		if (!isNaN(original) && !isNaN(wanted)) {
+			$('.converter .em').text((wanted / original).toFixed(4).replace(/\.?0+$/, ''));
+		}
+	}
+
 	
 	
 	
@@ -967,13 +981,12 @@ jQuery(document).ready(function () {
 	// 	Visualiser
 	
 	const visualizer_container = document.querySelector('.visualizer');
-
 	const visualizer_tags = ['h1','h2','h3','h4','h5','h6'];
 
 	const titleText = 'Lorem ipsum dolor sit amet consectetur adipisicing elit.';
 	const paragraphText = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor eligendi unde, ipsa dolorum quos quaerat alias assumenda et ducimus. Vero, culpa nisi facere nostrum dicta accusamus. Praesentium ullam exercitationem atque iure et doloremque. Voluptatum exercitationem quaerat, inventore expedita assumenda corrupti ab praesentium quia corporis illum est magni aperiam natus blanditiis!';
 
-	tags.forEach(visualizer_tag => {
+	visualizer_tags.forEach(visualizer_tag => {
 		const wrapper = document.createElement('div');
 
 		const label = document.createElement('span');

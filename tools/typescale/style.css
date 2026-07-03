@@ -39,13 +39,17 @@ body {
   background-color: var(--white);
   font-family: "Inter", sans-serif;
 }
+
 body .page {
-  padding: calc(50px + 163px) clamp(20px, 13.924px + 1.8987vw, 50px) clamp(20px, 13.924px + 1.8987vw, 50px);
+  /* padding: calc(50px + 163px) clamp(20px, 13.924px + 1.8987vw, 50px) clamp(20px, 13.924px + 1.8987vw, 50px); */
+  padding: 0px clamp(20px, 13.924px + 1.8987vw, 50px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
+
 body .page:not(.active) {
   display: none;
 }
