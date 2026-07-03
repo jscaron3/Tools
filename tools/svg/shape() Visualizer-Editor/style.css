@@ -48,6 +48,8 @@ body .tool-frame {
 	color: var(--text);
 	font-family: "Courier New", Courier, monospace;
 	font-size: 12px;
+	max-height: calc(100vh - 70px) !important;
+   overflow: hidden;
 }
 #panel {
 	background: var(--panel-bg);
