@@ -961,7 +961,7 @@ jQuery(document).ready(function () {
 	// });
 
 
-	$(document).on('input', '.convert .original, .convert .wanted', function() {
+	$(document).on('input', '.converter .original, .converter .wanted', function() {		
 		convertWantedToEm();
 	});
 
