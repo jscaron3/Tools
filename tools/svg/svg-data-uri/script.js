@@ -55,46 +55,34 @@ function escapeRegExp(s) {
       document.getElementById('preview-bar').style.backgroundColor = this.value;
     });
 
-    // document.getElementById('copy').addEventListener('click', function() {
-    //   var out = document.getElementById('output');
-    //   out.select();
-    //   try { document.execCommand('copy'); } catch(e) {}
-    //   var ok = document.getElementById('copy-ok');
-    //   ok.style.display = 'inline-flex';
-    //   setTimeout(function() { ok.style.display = 'none'; }, 2000);
-    // });
 
 
 
-document.addEventListener('click', function (e) {
-	const btn = e.target.closest('[data-copy]');
-	if (!btn) return;
+// document.addEventListener('click', function (e) {
+// 	const btn = e.target.closest('[data-copy]');
+// 	if (!btn) return;
 
-	const target = document.querySelector(btn.dataset.copy);
-	if (!target) return;
+// 	const target = document.querySelector(btn.dataset.copy);
+// 	if (!target) return;
 
-	const text =
-		target.value ??
-		target.textContent ??
-		target.innerText;
+// 	const text =
+// 		target.value ??
+// 		target.textContent ??
+// 		target.innerText;
 	
-	if (!text.trim()) return;
+// 	if (!text.trim()) return;
 
-	navigator.clipboard.writeText(text).then(() => {
-		const ok = btn.dataset.copyMessage
-			? document.querySelector(btn.dataset.copyMessage)
-			: null;
+// 	navigator.clipboard.writeText(text).then(() => {
+// 		const ok = btn.dataset.copyMessage
+// 			? document.querySelector(btn.dataset.copyMessage)
+// 			: null;
 
-		if (ok) {
-			ok.style.display = 'inline-flex';
-			setTimeout(() => {
-				ok.style.display = 'none';
-			}, 2000);
-		}
-	});
-});
-
-
-// document.querySelector('color-wrap').addEventListener('click', function() {
-	
+// 		if (ok) {
+// 			ok.style.display = 'inline-flex';
+// 			setTimeout(() => {
+// 				ok.style.display = 'none';
+// 			}, 2000);
+// 		}
+// 	});
 // });
+

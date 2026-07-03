@@ -541,8 +541,63 @@ p:not(:last-child) {
 
 .converter > div.wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
+    position: relative;
 }
+
+.converter > div.wrapper .copy-btn {
+  position: absolute;
+    /* left: 100%; */
+    /* right: 8px; */
+    right: 12px;
+    bottom: 25%;
+    translate: 0 50%;
+    cursor: pointer;
+    /* border-radius: var(--radius); */
+    /* border: solid 1px var(--black); */
+    /* height: 50%; */
+    aspect-ratio: 1;
+    border: none;
+    background: transparent;
+    /* padding: 4px; */
+    padding: 0px;
+    opacity: 0;
+    transition: all 150ms ease-in-out;
+}
+
+.wrapper:has(.em.editable:not(:empty)):hover .copy-btn {
+  opacity: 1;
+}
+
+.em.editable {
+  transition: all 150ms ease-in-out;
+}
+
+.converter > div.wrapper:has(.em.editable:not(:empty)):hover .em.editable {
+  padding-right: 44px;
+}
+
+.converter > div.wrapper .copy-btn svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.converter > div.wrapper .copy-btn svg * {
+  vector-effect: non-scaling-stroke;
+}
+
+
+.converter > div.wrapper .copy-btn svg rect {
+  transition: all 150ms ease-in-out;
+  fill: var(--white);
+}
+
+.converter > div.wrapper .copy-btn:hover svg rect {
+  fill: var(--black);
+}
+
+
 
 .converter div.element {
   width: 100%;

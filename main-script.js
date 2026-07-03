@@ -250,6 +250,51 @@ function showNextNotification(type = '') {
 }
 
 
+
+
+
+// Reusable copy to clipboard function for all tools
+// Usage html code: 
+// <button data-copy="#target" data-copy-message="#copy-ok">Copy</button>
+// <input id="target" value="Text to copy">
+// <div id="copy-ok" style="display:none;">Copied!</div>
+
+document.addEventListener('click', function (e) {
+	const btn = e.target.closest('[data-copy]');
+	if (!btn) return;
+
+	const target = document.querySelector(btn.dataset.copy);
+	if (!target) return;
+
+	const text =
+		target.value ??
+		target.textContent ??
+		target.innerText;
+	
+	if (!text.trim()) return;
+
+	navigator.clipboard.writeText(text).then(() => {
+		const ok = btn.dataset.copyMessage
+			? document.querySelector(btn.dataset.copyMessage)
+			: null;
+
+		if (ok) {
+			ok.style.display = 'inline-flex';
+			setTimeout(() => {
+				ok.style.display = 'none';
+			}, 2000);
+		}
+	});
+});
+
+
+
+
+
+
+
+
+
 Coloris({
   theme: 'polaroid',
   formatToggle: true,
