@@ -567,10 +567,13 @@ p:not(:last-child) {
     padding: 0px;
     opacity: 0;
     transition: all 150ms ease-in-out;
+    pointer-events: none;
+
 }
 
 .wrapper:has(.em.editable:not(:empty)):hover .copy-btn {
   opacity: 1;
+  pointer-events: visible;
 }
 
 .em.editable {
