@@ -5,6 +5,11 @@ function escapeRegExp(s) {
       return s.replace(new RegExp(escapeRegExp(f), 'g'), r);
     }
 
+    function toBase64(svg) {
+      // btoa only handles Latin1, so we escape UTF-8 chars first
+      return btoa(unescape(encodeURIComponent(svg)));
+    }
+
     // var svgs = {
     //   circle: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">\r\n  <circle cx="20" cy="20" r="20" fill="none" stroke="#aaa" stroke-width="2" />\r\n</svg>',
     //   use: '<svg viewBox="0 0 96 64" width="96" height="64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\r\n  <defs>\r\n    <symbol id="c">\r\n      <path fill="inherit" d="M0 0v32h32V0H0zm24 9.6c1 0 2 1.4 1 2.4L15 22c-.6.5-1.4.5-2 0l-4-4c-1.2-1.3.7-3.2 2-2l3 3 9-9c.4-.3.7-.4 1-.4z"/>\r\n    </symbol>\r\n  </defs>\r\n  <use x="0" y="0" xlink:href="#c" fill="olive" />\r\n  <use x="32" y="0" xlink:href="#c" fill="green" />\r\n  <use x="64" y="0" xlink:href="#c" fill="forestgreen" />\r\n  <use x="0" y="32" xlink:href="#c" fill="seagreen" />\r\n  <use x="32" y="32" xlink:href="#c" fill="darkolivegreen" />\r\n  <use x="64" y="32" xlink:href="#c" fill="olivedrab" />\r\n</svg>',
@@ -20,7 +25,81 @@ function escapeRegExp(s) {
     //   });
     // });
 
-    document.getElementById('convert').addEventListener('click', function() {
+
+
+    $("#encoding-toggle").on("click", "input[type='radio']", convertInput);
+    $("#output-types").on("click", "input[type='radio']", convertInput);
+
+    document.getElementById("input").addEventListener("input", convertInput);
+    document.getElementById("convert").addEventListener("click", convertInput);
+
+    function convertInput() {
+      var raw = document.getElementById("input").value;
+      if (!raw.trim()) return;
+
+      var mode = document.querySelector('input[name="encoding"]:checked').value;
+      var outputType = document.querySelector('input[name="output-type"]:checked').value;
+
+      // Step 1: raw encoded payload (base64 or URL-encoded)
+      var encoded;
+      var mime = "image/svg+xml";
+      var charset = mode === "base64" ? ";base64," : ";charset=UTF-8,";
+
+      if (mode === "base64") {
+        encoded = toBase64(raw);
+      } else {
+        var enc = raw.replace(/\s+/g, " ");
+        enc = replaceAll(enc, "%", "%25");
+        enc = replaceAll(enc, "> <", "><");
+        enc = replaceAll(enc, "; }", ";}");
+        enc = replaceAll(enc, "<", "%3c");
+        enc = replaceAll(enc, ">", "%3e");
+        enc = replaceAll(enc, '"', "'");
+        enc = replaceAll(enc, "#", "%23");
+        enc = replaceAll(enc, "{", "%7b");
+        enc = replaceAll(enc, "}", "%7d");
+        enc = replaceAll(enc, "|", "%7c");
+        enc = replaceAll(enc, "^", "%5e");
+        enc = replaceAll(enc, "`", "%60");
+        enc = replaceAll(enc, "@", "%40");
+        encoded = enc;
+      }
+
+      // Step 2: build outward only as far as needed
+      var output;
+
+      if (outputType === "raw") {
+        output = encoded;
+      } else {
+        var dataUri = "data:" + mime + charset + encoded;
+
+        if (outputType === "data") {
+          output = dataUri;
+        } else {
+          var urlValue = 'url("' + dataUri + '")';
+
+          if (outputType === "url") {
+            output = urlValue;
+          } else {
+            // bg-img
+            output = "background-image: " + urlValue + ";";
+          }
+        }
+      }
+
+      document.getElementById("output").value = output;
+
+      // Preview always needs the full url(...) form regardless of selected output type
+      var previewUri = 'url("data:' + mime + charset + encoded + '")';
+      var bar = document.getElementById("preview-bar");
+      var sec = document.getElementById("preview-section");
+      bar.style.backgroundImage = previewUri;
+      bar.style.backgroundColor = document.getElementById("background-colour").value;
+      sec.classList.add("visible");
+    }
+
+
+    /*document.getElementById('convert').addEventListener('click', function() {
       var raw = document.getElementById('input').value;
       if (!raw.trim()) return;
 
@@ -49,7 +128,7 @@ function escapeRegExp(s) {
       bar.style.backgroundImage = uri;
       bar.style.backgroundColor = document.getElementById('background-colour').value;
       sec.classList.add('visible');
-    });
+    });*/
 
     document.getElementById('background-colour').addEventListener('input', function() {
       document.getElementById('preview-bar').style.backgroundColor = this.value;

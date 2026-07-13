@@ -68,7 +68,7 @@
       max-width: 52ch;
     }
 
-    .demos {
+    /* .demos {
       display: flex;
       align-items: center;
       gap: 6px;
@@ -102,7 +102,7 @@
       background: var(--text-primary);
       color: var(--surface);
       border-color: var(--text-primary);
-    }
+    } */
 
     .panels {
       display: grid;
@@ -159,6 +159,76 @@
       background: var(--bg);
       cursor: default;
     }
+
+    .modes {
+      display: flex;
+      gap: 8px 12px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    		:is(#encoding-toggle, #output-types) {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  width: fit-content;
+}
+
+:is(#encoding-toggle, #output-types) label {
+  position: relative;
+  font-family: var(--sans);
+  /* font-size: 0.8rem; */
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  /* padding: 9px 12px; */
+  padding: 6.75px 10px;
+/*   padding: 9px 6px; */
+  /* padding: 9px 6px; */
+  border-radius: 5px;
+  cursor: pointer;
+/*   display: inline-flex; */
+/*   align-items: center; */
+  gap: 6px;
+  transition: all 0.15s ease;
+  user-select: none;
+	border: 1px solid transparent;
+/* 	text-box: trim-both cap alphabetic; */
+}
+
+:is(#encoding-toggle, #output-types) label:hover {
+  color: var(--text-primary);
+}
+
+:is(#encoding-toggle, #output-types) input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+ :is(#encoding-toggle, #output-types) label:has(input:checked):not(:first-child), :is(#encoding-toggle, #output-types) label:not(:has(input:checked)):first-child {
+	/* margin-left: 6px; */
+}
+
+:is(#encoding-toggle, #output-types) label:has(input:checked):not(:last-child), :is(#encoding-toggle, #output-types) label:not(:has(input:checked)):last-child {
+	/* margin-right: 6px; */
+} 
+
+:is(#encoding-toggle, #output-types) label:has(input:checked) {
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-strong);
+  /* padding: 9px 12px; */
+	
+}
 
     .toolbar {
       display: flex;

@@ -43,8 +43,26 @@
       </div>
 
       <div class="panel">
-        <div class="panel-label">CSS output</div>
+
+        
+
+        <div class="panel-label">Output</div>
         <textarea id="output" placeholder="background-image: url(&quot;data:image/svg+xml;...&quot;);" readonly></textarea>
+        
+        <div class="modes">
+          <div id="encoding-toggle">
+            <label><input type="radio" name="encoding" value="uri" checked> URL-encoded</label>
+            <label><input type="radio" name="encoding" value="base64"> Base64</label>
+          </div>
+
+          <div id="output-types">
+            <label><input type="radio" name="output-type" value="bg-img" checked> Background-image</label>
+            <label><input type="radio" name="output-type" value="url"> URL</label>
+            <label><input type="radio" name="output-type" value="data"> Data</label>
+            <label><input type="radio" name="output-type" value="raw"> Raw</label>
+          </div>
+        </div>
+        
         <div class="toolbar">
           <button class="btn btn-ghost" id="copy" data-copy="#output" data-copy-message=".copy-ok">Copy to clipboard</button>
           <span class="copy-ok" id="copy-ok">&#10003; Copied</span>
