@@ -946,7 +946,37 @@ jQuery(document).ready(function () {
 				$(".deconstruct_min-row-w, .deconstruct_max-row-w").addClass('hidden');
 			}
 		}
+
+		copyDeconstruct();
 	});
+
+
+	function copyDeconstruct() {
+  // explicit table-column order so it pastes straight into a table row
+  const order = [
+    '.deconstruct_min-size',
+    '.deconstruct_max-size',
+    '.deconstruct_min-viewport',
+    '.deconstruct_max-viewport',
+    '.deconstruct_min-row-w',
+    '.deconstruct_max-row-w'
+  ];
+
+  const values = order.map(sel => {
+    const wrapper = document.querySelector(sel);
+    if (!wrapper || wrapper.classList.contains('hidden')) return ''; // skip when not in cqi mode
+    const valEl = wrapper.querySelector('.value');
+    return valEl ? valEl.textContent.trim() : '';
+  });
+
+  const text = values.join('\t');
+
+  navigator.clipboard.writeText(text).then(() => {
+    Notif('Values copied');
+  }).catch(err => {
+    console.error('Copy failed', err);
+  });
+}
 
 	function get_min_max_from_values(base, fluid, min, max) {
 		let widthAtMin = (min - base) / fluid; // in vw
