@@ -1324,51 +1324,52 @@ jQuery(document).ready(function () {
 			console.log(e);
 			
 			
-			 // Move the selection with arrow keys
-    const dirs = {
-      ArrowLeft:  { dr: 0, dc: -1 },
-      ArrowRight: { dr: 0, dc: 1 },
-      ArrowUp:    { dr: -1, dc: 0 },
-      ArrowDown:  { dr: 1, dc: 0 }
-    };
+			// Move the selection with arrow keys
+			const dirs = {
+				ArrowLeft:  { dr: 0, dc: -1 },
+				ArrowRight: { dr: 0, dc: 1 },
+				ArrowUp:    { dr: -1, dc: 0 },
+				ArrowDown:  { dr: 1, dc: 0 }
+			};
 
-    if (dirs[e.key]) {
-      e.preventDefault(); // stop page scroll / cursor movement in the span
+			// TODO CHECK IF META KEY IS ALSO PRESSED BEFORE MOVING SELECTION
+			if (dirs[e.key] ) {
+				e.preventDefault(); // stop page scroll / cursor movement in the span
 
-      const dir = dirs[e.key];
-      const rowCount = table.rows.length;
-      const colCount = table.rows[0].children.length; // assumes uniform column count
+				const dir = dirs[e.key];
+				const rowCount = table.rows.length;
+				const colCount = table.rows[0].children.length; // assumes uniform column count
 
-      const height = selection.r2 - selection.r1; // 0 for a single cell
-      const width  = selection.c2 - selection.c1;
+				const height = selection.r2 - selection.r1; // 0 for a single cell
+				const width  = selection.c2 - selection.c1;
 
-      let r1 = selection.r1 + dir.dr;
-      let r2 = selection.r2 + dir.dr;
-      let c1 = selection.c1 + dir.dc;
-      let c2 = selection.c2 + dir.dc;
+				let r1 = selection.r1 + dir.dr;
+				let r2 = selection.r2 + dir.dr;
+				let c1 = selection.c1 + dir.dc;
+				let c2 = selection.c2 + dir.dc;
 
-      // clamp rows while keeping the block's height intact
-      if (r1 < 0) { r1 = 0; r2 = r1 + height; }
-      if (r2 > rowCount - 1) { r2 = rowCount - 1; r1 = r2 - height; }
+				// clamp rows while keeping the block's height intact
+				if (r1 < 0) { r1 = 0; r2 = r1 + height; }
+				if (r2 > rowCount - 1) { r2 = rowCount - 1; r1 = r2 - height; }
 
-      // clamp cols while keeping the block's width intact
-      if (c1 < 0) { c1 = 0; c2 = c1 + width; }
-      if (c2 > colCount - 1) { c2 = colCount - 1; c1 = c2 - width; }
+				// clamp cols while keeping the block's width intact
+				if (c1 < 0) { c1 = 0; c2 = c1 + width; }
+				if (c2 > colCount - 1) { c2 = colCount - 1; c1 = c2 - width; }
 
-      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
-      dragged = false;
-      anchor = { r: r1, c: c1 };
-      applySelection(r1, c1, r2, c2);
-      return; // skip the backspace/digit-typing logic below
-    }
+				if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+				dragged = false;
+				anchor = { r: r1, c: c1 };
+				applySelection(r1, c1, r2, c2);
+				return; // skip the backspace/digit-typing logic below
+			}
 			
 			if (e.key == 'Backspace') {
 				selectionNewText = selectionNewText.slice(0, -1); 
 			} else if (e.key.match(/^\d$/)) {
-        selectionNewText = selectionNewText + e.key;
+        		selectionNewText = selectionNewText + e.key;
 			} else if (e.key == 'Enter' || e.key == 'Escape') {
 				clearHighlight();
-      	hasSelection = false;
+      		hasSelection = false;
 			} else {
 				return;
 			}
