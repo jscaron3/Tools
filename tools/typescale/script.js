@@ -1001,8 +1001,12 @@ jQuery(document).ready(function () {
 	});
 
 	function convertWantedToEm() {
-		let original = parseInt($('.converter .original').text());
-		let wanted = parseInt($('.converter .wanted').text());
+		// let original = parseInt($('.converter .original').text());
+		// let wanted = parseInt($('.converter .wanted').text());
+
+		// Support decimals in the original and wanted inputs
+		let original = parseFloat($('.converter .original').text());
+		let wanted = parseFloat($('.converter .wanted').text());
 
 		if (!isNaN(original) && !isNaN(wanted)) {
 			$('.converter .em').text((wanted / original).toFixed(4).replace(/\.?0+$/, ''));
