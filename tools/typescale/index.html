@@ -25,7 +25,7 @@
         <div class="page active" data-page="generator">
             <div class="container">
                 <div class="generator">
-                    <div class="checkbox-wrapper"><label for="generate-typescale">Generate typescale</label><input id="generate-typescale" type="checkbox" /></div>
+                    <label class="checkbox-wrapper" for="generate-typescale">Generate typescale <input id="generate-typescale" type="checkbox" /></label>
 
                     <div class="controls">
                         <span class="bouton generate">Generate</span>
@@ -160,10 +160,7 @@
                 </div>
                 <div class="results-wrapper" style="display: none">
                     <h2>Results</h2>
-                    <div class="custom-css">
-                        <span class="title">Custom CSS</span>
-                        <div class="css hidden"></div>
-                    </div>
+                   
                     <div class="table-wrapper">
                         <table class="results">
                             <thead>
@@ -174,6 +171,11 @@
                             </thead>
                             <tbody></tbody>
                         </table>
+                    </div>
+
+						   <div class="custom-css">
+                        <span class="title">Custom CSS</span>
+                        <div class="css hidden"></div>
                     </div>
                 </div>
             </div>
