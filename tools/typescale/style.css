@@ -376,6 +376,7 @@ span.btn.delete:before {
   border: solid 1px var(--black);
   background-color: var(--white);
   color: var(--black);
+  cursor: pointer;
 }
 
 .checkbox-wrapper:has(input:checked) {
@@ -722,7 +723,8 @@ p:not(:last-child) {
     /* left: 100%; */
     /* right: 8px; */
     right: 12px;
-    bottom: 25%;
+    /* bottom: 25%; */
+    bottom: calc(44px / 2);
     translate: 0 50%;
     cursor: pointer;
     /* border-radius: var(--radius); */
