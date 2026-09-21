@@ -52,9 +52,11 @@ body .page {
 }
 
 
+
 body .page:not(.active) {
   display: none;
 }
+
 
 .container {
   width: 100%;
@@ -63,6 +65,38 @@ body .page:not(.active) {
 .page[data-page=generator] .container {
   max-width: 850px;
 }
+
+
+
+
+
+.navigation .page-toggle, 
+.bouton, 
+.table-wrapper table thead tr td, 
+:is(.inputs-wrap, .output-inputs-wrap) :is(.input-wrapper, .output-input-wrapper) label,
+:is(.deconstructor, .deconstructed, .converter) > div span.label
+{
+    font-family: "Outfit", sans-serif;
+    font-size: 12px;
+    line-height: 1.1;
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.075em;
+}
+
+/* .inputs-wrap .input-wrapper label, .inputs-wrap .output-input-wrapper label, .output-inputs-wrap .input-wrapper label, .output-inputs-wrap .output-input-wrapper label { */
+:is(.inputs-wrap, .output-inputs-wrap) :is(.input-wrapper, .output-input-wrapper) label {
+  letter-spacing: 0.1em;
+}
+
+:is(.deconstructor, .deconstructed, .converter) > div span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
 
 .generator {
   display: flex;
@@ -118,12 +152,6 @@ body .page:not(.active) {
   font-weight: bold;
   border-bottom: solid 1px;
 
-    font-family: "Outfit", sans-serif;
-    font-size: 12px;
-    line-height: 1.1;
-    font-weight: 900 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.075em;
 }
 .table-wrapper table thead tr td:is(.min-row-w, .max-row-w).hidden {
   display: none;
@@ -256,12 +284,12 @@ body .page:not(.active) {
   text-align: center;
   cursor: pointer;
 
-  font-family: "Outfit", sans-serif;
+  /* font-family: "Outfit", sans-serif;
     font-size: 12px;
     line-height: 1.1;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.1em; */
 }
 
 
@@ -428,12 +456,12 @@ span.btn.delete:before {
   border-radius: var(--radius);
   transition: all 200ms ease-in-out;
   
-  font-family: "Outfit", sans-serif;
+  /* font-family: "Outfit", sans-serif;
     font-size: 12px;
     line-height: 1.1;
     font-weight: 900 !important;
     text-transform: uppercase;
-    letter-spacing: 0.075em;
+    letter-spacing: 0.075em; */
 }
 .bouton:hover {
   background-color: var(--black);
@@ -507,22 +535,22 @@ span.btn.delete:before {
 }
 
 :is(.type-scale, .visualizer) h1 {
-  font-size: var(--fs-h1);
+  font-size: var(--fs-h1, 2em);
 }
 :is(.type-scale, .visualizer) h2 {
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h2, 1.5em);
 }
 :is(.type-scale, .visualizer) h3 {
-  font-size: var(--fs-h3);
+  font-size: var(--fs-h3, 1.17em);
 }
 :is(.type-scale, .visualizer) h4 {
-  font-size: var(--fs-h4);
+  font-size: var(--fs-h4, 1em);
 }
 :is(.type-scale, .visualizer) h5 {
-  font-size: var(--fs-h5);
+  font-size: var(--fs-h5, 0.83em);
 }
 :is(.type-scale, .visualizer) h6 {
-  font-size: var(--fs-h6);
+  font-size: var(--fs-h6, 0.67em);
 }
 
 :is(h1, h2, h3, h4, h5, h6, p) {
@@ -580,10 +608,16 @@ p:not(:last-child) {
 }
 .deconstructor > div span {
   width: 100%;
-  height: 48px;
+  /* height: 48px; */
+  height: 44px;
   padding: 15px;
   text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .deconstructor > div span:not(.clamp-value) {
   border-bottom: solid 1px var(--black);
   font-weight: bold;
@@ -610,9 +644,18 @@ p:not(:last-child) {
   display: grid;
   grid-template-columns: subgrid;
   grid-template-rows: subgrid;
-  grid-row: 1/span 2;
   text-align: center;
+  grid-row: 1/span 2;
+
 }
+
+.deconstructed > div:not(:has(+ .value:empty)) {
+}
+
+.value:empty {
+  display: none;
+}
+
 .deconstructed > div.hidden {
   display: none;
 }
@@ -620,15 +663,16 @@ p:not(:last-child) {
   border-right: solid 1px var(--black);
 }
 .deconstructed > div span {
-  padding: 15px;
+  padding: 10px 15px;
   display: block;
   width: 100%;
 }
+
+
+
 .deconstructed > div span.label {
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  
 }
 .deconstructed > div span.label:has(+ span:not(:empty)) {
   border-bottom: solid 1px var(--black);
@@ -638,7 +682,7 @@ p:not(:last-child) {
   font-weight: 900;
   line-height: 1.1;
   width: 100%;
-  padding: 15px;
+  /* padding: 10px 15px; */
 }
 
 .converter {
@@ -736,18 +780,22 @@ p:not(:last-child) {
 
 .converter div.element span {
   width: 100%;
-  height: 48px;
-  padding: 15px;
+  /* height: 48px; */
+  height: 44px;
+  padding: 10px 15px;
   text-align: center;
 }
+
 .converter div.element span:not(.editable) {
   border-bottom: solid 1px var(--black);
   font-weight: bold;
 }
+
 .converter div.element span.editable {
   width: 100%;
   text-align: center;
 }
+
 .converter .bouton {
   width: fit-content;
   grid-column: 1/-1;
@@ -834,10 +882,10 @@ p:not(:last-child) {
 }
 
 #open-sidebar {
-  padding: 20px;
-  background-color: #ccc;
-  width: fit-content;
-  cursor: pointer;
+  /* padding: 20px; */
+  /* background-color: #ccc; */
+  /* width: fit-content; */
+  /* cursor: pointer; */
 }
 
 .type-scale :is(h1,h2,h3,h4,h5,h6) {

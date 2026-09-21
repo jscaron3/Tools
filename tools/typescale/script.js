@@ -33,7 +33,7 @@ jQuery(document).ready(function () {
 
 	function onInput(element) {
 		var newText = element.currentTarget.value;
-		jQuery('.type-scale :is(h1,h2,h3,h4,h5,h6)').text(newText);
+		jQuery('.type-scale :is(h1,h2,h3,h4,h5,h6,p)').text(newText);
 	}
 
 	jQuery('#replace-titles').on('input', onInput);
@@ -59,7 +59,7 @@ jQuery(document).ready(function () {
 	// 	END Sidebar
 	
 	
-	// Create layouts
+	// Create type scale layouts
 	
 	const container = document.querySelector('.sections');
 
@@ -697,7 +697,7 @@ jQuery(document).ready(function () {
 					jQuery('#input-css').val(resultText.replaceAll("<br>", ""));
 					
 					document.getElementById('generate').click();
-					updateFontSize()
+					updateFontSize();
 					// generateScale;
 			}
 			
@@ -1040,7 +1040,7 @@ jQuery(document).ready(function () {
 		heading.textContent = titleText;
 
 		const p = document.createElement('p');
-		p.className = 'custom-size hidden';
+		p.className = 'custom-size custom-paragraph hidden';
 		p.textContent = paragraphText;
 
 		inner.appendChild(heading);
@@ -1059,11 +1059,11 @@ jQuery(document).ready(function () {
 	
 	
 	
-	$(".visualizer > div p").hide();
+	$(".visualizer > div p.custom-paragraph").hide();
 
 	$(".visualizer > div").click(function () {
-		$(this).find("p").toggleClass("hidden visible");
-		$(this).find("p").slideToggle();
+		$(this).find("p.custom-paragraph").toggleClass("hidden visible");
+		$(this).find("p.custom-paragraph").slideToggle();
 	});
 
 	// 	Navigation
