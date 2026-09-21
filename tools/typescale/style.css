@@ -93,6 +93,11 @@ body .page:not(.active) {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+:is(.deconstructor, .deconstructed, .converter) > div span:not(.label) {
+  min-height: 44px;
 }
 
 
@@ -142,13 +147,13 @@ body .page:not(.active) {
 }
 .table-wrapper table thead tr {
   /* height: 50px; */
-  height: 44px;
+  /* height: 44px; */
 }
 .table-wrapper table thead tr:first-child > td:first-child {
   border-top-left-radius: var(--radius);
 }
 .table-wrapper table thead tr td {
-  /* padding: 15px; */
+  padding: 10px 15px;
   font-weight: bold;
   border-bottom: solid 1px;
 
@@ -485,7 +490,6 @@ span.btn.delete:before {
   width: 100%;
   border: solid 1px;
   border-radius: var(--radius);
-  margin-bottom: 36px;
   line-height: 1.4em;
 }
 .results-wrapper .custom-css .title {
@@ -533,6 +537,13 @@ span.btn.delete:before {
 .results-wrapper .custom-css .css.hidden {
   display: none;
 }
+
+
+.results-wrapper .table-wrapper:has(+ .custom-css) {
+    margin-bottom: 36px;
+}
+
+
 
 :is(.type-scale, .visualizer) h1 {
   font-size: var(--fs-h1, 2em);
@@ -609,13 +620,13 @@ p:not(:last-child) {
 .deconstructor > div span {
   width: 100%;
   /* height: 48px; */
-  height: 44px;
-  padding: 15px;
+  /* height: 44px; */
+  padding: 10px 15px;
   text-align: center;
 
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 }
 
 .deconstructor > div span:not(.clamp-value) {
@@ -781,7 +792,7 @@ p:not(:last-child) {
 .converter div.element span {
   width: 100%;
   /* height: 48px; */
-  height: 44px;
+  /* height: 44px; */
   padding: 10px 15px;
   text-align: center;
 }
