@@ -27,9 +27,10 @@ h1 {
 
 :is(h1, h2, h3, h4, h5, h6) {
   line-height: 1.1;
+  margin: 0;
 }
 
-:is(h1, h2, h3, h4, h5, h6):not(.custom-size), :is(h1, h2, h3, h4, h5, h6):not(.custom-size):not(:last-child), :is(h1, h2, h3, h4, h5, h6):not(:last-child):has(+ .visible) {
+:is(h1, h2, h3, h4, h5, h6):not(.custom-size), :is(h1, h2, h3, h4, h5, h6):not(.custom-size):not(:last-child), :is(h1, h2, h3, h4, h5, h6, p):not(:last-child):has(+ .visible) {
   margin-bottom: max(0.25em, 10px);
 }
 
@@ -335,7 +336,8 @@ span.btn:is(.add, .clear, .delete):before {
   height: 100%;
   background-color: var(--black);
   mask-repeat: no-repeat;
-  mask-position: center;
+  /* mask-position: center; */
+  mask-position: 49% 52%;
   transition: all 200ms ease-in-out;
 }
 span.btn:is(.add, .clear, .delete):hover:before {
@@ -569,11 +571,11 @@ span.btn.delete:before {
   margin: 0;
 }
 
-:is(h1, h2, h3, h4, h5, h6).custom-size {
+:is(h1, h2, h3, h4, h5, h6, p).custom-size {
   transition: all 400ms ease-in-out;
 }
 
-p:not(:last-child) {
+p:not(:last-child):not(.custom-size) {
   margin-bottom: 1em;
 }
 
