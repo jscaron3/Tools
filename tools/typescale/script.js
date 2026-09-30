@@ -169,36 +169,45 @@ jQuery(document).ready(function () {
 
         let values = getScaleValues(base, min, curve, levels);
 
-        let css = ':root {\n';
+        let css = ':root {';
 
-        css += '  --fs-h1: min(var(--fs-h1-main), var(--cqi-fixer-h1));\n';
-        css += '  --fs-h2: min(var(--fs-h2-main), var(--cqi-fixer-h2));\n';
-        css += '  --fs-h3: min(var(--fs-h3-main), var(--cqi-fixer-h3));\n';
-        css += '  --fs-h4: min(var(--fs-h4-main), var(--cqi-fixer-h4));\n';
-        css += '  --fs-h5: min(var(--fs-h5-main), var(--cqi-fixer-h5));\n';
-        css += '  --fs-h6: min(var(--fs-h6-main), var(--cqi-fixer-h6));\n';
+        css += '\n\t--fs-h1: min(var(--fs-h1-main), var(--cqi-fixer-h1));';
+        css += '\n\t--fs-h2: min(var(--fs-h2-main), var(--cqi-fixer-h2));';
+        css += '\n\t--fs-h3: min(var(--fs-h3-main), var(--cqi-fixer-h3));';
+        css += '\n\t--fs-h4: min(var(--fs-h4-main), var(--cqi-fixer-h4));';
+        css += '\n\t--fs-h5: min(var(--fs-h5-main), var(--cqi-fixer-h5));';
+        css += '\n\t--fs-h6: min(var(--fs-h6-main), var(--cqi-fixer-h6));';
         css += '\n';
 
         for (let i = 0; i < levels; i++) {
             const rounded = roundToStep(values[i], 0.0625);
 
             const v = rounded.toFixed(4).replace(/\.?0+$/, '');
-            css += `  --cqi-fixer-h${i + 1}: ${v}cqi;\n`;
+            css += `\n\t--cqi-fixer-h${i + 1}: ${v}cqi;`;
         }
 
-        css += '}\n';
+        css += '\n}\n';
 
+
+        
         output.value = css;
 
+        // updateLiveCSS(output);
         updateLiveCSS(output);
         // liveCSS.textContent = css;
     }
 
     function updateLiveCSS(element) {
         var newCSS = element.currentTarget ? element.currentTarget.value : element.value;
-        newCSS += ':root{' + inputCSS.value + '}';
-        console.log(':root{' + inputCSS.value + '}');
-        liveCSS.textContent = newCSS;
+        // newCSS += ':root{' + inputCSS.value + '}';
+        // console.log(':root{' + inputCSS.value + '}');
+
+        newCSS += inputCSS.value;
+        console.log(inputCSS.value);
+
+
+        // liveCSS.textContent = newCSS;
+        liveCSS.textContent = newCSS.replaceAll(':root', '.visualizer, .type-scale .column');
     }
 
     // inputCSS.addEventListener('input', updateLiveCSS);
@@ -580,15 +589,17 @@ jQuery(document).ready(function () {
 
                 const clampValue = `clamp(${min_clamp_size}, ${preferredFontSizeOutput}, ${max_clamp_size})`;
                 if (!jQuery('#generate-typescale').is(':checked')) {
-                    resultText = resultText + heading + ' { font-size: ' + clampValue + '; }';
+                    resultText = resultText + '' + heading + ' { font-size: ' + clampValue + '; }';
                 } else {
-                    resultText = resultText + '--fs-' + heading + '-main: ' + clampValue + ';';
+                    resultText = resultText + '\n\t--fs-' + heading + '-main: ' + clampValue + ';';
                 }
 
                 values_array.push(heading + ', ' + clampValue);
 
                 if (resultText.length != 0) {
                     resultText = resultText + '<br>';
+                    // resultText = '<br>' + resultText;
+
                 }
             }
         });
@@ -599,26 +610,25 @@ jQuery(document).ready(function () {
             // Styles for visualizer
 
             if (!jQuery('#generate-typescale').is(':checked')) {
-                $('body style').text(resultText.replaceAll('<br>', '').replace(/(h[1-6])(.*?)/g, '$1.custom-size$2'));
-
-				console.log('test override!!');
-				
-                $('body style').text(
-                    ':root{' + resultText.replaceAll('<br>', '') + '}'
-                    // .replaceAll("<br>", "")
-                    // .replace(/(h[1-6])(.*?)/g, "$1:$2") + '}'
-                );
-
-                jQuery('#input-css').val(resultText.replaceAll('<br>', ''));
-
+                // $('body style').text(resultText.replaceAll('<br>', '').replace(/(h[1-6])(.*?)/g, '$1.custom-size$2'));
+                
+                $('body style').text('.visualizer, .type-scale .column {' + resultText.replaceAll('<br>', '') + '}');
+                // jQuery('#input-css').val(resultText.replaceAll('<br>', '\n').replaceAll('{ ', '{\n\t').replaceAll(' }', '\n}'));
+                jQuery('#input-css').val(resultText.replaceAll('\n', '').replaceAll('\t', '').replaceAll('<br>', '\n'));
+                // console.log(resultText, jQuery('#input-css').val());
+                
             } else {
-                $('body style').text(
+                /*$('body style').text(
                     ':root{' + resultText.replaceAll('<br>', '') + '}'
                     // .replaceAll("<br>", "")
                     // .replace(/(h[1-6])(.*?)/g, "$1:$2") + '}'
-                );
+                );*/
 
-                jQuery('#input-css').val(resultText.replaceAll('<br>', ''));
+
+                // $('body style').text('.visualizer, .type-scale {' + resultText.replaceAll('<br>', '\n') + '}');
+
+                $('body style').text('.visualizer, .type-scale .column {' + resultText.replaceAll('<br>', '').replaceAll('--', '\n\t--') + '\n}');
+                jQuery('#input-css').val(':root { ' + resultText.replaceAll('<br>', '') + '\n}');
 
                 document.getElementById('generate').click();
                 updateFontSize();
@@ -626,7 +636,17 @@ jQuery(document).ready(function () {
             }
 
             $('.results-wrapper').show();
-            $('.custom-css .css').html(':root{<br>' + resultText + '}');
+
+            if (!jQuery('#generate-typescale').is(':checked')) {
+                // $('.custom-css .css').html(resultText.replaceAll('{ ', '{<br>').replaceAll(' }', '<br>}'));
+                $('.custom-css .css').html(resultText);
+            } else {
+
+                var resultText_formated = ':root {<br>' + resultText.replaceAll('{ ', '{<br>').replaceAll(' }', '<br>}') + '<br>}';
+                resultText_formated = resultText_formated.replaceAll('<br><br>', '<br>');
+                $('.custom-css .css').html(resultText_formated);
+
+            }
 
             for (let i = 0; i < values_array.length; ++i) {
                 let element = values_array[i].substring(0, values_array[i].indexOf(', '));

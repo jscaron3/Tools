@@ -25,6 +25,15 @@ h1 {
   --white: #f4f4f4;
 }
 
+
+textarea,
+pre {
+    -moz-tab-size : 4;
+      -o-tab-size : 4;
+         tab-size : 4;
+}
+
+
 :is(h1, h2, h3, h4, h5, h6) {
   line-height: 1.1;
   margin: 0;
@@ -859,6 +868,8 @@ p:not(:last-child):not(.custom-size) {
   text-align: center;
   color: var(--black);
 }
+
+
 
 .page[data-page=type-scale] {
   padding-left: 0;
