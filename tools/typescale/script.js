@@ -600,6 +600,17 @@ jQuery(document).ready(function () {
 
             if (!jQuery('#generate-typescale').is(':checked')) {
                 $('body style').text(resultText.replaceAll('<br>', '').replace(/(h[1-6])(.*?)/g, '$1.custom-size$2'));
+
+				console.log('test override!!');
+				
+                $('body style').text(
+                    ':root{' + resultText.replaceAll('<br>', '') + '}'
+                    // .replaceAll("<br>", "")
+                    // .replace(/(h[1-6])(.*?)/g, "$1:$2") + '}'
+                );
+
+                jQuery('#input-css').val(resultText.replaceAll('<br>', ''));
+
             } else {
                 $('body style').text(
                     ':root{' + resultText.replaceAll('<br>', '') + '}'
