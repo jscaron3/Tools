@@ -19,12 +19,12 @@ jQuery(document).ready(function () {
 
     jQuery(window).on('load resize', updateFontSize);
 
-    function onInput(element) {
+    function replaceTypescaleTitles(element) {
         var newText = element.currentTarget.value;
         jQuery('.type-scale :is(h1,h2,h3,h4,h5,h6,p)').text(newText);
     }
 
-    jQuery('#replace-titles').on('input', onInput);
+    jQuery('#replace-titles').on('input', replaceTypescaleTitles);
 
     // 	Sidebar
     const sidebar = document.getElementById('sidebar');

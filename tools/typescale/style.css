@@ -914,6 +914,22 @@ p:not(:last-child):not(.custom-size) {
   /* cursor: pointer; */
 }
 
+
+
+#replace-titles {
+  width: 100%;
+  max-width: 300px;
+  padding: 14px 15px 13px 15px;
+  font-size: 16px;
+  border: solid 1px var(--black);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  text-align: center;
+  background: none;
+}
+
+
+
 .type-scale :is(h1,h2,h3,h4,h5,h6) {
   text-wrap: balance;
   overflow-wrap: break-word;
