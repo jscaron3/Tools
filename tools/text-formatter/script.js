@@ -146,6 +146,10 @@ function formatText(input) {
     text = text.replace(/(<[^>]+?)\s+id\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
   }
 
+  if (opts.removeOtherAttrs) {
+    text = text.replace(/(<[^>]+?)\s+(?!dir|test)([a-zA-Z-]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
+  }
+
   const keepTags = Object.entries(tagKeepState).filter(([,k])=>k).map(([t])=>t);
 
   text = text.replace(/<br\s*\/?>/gi, '__BR__');
@@ -268,6 +272,7 @@ function getOptions() {
     straightenQuotes: $('#opt-straighten-quotes').is(':checked'),
     removeStyles:     $('#opt-remove-styles').is(':checked'),
     removeAttrs:      $('#opt-remove-attrs').is(':checked'),
+    removeOtherAttrs:   $('#opt-remove-other-attrs').is(':checked'),
     flattenNested:    $('#opt-flatten-nested').is(':checked'),
   };
 }
