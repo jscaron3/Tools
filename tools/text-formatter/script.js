@@ -147,7 +147,8 @@ function formatText(input) {
   }
 
   if (opts.removeOtherAttrs) {
-    text = text.replace(/(<[^>]+?)\s+(?!dir|test)([a-zA-Z-]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
+    // text = text.replace(/(<[^>]+?)\s+(?!dir|test)([a-zA-Z-]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
+    text = text.replace(/(<[^>]+?)\s+dir\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
   }
 
   const keepTags = Object.entries(tagKeepState).filter(([,k])=>k).map(([t])=>t);
