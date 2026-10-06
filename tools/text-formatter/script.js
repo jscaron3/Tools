@@ -3,17 +3,17 @@ const TAG_CONFIG = [
   { tag: 'b',      keep: true  },
   { tag: 'em',     keep: true  },
   { tag: 'i',      keep: true  },
-  { tag: 'u',      keep: false },
+  { tag: 'u',      keep: true },
   { tag: 'p',      keep: true  },
   { tag: 'span',   keep: false },
   { tag: 'div',    keep: false },
-  { tag: 'a',      keep: false },
-  { tag: 'h1',     keep: false },
-  { tag: 'h2',     keep: false },
-  { tag: 'h3',     keep: false },
-  { tag: 'li',     keep: false },
-  { tag: 'ul',     keep: false },
-  { tag: 'ol',     keep: false },
+  { tag: 'a',      keep: true },
+  { tag: 'h1',     keep: true },
+  { tag: 'h2',     keep: true },
+  { tag: 'h3',     keep: true },
+  { tag: 'li',     keep: true },
+  { tag: 'ul',     keep: true },
+  { tag: 'ol',     keep: true },
 ];
 
 const $inputTextarea    = $('#input-textarea');
@@ -137,6 +137,14 @@ function formatText(input) {
     text = text.replace(/\u0009/g, ' '); // tab
   }
 
+  if (opts.fontWeightToBold) {
+    // text = text.replace(/<span\s+style\s*=\s*["'][^"']*font-weight\s*:\s*(?:bold|[6-9]00)\s*;?[^"']*["']>(.*?)<\/span>/gi, '<strong>$1</strong>');
+    text = text.replace(
+	/<span\b(?=[^>]*\bstyle\s*=\s*["'][^"']*\bfont-weight\s*:\s*(?:bold|bolder|[6-9]00)\b[^"']*["'])[^>]*>(.*?)<\/span>/gis,
+	'<strong>$1</strong>'
+);
+  }
+
   if (opts.removeStyles) {
     text = text.replace(/(<[^>]+?)\s+style\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
   }
@@ -147,6 +155,8 @@ function formatText(input) {
   }
 
   if (opts.removeOtherAttrs) {
+    console.log('test');
+    
     // text = text.replace(/(<[^>]+?)\s+(?!dir|test)([a-zA-Z-]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
     text = text.replace(/(<[^>]+?)\s+dir\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '$1');
   }
@@ -211,6 +221,11 @@ function formatText(input) {
       .replace(/\u2014/g, '--');
   }
 
+
+  // remove trailing <br> and <hr> tags
+  text = text.replace(/(?:\s*<(?:br|hr)\b[^>]*>\s*)+$/gi, '');
+
+
   let lines = text.split('\n');
   if (opts.trimLines) lines = lines.map(l => l.trim());
   if (opts.emptyLines) lines = lines.filter(l => l.replace(/&nbsp;/gi,'').replace(/<br>/gi,'').trim().length > 0);
@@ -274,6 +289,7 @@ function getOptions() {
     removeStyles:     $('#opt-remove-styles').is(':checked'),
     removeAttrs:      $('#opt-remove-attrs').is(':checked'),
     removeOtherAttrs:   $('#opt-remove-other-attrs').is(':checked'),
+    fontWeightToBold: $('#opt-font-weight-to-bold').is(':checked'),
     flattenNested:    $('#opt-flatten-nested').is(':checked'),
   };
 }
@@ -442,6 +458,8 @@ $btnReset.on('click', function () {
   $('#opt-straighten-quotes').prop('checked', false);
   $('#opt-remove-styles').prop('checked', true);
   $('#opt-remove-attrs').prop('checked', true);
+  $('#opt-remove-other-attrs').prop('checked', true);
+  $('#opt-font-weight-to-bold').prop('checked', true);
   $('#opt-flatten-nested').prop('checked', true);
   TAG_CONFIG.forEach(t => { tagKeepState[t.tag] = t.keep; });
   buildTagToggles();
