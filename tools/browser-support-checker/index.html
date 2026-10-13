@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browser Support Checker</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+
+<div class="browser-checker">
+
+    <header class="checker-header">
+
+        <div class="checker-intro">
+            <div class="eyebrow">Web development tool</div>
+
+            <h1>Browser Support Checker</h1>
+
+            <p>
+                Check browser compatibility using Can I Use data.
+            </p>
+        </div>
+
+        <div class="current-browser" id="current-browser">
+
+            <div class="browser-icon">?</div>
+
+            <div>
+                <span>Current browser</span>
+                <strong>Detecting...</strong>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="search-section">
+
+        <label for="feature-search">
+            Search for a feature
+        </label>
+
+        <div class="search-wrapper">
+
+            <input
+                type="text"
+                id="feature-search"
+                placeholder="e.g. :has(), CSS Grid, text-wrap..."
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="search-button"
+            >
+                Check
+            </button>
+
+            <div
+                id="search-results"
+                class="search-results"
+            ></div>
+
+        </div>
+
+
+        <div class="popular-features">
+
+            <span>Popular:</span>
+
+            <button data-feature="css-has">
+                :has()
+            </button>
+
+            <button data-feature="css-container-queries">
+                Container Queries
+            </button>
+
+            <button data-feature="css-nesting">
+                CSS Nesting
+            </button>
+
+            <button data-feature="css-grid">
+                CSS Grid
+            </button>
+
+            <button data-feature="flexbox">
+                Flexbox
+            </button>
+
+            <button data-feature="css-sticky">
+                position: sticky
+            </button>
+
+            <button data-feature="css-text-wrap-balance">
+                text-wrap: balance
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <main id="results-container">
+
+        <div class="empty-state">
+
+            <div class="empty-icon">⌕</div>
+
+            <h2>Check a feature</h2>
+
+            <p>
+                Search for a CSS, JavaScript or Web Platform
+                feature to see browser support.
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <footer class="checker-footer">
+
+        <div class="legend">
+
+            <span>
+                <i class="supported">✓</i>
+                Supported
+            </span>
+
+            <span>
+                <i class="partial">◐</i>
+                Partial
+            </span>
+
+            <span>
+                <i class="prefix">⚑</i>
+                Prefixed
+            </span>
+
+            <span>
+                <i class="unsupported">×</i>
+                Not supported
+            </span>
+
+            <span>
+                <i class="unknown">?</i>
+                Unknown
+            </span>
+
+        </div>
+
+        <a
+            href="https://caniuse.com/"
+            target="_blank"
+            rel="noopener"
+        >
+            Data from Can I Use
+        </a>
+
+    </footer>
+
+</div>
+
+
+
+
+<script type="text/javascript" src="./script.js"></script>
+</body>
+</html>
