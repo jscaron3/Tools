@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
+  <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+
+<main>
+  <div class="navigation">
+    <div class="nav-inner">
+      <div class="toggles">
+        <span class="page-toggle active" data-page="Color converter">Color converter</span>
+        <span class="page-toggle" data-page="Gradient picker">Gradient picker</span>
+        <span class="page-toggle" data-page="Color converter">Color compare</span>
+      </div>
+      <div class="page-title">Color converter</div>
+    </div>
+  </div>
+
+  <div class="page active" data-page="Color converter">
+    <div class="container">
+			<div class="page-title">Color converter</div>
+			
+      <div id="app">
+
+        <div id="swatch-container">
+          <div class="swatch-wrap">
+            <div class="swatch og" :style="{ backgroundColor: originalBG }" title="Original"></div>
+            <div class="swatch-meta">
+              <div class="swatch-label">Original</div>
+              <div class="swatch-value">{{ value || '—' }}</div>
+            </div>
+          </div>
+
+          <div class="swatch-wrap normal-converted-wrap">
+<!--             <div class="swatch normal-converted" :style="{ backgroundColor: linearRGB }" title="Converted"></div> -->
+<!--             <div class="swatch normal-converted" :style="{ backgroundColor: normalConvert }" title="Converted"></div> -->
+            <div class="swatch normal-converted" :style="{ backgroundColor: value }" title="Converted"></div>
+            <div class="swatch-meta">
+              <div class="swatch-label">Converted</div>
+              <div class="swatch-value">{{ convertedValue || '—' }}</div>
+            </div>
+          </div>
+
+          <div class="swatch-wrap linear-wrap">
+            <div class="swatch linear" :style="{ backgroundColor: linearRGB }" title="Linear blended"></div>
+            <div class="swatch-meta">
+              <div class="swatch-label">Linear blend</div>
+              <div class="swatch-value linear-value">—</div>
+            </div>
+          </div>
+
+          <div class="swatch-wrap visually-wrap">
+            <div class="swatch visually" :style="{ backgroundColor: visualRGB }" title="Visually matched"></div>
+            <div class="swatch-meta">
+              <div class="swatch-label">Visual match</div>
+              <div class="swatch-value visually-value">—</div>
+            </div>
+          </div>
+        </div>
+
+        <form id="app-form" action="">
+          <div id="value-wrap" class="group">
+            <label for="value">Enter a color</label>
+            <input v-model="value" @input="validate" id="value" data-coloris type="text" placeholder="rgba(0, 177, 86, 0.25)" autocomplete="off" />
+          </div>
+
+          <div class="detect-row" v-if="fromFormat !== '…'">
+            <span class="detect-pill">Detected <strong>{{ fromFormat }}</strong></span>
+            <span class="detect-arrow">→</span>
+            <span class="detect-pill">Converting to <strong>{{ toFormat }}</strong></span>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="result-wrapper">
+        <div class="result-left">
+          <div class="result-label">Converted value</div>
+          <input ref="output" id="result" tabindex="-1" type="text" :value="convertedValue" readonly />
+        </div>
+        <div class="result-actions">
+          <button class="btn-ghost" @click.prevent="toggleColor">{{ toggleButtonText }}</button>
+          <button class="btn-primary" @click.prevent="copy" :disabled="!convertedValue">{{ copyButtonText }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" data-page="Gradient picker">
+    <div class="container">
+			<div class="page-title">Gradient picker</div>
+			
+			
+      <div class="inputs">
+        <input type="number" class="gradient-angle" placeholder="Angle" value="45">
+        <input type="text" data-coloris class="hex-input value-1" placeholder="Hex value 1">
+        <input type="text" data-coloris class="hex-input value-2" placeholder="Hex value 2">
+<!-- 				<input v-model="value" @input="validate" id="value" data-coloris type="text" placeholder="rgba(0, 177, 86, 0.25)" autocomplete="off" /> -->
+      </div>
+
+      <div class="gradients"></div>
+
+      <div class="links">
+        <div class="links-title">Resources</div>
+        <a href="https://oklch.com/">Color picker &amp; converter</a>
+        <a href="https://gradient.style/">CSS HD Gradients</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="text/javascript" src="./script.js"></script>
+
+<script type="text/javascript">
+Coloris({
+  theme: 'polaris',
+  format: 'mixed',
+  onChange: (color, inputEl) => {}
+});
+</script>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+    <script src='https://unpkg.com/chroma-js@3.1.2/dist/chroma.min.cjs'></script><script type="module" src="./script.js"></script>
+
+  </body>
+  
+</html>

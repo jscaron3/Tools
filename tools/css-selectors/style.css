@@ -2,6 +2,12 @@ body {
   font-family: "Rubik", sans-serif;
   /* margin: 10%; */
 }
+
+.css-selectors-wrap {
+    width: min(1700px, calc(100% - 32px));
+    margin: 40px auto;
+}
+
 .selector-controls {
   display: flex;
   gap: 30px;
