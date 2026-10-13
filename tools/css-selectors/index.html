@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Selectors</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+
+<!-- Ref : https://www.w3schools.com/cssref/css_selectors.php -->
+
+<div class="selector-controls">
+  <div>
+    <label for="class-check">Class to check:</label>
+    <input type="text" id="class-check" value="top" placeholder="e.g. top"> </div>
+  <div>
+    <label for="class-list">Classes to validate:</label>
+    <textarea id="class-list" rows="8">top
+tops
+stop
+top-floor
+top floor
+testing floor-top test
+floor-top test
+x-floor-top test
+xfloor-top test
+floor top
+on-top 
+on top test
+one top test
+bottom floor
+bottom-floor</textarea>
+      
+    </div>
+</div>
+
+
+<div class="container">
+
+  <div class="exemple one">
+    <span class="character">=</span>
+    <span class="selector">[class="top"]</span>
+<!--     <p class="top">top</p>
+    <p class="tops">tops</p>
+    <p class="stop">stop</p>
+    <p class="top-floor">top-floor</p>
+    <p class="top floor">top floor</p>
+    <p class="on-top">on-top</p>
+    <p class="on top">on top</p> -->
+    <div class="items"></div>
+  </div>
+
+  <div class="exemple two">
+    <span class="character">*</span>
+    <span class="selector">[class*="top"]</span>
+    <p class="top">top</p>
+    <p class="tops">tops</p>
+    <p class="top-floor">top-floor</p>
+    <p class="top floor">top floor</p>
+    <p class="stop">stop</p>
+    <p class="on-top">on-top</p>
+    <p class="one top">one top</p>
+    <p class="bottom floor">bottom floor</p>
+    <div class="items"></div>
+  </div>
+
+  <div class="exemple three">
+    <span class="character">|</span>
+    <span class="selector">[class|="top"]</span>
+    <p class="top">top</p>
+    <p class="top-floor">top-floor</p>
+    <p class="top floor">top floor</p>
+    <p class="top floor">floor-top</p>
+    <p class="top floor">floor top</p>
+    <p class="tops">tops</p>
+    <div class="items"></div>
+  </div>
+
+  <div class="exemple four">
+    <span class="character">^</span>
+    <span class="selector">[class^="top"]</span>
+    <p class="top">top</p>
+    <p class="tops">tops</p>
+    <p class="top-floor">top-floor</p>
+    <p class="top floor">top floor</p>
+    <p class="on-top">on-top</p>
+    <p class="one top">one top</p>
+    <div class="items"></div>
+  </div>
+
+  <div class="exemple five">
+    <span class="character">$</span>
+    <span class="selector">[class$="top"]</span>
+    <p class="top">top</p>
+    <p class="stop">stop</p>
+    <p class="on-top">on-top</p>
+    <p class="one top">one top</p>
+    <p class="tops">tops</p>
+    <p class="top-floor">top-floor</p>
+    <p class="top floor">top floor</p>
+    <div class="items"></div>
+  </div>
+
+  <div class="exemple six">
+    <span class="character">~</span>
+    <span class="selector">[class~="top"]</span>
+    <p class="top">top</p>
+    <p class="top floor">top floor</p>
+    <p class="one top">one top</p>
+    <p class="tops">tops</p>
+    <p class="stop">stop</p>
+    <p class="top-floor">top-floor</p>
+    <p class="on-top">on-top</p>
+    <div class="items"></div>
+  </div>
+
+</div>
+
+
+
+<style>
+
+</style>
+
+
+
+<script type="text/javascript" src="./script.js"></script>
+</body>
+</html>

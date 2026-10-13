@@ -1,0 +1,93 @@
+body {
+  font-family: "Rubik", sans-serif;
+  margin: 10%;
+}
+.selector-controls {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.selector-controls > div {
+  flex: 1;
+}
+.selector-controls label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+.selector-controls input,
+.selector-controls textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font: inherit;
+}
+.selector-controls textarea {
+  resize: vertical;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+.exemple {
+  background-color: #eaeaea;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: inline-block;
+}
+.exemple > span {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.character {
+  font-size: 40px;
+  height: 35px;
+}
+.exemple p {
+  margin: 0;
+}
+/* OLD */
+/* 
+.one p[class="top"]{color:#00f;}
+
+
+.two p[class*="top"]{color:#00f;}
+.three p[class|="top"]{color:#00f;}
+.four p[class^="top"]{color:#00f;}
+.five p[class$="top"]{color:#00f;}
+.six p[class~="top"]{color:#00f;}
+
+
+body{
+  font-family: 'Rubik', sans-serif;
+  margin:10%;
+}
+div.container{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:30px;
+}
+div.exemple{
+  background-color:#eaeaea;
+  padding:12px 20px;
+  border-radius:12px;
+  display:inline-block;
+}
+span{
+  display:block;
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.character{
+  font-size:var(--fs);
+  font-weight:var(--fw);
+  height: 35px;
+}
+p{
+  margin:0;
+}
+ */
