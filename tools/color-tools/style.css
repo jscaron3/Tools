@@ -49,12 +49,15 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 140px clamp(16px, 5vw, 40px) 60px;
+  /* padding: 140px clamp(16px, 5vw, 40px) 60px; */
+  /* padding: 0px clamp(16px, 5vw, 40px) 60px; */
+  padding: 0px 0px 60px;
 }
 
 .page {
   width: 100%;
   max-width: 520px;
+  margin: 0 auto;
   display: none;
 }
 .page.active {
@@ -74,7 +77,9 @@ main {
 }
 
 .navigation {
-  position: fixed;
+  /* position: fixed; */
+  position: sticky;
+  margin-bottom: 75px;
   top: 0;
   left: 0;
   width: 100%;
@@ -90,6 +95,7 @@ main {
   padding: 14px clamp(16px, 5vw, 40px);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
 }
 .navigation .toggles {
@@ -117,12 +123,12 @@ main {
   color: #1a1a18;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
-.navigation .page-title {
+/*.navigation .page-title {
   font-size: 14px;
   font-weight: 600;
   color: #1a1a18;
   letter-spacing: -0.01em;
-}
+}*/
 
 #app {
   background: #ffffff;

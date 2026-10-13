@@ -548,9 +548,9 @@ jQuery(document).ready(function () {
     $(this).addClass("active");
 
     // Change page title
-    var string = $(this).attr("data-page");
+    /*var string = $(this).attr("data-page");
     var newString = string[0].toUpperCase() + string.slice(1);
-    $(".page-title").text(newString);
+    $(".page-title").text(newString);*/
 
     // Show page
     showPage($(this).data("page"));
