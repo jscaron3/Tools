@@ -39,7 +39,7 @@ body {
     padding: 40px 24px 80px;
 }
 
-.wrap {
+.child-selector-tester-wrap {
     max-width: 1080px;
     margin: 0 auto;
 }
