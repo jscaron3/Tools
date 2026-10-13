@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Child Selector Tester</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link rel="stylesheet" href="./style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">css :: child selectors</div>
+    <h1>Child Selector Playground</h1>
+    <p>Pick a selector method and watch it highlight live across three different HTML structures &mdash; a flat grid, mixed sibling types, and a nested tree. Or drop into free mode and write your own.</p>
+  </header>
+
+  <div class="picker">
+    <p class="picker-label">Selector method</p>
+    <div class="pill-grid" id="pillGrid"></div>
+  </div>
+
+  <div class="readout">
+    <div class="readout-code">
+      <span class="scope">.stage > *</span><span id="selDisplay" class="sel">:first-child</span><input id="customInput" class="custom-input" type="text" placeholder="write a selector, e.g. li:nth-of-type(2n+1)" style="display:none;" />
+      <span class="cursor"></span>
+    </div>
+    <button class="copy-btn" id="copyBtn">copy selector</button>
+    <div class="match-badge" id="matchBadge">0 matched</div>
+  </div>
+
+  <p class="explain" id="explainText"></p>
+
+  <div class="panels">
+
+		<div class="panel wide">
+      <p class="panel-title">Nested tree</p>
+      <p class="panel-sub">Two levels deep &mdash; nth-child scopes to each parent independently</p>
+      <ul class="stage tree" id="treeStage">
+        <li class="item">Item
+          <ul class="list">
+            <li class="sub">Sub</li>
+            <li class="sub">Sub
+							<ul class="sub-list">
+								<li class="sub2">Sub2</li>
+								<li class="sub2">Sub2</li>
+							</ul>
+						</li>
+            <li class="sub">Sub</li>
+          </ul>
+        </li>
+        <li class="item">Item
+          <ul class="list">
+            <li class="sub">Sub</li>
+            <li class="sub">Sub</li>
+          </ul>
+        </li>
+        <li class="item">Item
+				 <ul class="list">
+					 <li class="sub">Sub</li>
+				 </ul>
+				 </li>
+        <li class="item">Item</li>
+        <li class="item">Item
+          <ul class="list">
+            <li class="sub">Sub</li>
+            <li class="sub">Sub</li>
+            <li class="sub">Sub</li>
+            <li class="sub">Sub</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+		
+    <div class="panel">
+      <p class="panel-title">Card grid</p>
+      <p class="panel-sub">8 siblings, single level &mdash; best for nth-child patterns</p>
+      <div class="stage card-grid" id="cardGrid"></div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">Mixed siblings</p>
+      <p class="panel-sub">Different tag types &mdash; shows child vs. of-type</p>
+      <div class="stage mixed" id="mixedStage">
+        <h3><span class="tag">h3</span>Section heading</h3>
+        <p><span class="tag">p</span>First paragraph</p>
+        <p><span class="tag">p</span>Second paragraph</p>
+        <span><span class="tag">span</span>Inline note</span>
+        <p><span class="tag">p</span>Third paragraph</p>
+        <blockquote><span class="tag">blockquote</span>A quoted line</blockquote>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <footer>Matches are computed with the real <code>Element.matches()</code> API &mdash; exactly how the browser evaluates CSS.</footer>
+
+</div>
+	
+
+
+
+
+
+<script type="text/javascript" src="./script.js"></script>
+</body>
+</html>

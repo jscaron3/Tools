@@ -1,6 +1,7 @@
 [
   "browser-support-checker",
   "character-identifier",
+  "child-selector-tester",
   "color-converter",
   "css-selectors",
   "easing-generator",
