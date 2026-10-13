@@ -26,12 +26,13 @@
     background: var(--bg);
     color: var(--text);
     /* min-height: 100vh; */
-    /* padding: 32px 16px 64px; */
   }
 
   .character-identifier-wrap {
 	max-width: 1080px;
     margin: 0 auto;
+    /* padding: 32px 16px 64px; */
+
 	}
 
   header {
