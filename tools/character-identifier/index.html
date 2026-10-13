@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character identifier</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+<header>
+  <h1>Character <span>identifier </span></h1>
+  <p>Identify any Unicode character — encoding, name, and ready-to-use code snippets.</p>
+</header>
+
+<div class="input-wrap">
+  <input type="text" id="char-input" placeholder="Type or paste characters here…" autocorrect="off" autocomplete="off" spellcheck="false">
+  <button class="clear-btn" id="clear-btn" title="Clear">✕</button>
+</div>
+
+	
+	
+<p class="hint">Enter one or more characters. Each character is analyzed separately.</p>
+
+	<div class="mode-bar">
+    <label>
+        <input type="checkbox" id="reverse-mode">
+        Encoding → Character
+    </label>
+
+    <select id="decode-mode" disabled>
+        <option value="auto">Auto Detect</option>
+        <option value="decimal">Decimal</option>
+        <option value="hex">Hex</option>
+        <option value="html-hex">HTML Entity (Hex)</option>
+        <option value="html-dec">HTML Entity (Decimal)</option>
+        <option value="css">CSS Escape</option>
+        <option value="js">JavaScript Escape</option>
+        <option value="unicode">U+XXXX</option>
+        <option value="binary">Binary</option>
+        <option value="octal">Octal</option>
+        <option value="utf8">UTF-8 Bytes</option>
+    </select>
+</div>
+
+<div id="results">
+  <div class="placeholder">
+    <div class="icon">⌨️</div>
+    <p>Start typing — results appear instantly.<br>Try pasting <kbd>©</kbd>, <kbd>→</kbd>, or even <kbd> </kbd> (a space).</p>
+  </div>
+</div>
+
+<script type="text/javascript" src="./script.js"></script>
+</body>
+</html>
