@@ -526,12 +526,11 @@ h1 {
     text-align: left;
 }
 
-.support-table .tbody {
+/* .support-table .tbody { */
 	/*display: grid;
 	grid-template-columns: auto 1fr;
 	gap: 8px;*/
-	
-}
+/* } */
 
 .support-table .tbody .tr {
   border-bottom: 1px solid var(--border);
