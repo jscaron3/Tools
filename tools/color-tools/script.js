@@ -763,6 +763,48 @@ jQuery(document).ready(function () {
   }, 400);
   */
 
+
+
+
+
+
+
+  // Color compare
+
+
+  colorChanger(jQuery('.compare-colorPicker'));
+
+  jQuery('.plus-compare-color').click(function () {
+      // console.log('test');
+
+      jQuery('.compare-color').last().clone().appendTo('[data-page="Color compare"] .comparor');
+      colorChanger(jQuery('.compare-color').last().find('.compare-colorPicker'));
+  });
+
+  jQuery('.minus-compare-color').click(function () {
+      // console.log('test');
+      if (jQuery('.compare-color').length > 1) {
+          jQuery('.compare-color').last().remove();
+      }
+  });
+
+  function colorChanger(element) {
+      element.on('input change', function () {
+
+        console.log('input changed');
+          // let color = $(this).val().replaceAll('#', '');
+          // let color_output = color.length > 2 ? color : 'fff';
+          let color = $(this).val();
+
+          let color_output = color.length > 3 ? color : '#fff';
+          // $(this).parents('.compare-color').css('background-color', '#' + color_output);
+          // $(this).parents('.compare-color-content').css('background-color', '#' + color_output);
+          $(this).parents('.compare-color').css('background-color', color_output);
+          $(this).parents('.compare-color-content').css('background-color', color_output);
+      });
+  }
+
+  jQuery('.compare-colorPicker').trigger('input');
 });
 
 

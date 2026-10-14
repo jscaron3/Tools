@@ -3,7 +3,6 @@
 /* ─────────────────────────────────────────
    1. CSS Variables & Theme
    ───────────────────────────────────────── */
-
 :root {
 	--color-bg: #f6f3ee;
 	--color-surface: rgba(255, 255, 255, 0.76);
@@ -26,20 +25,18 @@
 /* ─────────────────────────────────────────
    2. Reset & Base
    ───────────────────────────────────────── */
-
 * {
 	box-sizing: border-box;
 }
 
-html { 
-	-webkit-font-smoothing: antialiased; 
+html {
+	-webkit-font-smoothing: antialiased;
 }
 
 body:has(.container.main-container:last-child) {
 	padding: clamp(1.5rem, 4vw, 3.5rem);
 	margin: 0;
 	min-height: 100vh;
-	
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -47,10 +44,9 @@ body:has(.container.main-container:last-child) {
 	font-family: var(--font-sans);
 	font-optical-sizing: auto;
 	/* background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 28%), radial-gradient(circle at 85% 15%, rgba(17, 24, 39, 0.04), transparent 24%), var(--color-bg);*/
-		background: var(--color-bg);
+	background: var(--color-bg);
 	color: var(--color-text);
 }
-
 
 .page-loader {
 	position: fixed;
@@ -68,12 +64,17 @@ body:has(.container.main-container:last-child) {
 	pointer-events: visible;
 }
 
-
 @keyframes fadeOut {
-	0% { opacity: 1; pointer-events: visible;}
-	100% { opacity: 0; pointer-events: none;}
-}
+	0% {
+		opacity: 1;
+		pointer-events: visible;
+	}
 
+	100% {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
 
 .container.main-container:last-child :is(h1, h2, h3, h4, h5, h6) {
 	margin-top: 0;
@@ -83,7 +84,6 @@ body:has(.container.main-container:last-child) {
 /* ─────────────────────────────────────────
    3. Typography
    ───────────────────────────────────────── */
-
 .container.main-container .title {
 	margin: 0 0 var(--space-8);
 	font-size: clamp(2.25rem, 4vw, 4.5rem);
@@ -95,7 +95,6 @@ body:has(.container.main-container:last-child) {
 /* ─────────────────────────────────────────
    4. Layout & Grid
    ───────────────────────────────────────── */
-
 .container.main-container {
 	width: min(100%, 1600px);
 	margin: 0 auto;
@@ -103,7 +102,13 @@ body:has(.container.main-container:last-child) {
 
 .container.main-container .buttons, .container.main-container .tools-group {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+
+	/* horizontal seulement sur mobile */
+	/* grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); */
+
+	/* horizontal partout */
+	grid-template-columns: repeat(auto-fit, minmax(375px, 1fr))!important; 
+
 	gap: var(--space-6);
 	width: 100%;
 }
@@ -118,14 +123,13 @@ body:has(.container.main-container:last-child) {
 
 .tools-group__label {
 	text-transform: uppercase;
-   color: var(--color-muted);
-   font-weight: 600;
+	color: var(--color-muted);
+	font-weight: 600;
 }
 
 /* ─────────────────────────────────────────
    5. Components
    ───────────────────────────────────────── */
-
 .container.main-container .tool-card {
 	display: flex;
 	flex-direction: column;
@@ -199,7 +203,6 @@ body:has(.container.main-container:last-child) {
 /* ─────────────────────────────────────────
    6. Animations & Transitions
    ───────────────────────────────────────── */
-
 .container.main-container .tool-card__preview iframe {
 	transition: opacity 220ms var(--ease-out);
 }
@@ -211,17 +214,15 @@ body:has(.container.main-container:last-child) {
 /* ─────────────────────────────────────────
    7. Utilities
    ───────────────────────────────────────── */
-
 /* ─────────────────────────────────────────
    8. Breakpoints — Tablet (max 1024px)
    ───────────────────────────────────────── */
-
 @media (max-width: 1024px) {
 	body:has(.container.main-container:last-child) {
 		padding: 1.5rem;
 	}
 
-	.container.main-container .buttons, .container.main-container .tools-group  {
+	.container.main-container .buttons, .container.main-container .tools-group {
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
 }
@@ -230,6 +231,54 @@ body:has(.container.main-container:last-child) {
    9. Breakpoints — Mobile (max 768px)
    ───────────────────────────────────────── */
 
+   /* horizontal partout */
+@media (max-width:768px) {
+	.container.main-container .title {
+		margin-bottom: 1.5rem;
+		font-size: clamp(1.9rem, 11vw, 3rem);
+	}
+
+	body:has(.container.main-container:last-child) {
+		padding: 1.25rem;
+	}
+
+	.container.main-container .buttons, .container.main-container .tools-group {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+}
+
+
+.container.main-container .tool-card {
+	padding: 0.85rem;
+}
+
+.container.main-container .tool-card__meta {
+	align-items: center;
+}
+
+
+.container.main-container .tool-card {
+	padding: 0.85rem;
+	display: grid;
+
+	/* Horizontal seulement sur mobile */
+	/* grid-template-columns: 60% 1fr; */ 
+
+	/* Horizontal partout */
+	grid-template-columns: 50% 1fr;
+	
+}
+
+.container.main-container .tool-card__meta {
+	flex-direction: column;
+	align-items: flex-start !important;
+}
+
+
+/* horizontal seulement sur mobile */
+
+/*
 @media (max-width: 768px) {
 	body:has(.container.main-container:last-child) {
 		padding: 1.25rem;
@@ -266,10 +315,9 @@ body:has(.container.main-container:last-child) {
 		flex-direction: column;
     	align-items: flex-start!important;
 	}
-}
-
+}*/
 @media (max-width:500px) {
-	.container.main-container .tool-card{
+	.container.main-container .tool-card {
 		--nb-columns: 2;
 		--gap-h: var(--space-4);
 		--gap-v: var(--space-4);
