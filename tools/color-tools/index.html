@@ -10,8 +10,8 @@
   </head>
     
   <body>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
-<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/> -->
+<!-- <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script> -->
 
 <main>
   <div class="navigation">
@@ -82,6 +82,19 @@
 
       </div>
 
+      <div class="color-card" v-if="colorCard">
+        <div class="color-card__preview">
+          <span :style="{ background: colorCard.css }"></span>
+        </div>
+        <ul class="color-card__rows">
+          <li v-for="row in colorCard.rows" :key="row.label" @click="copyText(row)">
+            <small>{{ row.label }}</small>
+            <code>{{ row.value }}</code>
+            <em>{{ copiedLabel === row.label ? "Copied!" : "Copy" }}</em>
+          </li>
+        </ul>
+      </div>
+
       <div class="result-wrapper">
         <div class="result-left">
           <div class="result-label">Converted value</div>
@@ -118,14 +131,45 @@
   </div>
 </main>
 
+<script type="text/javascript">
+// Coloris({
+//   theme: 'polaroid',
+//   // format: 'mixed',
+//   onChange: (color, inputEl) => {
+//     console.log(`The new color is ${color}`);
+//   }
+// });
+</script>
+
 <script type="text/javascript" src="./script.js"></script>
 
+
 <script type="text/javascript">
-Coloris({
-  theme: 'polaris',
-  format: 'mixed',
-  onChange: (color, inputEl) => {}
+// Coloris({
+//   theme: 'polaris',
+//   format: 'mixed',
+//   onChange: (color, inputEl) => {}
+// });
+/*
+jQuery(document).ready(function($) {
+  // console.log('testing');
+  setTimeout(() => {
+    document.querySelectorAll('.hex-input').forEach(input => {
+    input.addEventListener('click', e => {
+      // console.log('clicking');
+      
+      Coloris({
+        theme: 'polaroid',
+        format: 'mixed',
+        // themeMode: 'dark',
+      });
+    });
+  });
+  }, 400);
+  
 });
+*/
+
 </script>
 
 

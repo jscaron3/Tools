@@ -22,7 +22,11 @@ jQuery(document).ready(function () {
       method: noMethod,
       copied: false,
       // darkMode: "light",
-      toggleState: false
+      toggleState: false,
+
+
+      copiedLabel: "",
+      selectedSwatch: null,
     }),
 
     created() {
@@ -70,7 +74,9 @@ jQuery(document).ready(function () {
 
 						$('#swatch-container').removeClass('hex');
 						$('#swatch-container').addClass('rgb');
-						$('.swatch.normal-converted').hide();
+						// $('.swatch.normal-converted').hide();
+						$('.swatch-wrap.normal-converted-wrap').hide();
+            
 						$('.swatch.linear').show();
 						$('.swatch.visually').show();
 						return this.rgbToHex(val);
@@ -79,7 +85,9 @@ jQuery(document).ready(function () {
 
 						$('#swatch-container').addClass('hex');
 						$('#swatch-container').removeClass('rgb');
-						$('.swatch.normal-converted').show();
+						// $('.swatch.normal-converted').show();
+						$('.swatch-wrap.normal-converted-wrap').show();
+
 		// REMOVED TO TEST!!!
 						// $('.swatch.linear').hide();
 						// $('.swatch.visually').hide();
@@ -220,6 +228,25 @@ jQuery(document).ready(function () {
         }, 1200);
       },
 
+
+     copyText(row) {
+        const done = () => {
+          this.copiedLabel = row.label;
+          setTimeout(() => (this.copiedLabel = ""), 1200);
+        };
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(row.value).then(done);
+        } else {
+          const t = document.createElement("textarea");
+          t.value = row.value;
+          document.body.appendChild(t);
+          t.select();
+          document.execCommand("copy");
+          t.remove();
+          done();
+        }
+      },
+
       toggleColor() {
         // Toggle between the two colors
         this.toggleState = !this.toggleState;
@@ -232,13 +259,31 @@ jQuery(document).ready(function () {
     computed: {
       convertedValue() {
 				// Used to replace the ".normal-converted" swatch text
-				if (this.convert(this.value) && this.convert(this.value).startsWith('#')) {
-					console.log('testing', this.convert(this.value));
-        return 'full : ' + this.convert(this.value); // Hex/RGBA
+        // if (this.convert(this.value) && this.convert(this.value).startsWith('#')) {
+        // console.log('full :', this.convert(this.value));
+        // return 'full : ' + this.convert(this.value); // Hex/RGBA
+
+        if (this.convert(this.value) && this.value && this.value.startsWith('rgba')) {
+			  
+          console.log('is rgba');
+          return this.convert(this.value); // Hex/RGBA
 					
-				} else {
+
+        } else if (this.convert(this.value) && this.value && this.value.startsWith('rgb')) {
+
+            console.log('is rgb');
+            return this.convert(this.value); // Hex/RGBA
+
+          
+				// } else if (this.convert(this.value) && this.value && this.value.startsWith('rgba')) {
+        // console.log('is rgba');
+        
+				} else if (this.convert(this.value) && this.convert(this.value).startsWith('#')) {
+					console.log('full :', this.convert(this.value));
+          
+          return this.convert(this.value); // RGBA
+        } else {
         	return this.convert(this.value); // Hex/RGBA
-					
 				}
         // return this.value; // RGBA/Original (Hex)
 				// return this.convert(this.value.replaceAll(" ", "")); // Hex
@@ -272,10 +317,14 @@ jQuery(document).ready(function () {
       },
 
       fromFormat() {
+        // console.log('fromFormat');
+
         return this.method && this.method.from ? this.method.from : "…";
       },
 
       toFormat() {
+        // console.log('toFormat');
+
         return this.method && this.method.to ? this.method.to : "…";
       },
 
@@ -290,6 +339,8 @@ jQuery(document).ready(function () {
 			
 			normalConvert() {
 				// return this.linearRGB(this.value);
+        console.log('normalConvert');
+
 				return this.convert(this.value);
 			},
 
@@ -324,27 +375,44 @@ jQuery(document).ready(function () {
         // if (!src) return '';
 				
 				if(src) {
-        // const bg = { r: 255, g: 255, b: 255, a: 1 };
-        const bg = this.parseRGBA(this.convert(newBGColor));
-        console.log(bg);
-        const r = Math.round((1 - src.a) * bg.r + src.a * src.r);
-        const g = Math.round((1 - src.a) * bg.g + src.a * src.g);
-        const b = Math.round((1 - src.a) * bg.b + src.a * src.b);
-        
-        
-        // $('.linear').text(`rgb(${r},${g},${b})`);
-        // $('.linear').parent('.swatch-wrap').find('.tooltip .value').text(`rgb(${r},${g},${b})`);
-				
-				
-// 				GOOD
-				$('.linear').parent('.swatch-wrap').find('.swatch-value').text(`rgb(${r}, ${g}, ${b})`);
-        
-				
-				// $('.linear').parent('.swatch-wrap').find('.swatch-value').text(this.convert(this.value));
-        
-        return `rgb(${r}, ${g}, ${b})`;
+          // IS RGB OR RGBA
+
+          // const bg = { r: 255, g: 255, b: 255, a: 1 };
+          const bg = this.parseRGBA(this.convert(newBGColor));
+          console.log(bg);
+          const r = Math.round((1 - src.a) * bg.r + src.a * src.r);
+          const g = Math.round((1 - src.a) * bg.g + src.a * src.g);
+          const b = Math.round((1 - src.a) * bg.b + src.a * src.b);
+          
+          
+          // $('.linear').text(`rgb(${r},${g},${b})`);
+          // $('.linear').parent('.swatch-wrap').find('.tooltip .value').text(`rgb(${r},${g},${b})`);
+          
+          
+      // 				GOOD
+          // $('.linear').parent('.swatch-wrap').find('.swatch-value').text(`rgb(${r}, ${g}, ${b})`);
+          
+          
+          // $('.linear').parent('.swatch-wrap').find('.swatch-value').text(this.convert(this.value));
+          // $('.linear').parent('.swatch-wrap').find('.swatch-value').text(`rgb(${r}, ${g}, ${b}) ` + this.convert(this.value));
+
+          const linearRGB = `rgb(${r}, ${g}, ${b})`;
+          const convertedLinearRGBToHex = this.convert(linearRGB);
+
+          // $('.linear').parent('.swatch-wrap').find('.swatch-value').text(`${linearRGB} ` + this.convert(linearRGB));
+          $('.linear').parent('.swatch-wrap').find('.swatch-value').text(convertedLinearRGBToHex);
+          
+          console.log('this value issss', this.value);
+
+
+          // TODO create a color card to display both the linear and visual RGB values
+          
+          // return linearRGB;
+          return convertedLinearRGBToHex;
 				
 				} else {
+          // HEX
+          // console.log('testinggggg');
        		 return this.value;
 					
 				}
@@ -355,33 +423,119 @@ jQuery(document).ready(function () {
       //       TODO this isn't always better than linear, test different factors.
       visualRGB() {
 				const src = this.parseRGBA(this.value);
-				if (!src) return "";
+				// if (!src) return "";
 				
 				if(src) {
 
-				const bg = this.parseRGBA(this.convert(newBGColor));
-				if (!bg) return "";
+          const bg = this.parseRGBA(this.convert(newBGColor));
+          if (!bg) return "";
 
-				const factor = 1.16;
+          const factor = 1.16;
 
-				const toLinear = v => Math.pow(v / 255, factor);
-				const toSRGB = v => Math.pow(v, 1 / factor) * 255;
+          const toLinear = v => Math.pow(v / 255, factor);
+          const toSRGB = v => Math.pow(v, 1 / factor) * 255;
 
-				const a = src.a;
-				const r = toSRGB(toLinear(bg.r) * (1 - a) + toLinear(src.r) * a);
-				const g = toSRGB(toLinear(bg.g) * (1 - a) + toLinear(src.g) * a);
-				const b = toSRGB(toLinear(bg.b) * (1 - a) + toLinear(src.b) * a);
+          const a = src.a;
+          const r = toSRGB(toLinear(bg.r) * (1 - a) + toLinear(src.r) * a);
+          const g = toSRGB(toLinear(bg.g) * (1 - a) + toLinear(src.g) * a);
+          const b = toSRGB(toLinear(bg.b) * (1 - a) + toLinear(src.b) * a);
 
 
-							// $('.visually').text(`rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
-							// $('.visually').attr('data-color', `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
-							// $('.visually').parent('.swatch-wrap').find('.tooltip .value').text(`rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
+                // $('.visually').text(`rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
+                // $('.visually').attr('data-color', `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
+                // $('.visually').parent('.swatch-wrap').find('.tooltip .value').text(`rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
 
-							$('.visually').parent('.swatch-wrap').find('.swatch-value').text(`rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`);
+          // $('.visually').parent('.swatch-wrap').find('.swatch-value').text(`rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`);
+          // $('.visually').parent('.swatch-wrap').find('.swatch-value').text(`rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}) ` + this.convert(this.value));
 
-				return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
-				}
+          const visualRGB = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+          const convertedVisualRGBToHex = this.convert(visualRGB);
+
+          // $('.visually').parent('.swatch-wrap').find('.swatch-value').text(`${visualRGB} ` + this.convert(visualRGB));
+          $('.visually').parent('.swatch-wrap').find('.swatch-value').text(convertedVisualRGBToHex);
+
+          // return visualRGB;
+          return convertedVisualRGBToHex;
+
+				} else {
+          console.log('testinggggg');
+          return "";
+        }
 			},
+
+
+
+
+      // TEST COLOR CARD
+
+      cardSource() {
+        switch (this.selectedSwatch) {
+          case "linear":   return this.linearRGB;      // blended hex
+          case "visually": return this.visualRGB;      // visual blend hex
+          case "normal":   return this.convertedValue; // converted value
+          case "original": return this.value;          // what was typed
+          default:         return "";
+        }
+      },
+
+      colorCard() {
+        const v = (this.cardSource || "").trim();   // was: (this.value || "").trim()
+        if (!v) return null;
+
+
+        let src = null;
+
+        if (/^rgb/i.test(v) || v.includes(",")) {
+          // rgb / rgba, with or without the "rgb(...)" wrapper
+          src = this.parseRGBA(/^rgb/i.test(v) ? v : `rgba(${v})`);
+        } else {
+          // hex: 3, 4, 6 or 8 digits
+          let h = v.replace("#", "");
+          if ([3, 4].includes(h.length)) h = h.split("").map((c) => c + c).join("");
+          if (/^[0-9a-f]{6}([0-9a-f]{2})?$/i.test(h)) {
+            src = {
+              r: parseInt(h.slice(0, 2), 16),
+              g: parseInt(h.slice(2, 4), 16),
+              b: parseInt(h.slice(4, 6), 16),
+              a: h.length === 8 ? parseInt(h.slice(6, 8), 16) / 255 : 1
+            };
+          }
+        }
+
+        if (!src) return null;
+
+        const { r, g, b, a } = src;
+        const toHex = (n) => Math.round(n).toString(16).padStart(2, "0");
+        const alpha = +a.toFixed(2);
+        const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+
+
+        // Don't include HEX and RGB if this.selectedSwatch is "original". Only include HEX + alpha and RGBA
+        if (this.selectedSwatch === "original" && (this.value.startsWith("rgba") || this.value.length === 9)) {
+          return {
+            css: `rgba(${r}, ${g}, ${b}, ${alpha})`,
+            rows: [
+              { label: "HEX + alpha", value: hex + toHex(a * 255) },
+              { label: "RGBA", value: `rgba(${r}, ${g}, ${b}, ${alpha})` }
+            ]
+          };
+        } else {
+          // fall through to the default return below
+
+          return {
+          css: `rgba(${r}, ${g}, ${b}, ${alpha})`,
+          rows: [
+            { label: "HEX", value: hex },
+            { label: "HEX + alpha", value: hex + toHex(a * 255) },
+            { label: "RGB", value: `rgb(${r}, ${g}, ${b})` },
+            { label: "RGBA", value: `rgba(${r}, ${g}, ${b}, ${alpha})` }
+          ]
+        };
+        }
+
+        
+      },
+
 
      /* backgroundColor2() {
         return this.convert(this.value) || "";
@@ -395,6 +549,21 @@ jQuery(document).ready(function () {
 
   app.$mount(document.querySelector("main"));
 
+
+  $(document).on("click", ".swatch", function () {
+  const $s = $(this);
+  let key = "original";
+  if ($s.hasClass("linear")) key = "linear";
+  else if ($s.hasClass("visually")) key = "visually";
+  else if ($s.hasClass("normal-converted")) key = "normal";
+
+  // click again on the selected swatch = deselect
+  const same = app.selectedSwatch === key;
+  app.selectedSwatch = same ? null : key;
+
+  $(".swatch").removeClass("selected");
+  if (!same) $s.addClass("selected");
+});
   
 //   tweakpane
   const ctrl = new Pane({
@@ -562,6 +731,44 @@ jQuery(document).ready(function () {
       .removeClass("active");
     $('.page[data-page="' + page + '"]').addClass("active");
   }
+
+
+
+
+
+  // console.log('testing');
+  /*
+  setTimeout(() => {
+
+    // Coloris({
+    //   theme: 'polaroid',
+    //   format: 'mixed',
+    //   onChange: (color, inputEl) => {}
+    // });
+
+    document.querySelectorAll('.hex-input').forEach(input => {
+      input.addEventListener('click', e => {
+        console.log('clicking');
+        
+        Coloris({
+          theme: 'polaris',
+          format: 'mixed',
+          themeMode: 'dark',
+
+          onChange: (color, inputEl) => {}
+        });
+      });
+    });
+
+  }, 400);
+  */
+
 });
+
+
+
+
+
+
 
 // END Navigation

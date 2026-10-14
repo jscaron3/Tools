@@ -1,6 +1,5 @@
 let tools = {};
 
-
 const params = new URLSearchParams(window.location.search);
 const toolName = params.get('tool');
 const title = document.getElementById('page-title');
@@ -109,15 +108,14 @@ async function loadTool(name) {
     await loadScripts(scripts, baseUrl);
 }
 
-
 async function init() {
     if (!title || !toolList || !toolMount || !toolBack) {
         throw new Error('Template shell is missing required elements.');
     }
 
-    const toolPaths = await fetch('./tools.json').then(r => r.json());
+    const toolPaths = await fetch('./tools.json').then((r) => r.json());
     tools = Object.fromEntries(
-        toolPaths.map(toolPath => [
+        toolPaths.map((toolPath) => [
             toolPath,
             {
                 label: toolPath.split('/').pop().replaceAll('-', ' '),
@@ -140,7 +138,6 @@ async function init() {
         });
     }
 }
-
 
 // async function init() {
 //     if (!title || !toolList || !toolMount || !toolBack) {
@@ -169,11 +166,10 @@ async function init() {
 
 init();
 
-
 // Send the internal document height to the parent window
 window.addEventListener('load', () => {
-  const height = document.documentElement.scrollHeight;
-  window.parent.postMessage({ frameHeight: height }, '*');
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage({ frameHeight: height }, '*');
 });
 
 //
@@ -249,69 +245,52 @@ function showNextNotification(type = '') {
     }
 }
 
-
-
-
-
 // Reusable copy to clipboard function for all tools
-// Usage html code: 
+// Usage html code:
 // <button data-copy="#target" data-copy-message="#copy-ok">Copy</button>
 // <input id="target" value="Text to copy">
 // <div id="copy-ok" style="display:none;">Copied!</div>
 
 document.addEventListener('click', function (e) {
-	const btn = e.target.closest('[data-copy]');
-	if (!btn) return;
+    const btn = e.target.closest('[data-copy]');
+    if (!btn) return;
 
-	const target = document.querySelector(btn.dataset.copy);
-	if (!target) return;
+    const target = document.querySelector(btn.dataset.copy);
+    if (!target) return;
 
-	const text =
-		target.value ??
-		target.textContent ??
-		target.innerText;
-	
-	if (!text.trim()) return;
+    const text = target.value ?? target.textContent ?? target.innerText;
 
-	navigator.clipboard.writeText(text).then(() => {
-		const ok = btn.dataset.copyMessage
-			? document.querySelector(btn.dataset.copyMessage)
-			: null;
+    if (!text.trim()) return;
 
-		if (ok) {
-			ok.style.display = 'inline-flex';
-			setTimeout(() => {
-				ok.style.display = 'none';
-			}, 2000);
-		}
-	});
+    navigator.clipboard.writeText(text).then(() => {
+        const ok = btn.dataset.copyMessage ? document.querySelector(btn.dataset.copyMessage) : null;
+
+        if (ok) {
+            ok.style.display = 'inline-flex';
+            setTimeout(() => {
+                ok.style.display = 'none';
+            }, 2000);
+        }
+    });
 });
 
-
-
-
-
-
-
-
-
-jQuery(function($){
-    $("[contenteditable]").focusout(function(){
-        var element = $(this);        
+jQuery(function ($) {
+    $('[contenteditable]').focusout(function () {
+        var element = $(this);
         if (!element.text().trim().length) {
             element.empty();
         }
     });
 });
 
+setTimeout(() => {
+    Coloris({
+        theme: 'polaroid',
+        format: 'mixed',
+        formatToggle: true,
+        onChange: (color, inputEl) => {
+            console.log(`The new color is ${color}`);
+        }
+    });
+}, 500);
 
-
-
-
-Coloris({
-  theme: 'polaroid',
-  formatToggle: true,
-  onChange: (color, inputEl) => {
-    console.log(`The new color is ${color}`);
-  }
-});
