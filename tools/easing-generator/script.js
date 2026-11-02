@@ -1,4 +1,4 @@
-
+// TODO implement a "add preset" to enable comparing different easing curves
 (function () {
   const W = 200, OFF = 20;
 
@@ -11,7 +11,7 @@
   const h1 = document.getElementById('handle1Line'), h2 = document.getElementById('handle2Line');
   const p1 = document.getElementById('p1'), p2 = document.getElementById('p2');
   const cssOut = document.getElementById('cssOut');
-
+  const speed = document.getElementById('speed');
 
   const svg = document.getElementById('curveSvg');
   const ball = document.getElementById('ball');
@@ -57,6 +57,7 @@
     p2.setAttribute('cx', c2.sx); p2.setAttribute('cy', c2.sy);
 
     cssOut.value = `cubic-bezier(${x1.toFixed(2)}, ${y1.toFixed(2)}, ${x2.toFixed(2)}, ${y2.toFixed(2)})`;
+    document.body.style.setProperty('--bezier', `cubic-bezier(${x1.toFixed(2)}, ${y1.toFixed(2)}, ${x2.toFixed(2)}, ${y2.toFixed(2)})`);
   }
 
   [x1i, y1i, x2i, y2i].forEach(el => el.addEventListener('input', render));
@@ -87,6 +88,16 @@
     y2: parseFloat(match[4])
   };
 }
+
+function setSpeed() {
+  document.body.style.setProperty('--speed', `${speed.value}ms`);
+}
+
+speed.addEventListener('input', () => {
+  setSpeed();
+});
+
+setSpeed();
 
 cssOut.addEventListener('input', () => {
   const bezier = parseBezier(cssOut.value);
