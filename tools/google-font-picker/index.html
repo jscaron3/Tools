@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Google Fonts Picker</title>
+        <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+        <main>
+            <h1>Font picker</h1>
+            <p class="sub">Pick a Google Font, get the @font-face, download it, convert it to WOFF2/WOFF.</p>
+            <div class="grid">
+                <section class="card">
+                    <label for="q" style="margin-top: 0">Font</label>
+                    <input type="text" id="q" placeholder="Search or type any Google Font name…" autocomplete="off" />
+                    <div id="list"></div>
+
+                    <div class="lbl">Type</div>
+                    <div class="seg"><button id="mV">Variable</button><button id="mS">Static</button></div>
+                    <p class="hint" id="hint"></p>
+
+                    <div id="optV">
+                        <div class="row">
+                            <div>
+                                <label for="wmin">Weight min</label
+                                ><input type="number" id="wmin" step="100" min="1" max="1000" />
+                            </div>
+                            <div>
+                                <label for="wmax">Weight max</label
+                                ><input type="number" id="wmax" step="100" min="1" max="1000" />
+                            </div>
+                        </div>
+                        <label for="axes">Extra axes (comma-separated)</label>
+                        <input type="text" id="axes" placeholder="e.g. wdth" />
+                    </div>
+                    <div id="optS">
+                        <div class="lbl">Weights</div>
+                        <div class="chk" id="wts"></div>
+                    </div>
+
+                    <div class="lbl">Options</div>
+                    <div class="chk">
+                        <label><input type="checkbox" id="it" /> Italic</label>
+                        <label><input type="checkbox" id="woff" checked /> WOFF fallback</label>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label for="dir">Fonts folder</label><input type="text" id="dir" value="assets/fonts" />
+                        </div>
+                        <div>
+                            <label for="disp">font-display</label>
+                            <select id="disp">
+                                <option>swap</option>
+                                <option>fallback</option>
+                                <option>optional</option>
+                                <option>block</option>
+                                <option>auto</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="card">
+                        <div class="btns">
+                            <a class="btn pri" id="dl" target="_blank" rel="noopener">Download .zip</a>
+                            <a class="btn" id="gf" target="_blank" rel="noopener">Google Fonts page</a>
+                            <a class="btn" href="https://transfonter.org/" target="_blank" rel="noopener"
+                                >Convert to WOFF2 / WOFF</a
+                            >
+                        </div>
+                        <input type="text" id="sample" value="Whereas recognition of the inherent dignity" />
+                        <div id="pv"></div>
+                        <input type="range" id="wr" aria-label="Preview weight" />
+                        <p class="hint" id="wl"></p>
+                        <p class="files" id="files"></p>
+
+                        <div class="head"><span>CSS</span><button class="btn" id="cp">Copy CSS</button></div>
+                        <pre id="out"></pre>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <script src="./script.js"></script>
+    </body>
+</html>
