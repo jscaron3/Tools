@@ -11,7 +11,8 @@ function handleFiles(fileList){
     const img=new Image();
     img.onload=()=>{
       const item={fileName:file.name.replace(/\.[^/.]+$/,''),ext:file.name.split('.').pop().toLowerCase(),img,
-        ogWidth:img.naturalWidth,ogHeight:img.naturalHeight,scale:100,x:50,y:50,rotation:0,canvas:null,ctx:null,card:null};
+        ogWidth:img.naturalWidth,ogHeight:img.naturalHeight,scale:100,x:50,y:50,rotation:0,canvas:null,ctx:null,card:null,customHeight:null};
+      item.aspectRatio=img.naturalHeight>0?img.naturalHeight/img.naturalWidth:1;
       items.push(item);createCard(item);
     };
     img.src=URL.createObjectURL(file);
@@ -64,6 +65,8 @@ function createCard(item){
       <input id="x-pos" type="range" min="-50" max="150" value="50" data-key="x">
       <span class="topbar-label">Position Y</span>
       <input id="y-pos" type="range" min="-50" max="150" value="50" data-key="y">
+      <span class="topbar-label" style="display:block;margin-top:4px;">Height (empty=auto)</span>
+      <input id="height-input" type="number" class="height-override" placeholder="auto" data-key="customHeight">
       <div class="controls-row" style="margin-top:4px;">
         <div class="allow-upscale-row">
           <input id="allowUpscale" type="checkbox" data-key="allowUpscale">
@@ -84,8 +87,9 @@ function createCard(item){
   card.querySelector('.controls').addEventListener('input',e=>{
     const key=e.target.dataset.key;if(!key)return;
     if(e.target.type==='checkbox')item[key]=e.target.checked;
+    else if(key==='customHeight')item[key]=e.target.value?parseInt(e.target.value):null;
     else item[key]=parseInt(e.target.value);
-    draw(item);
+    updateCanvasSize(item);draw(item);
   });
 
   item.scaleValue=0;item.baseScale=0;item.dragOffset=0;item.fitMode='none';item.fitBaseScale=null;
@@ -120,7 +124,8 @@ function createCard(item){
   card.querySelectorAll('[data-fit]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const imgW=item.img.width,imgH=item.img.height;
-      let fitScale=btn.dataset.fit==='contain'?Math.min(CANVAS_W/imgW,CANVAS_H/imgH):Math.max(CANVAS_W/imgW,CANVAS_H/imgH);
+      const canvasW=item.canvas.width,canvasH=item.canvas.height;
+      let fitScale=btn.dataset.fit==='contain'?Math.min(canvasW/imgW,canvasH/imgH):Math.max(canvasW/imgW,canvasH/imgH);
       item.fitBaseScale=fitScale;item.baseScale=1;item.dragOffset=0;
       draw(item);
     });
@@ -128,10 +133,53 @@ function createCard(item){
 
   card.querySelector('.rotate-btn').onclick=()=>{item.rotation=(item.rotation+90)%360;draw(item);};
 
+  const canvasWrap=card.querySelector('.canvas-wrap');
+  let heightDragging=false,heightStartY=0;
+  
+  canvasWrap.addEventListener('mousedown',e=>{
+    const rect=canvas.getBoundingClientRect();
+    const canvasRect=canvasWrap.getBoundingClientRect();
+    const y=e.clientY-canvasRect.top;
+    const distFromTop=y;
+    const distFromBottom=canvasRect.height-y;
+    if(distFromTop<8||distFromBottom<8){
+      heightDragging=true;
+      heightStartY=e.clientY;
+      e.preventDefault();
+    }
+  });
+
+  canvasWrap.addEventListener('mousemove',e=>{
+    const rect=canvas.getBoundingClientRect();
+    const canvasRect=canvasWrap.getBoundingClientRect();
+    const y=e.clientY-canvasRect.top;
+    const distFromTop=y;
+    const distFromBottom=canvasRect.height-y;
+    if(distFromTop<8||distFromBottom<8){
+      canvasWrap.style.cursor='ns-resize';
+    }else{
+      canvasWrap.style.cursor='default';
+    }
+  });
+
+  window.addEventListener('mousemove',e=>{
+    if(!heightDragging)return;
+    const dy=e.clientY-heightStartY;
+    const newHeight=Math.max(50,canvas.height+dy);
+    item.customHeight=newHeight;
+    canvas.height=newHeight;
+    heightStartY=e.clientY;
+    card.querySelector('.height-override').value=newHeight;
+    draw(item);
+  });
+
+  window.addEventListener('mouseup',()=>{heightDragging=false;});
+
   card.querySelector('.reset-size').onclick=()=>{
-    item.baseScale=0;item.scaleValue=0;item.x=50;item.y=50;item.fitBaseScale=null;item.dragOffset=0;
+    item.baseScale=0;item.scaleValue=0;item.x=50;item.y=50;item.fitBaseScale=null;item.dragOffset=0;item.customHeight=null;
     const inputs=card.querySelectorAll('[data-key]');
-    inputs.forEach(i=>{if(i.type==='range')i.value=50;if(i.type==='checkbox')i.checked=false;});
+    inputs.forEach(i=>{if(i.type==='range')i.value=50;if(i.type==='checkbox')i.checked=false;if(i.classList.contains('height-override'))i.value='';});
+    updateCanvasSize(item);
     draw(item);
   };
 
@@ -143,34 +191,57 @@ function createCard(item){
 
 function removeItem(item){items=items.filter(x=>x!==item);item.card.remove();}
 
+function updateCanvasSize(item){
+  const chValue=ch.value.trim();
+  if(chValue===''){
+    if(item.customHeight!==null){
+      item.canvas.height=item.customHeight;
+    }else{
+      const calculatedHeight=Math.round(CANVAS_W*item.aspectRatio);
+      item.canvas.height=calculatedHeight;
+    }
+  }else{
+    if(item.customHeight!==null){
+      item.canvas.height=item.customHeight;
+    }else{
+      item.canvas.height=parseInt(chValue)||300;
+    }
+  }
+}
+
 function applyCanvasSize(){
-  CANVAS_W=parseInt(cw.value)||400;CANVAS_H=parseInt(ch.value)||300;
-  items.forEach(item=>{item.canvas.width=CANVAS_W;item.canvas.height=CANVAS_H;draw(item);});
+  CANVAS_W=parseInt(cw.value)||400;
+  items.forEach(item=>{
+    item.canvas.width=CANVAS_W;
+    updateCanvasSize(item);
+    draw(item);
+  });
 }
 
 async function draw(item){
   const ctx=item.ctx,canvas=item.canvas;
-  ctx.clearRect(0,0,CANVAS_W,CANVAS_H);
+  const canvasW=canvas.width,canvasH=canvas.height;
+  ctx.clearRect(0,0,canvasW,canvasH);
   let bgColor=document.querySelector('input[name="bg-color"]:checked').value;
   ctx.fillStyle=bgColor==='transparent'?'transparent':bgColor;
-  ctx.fillRect(0,0,CANVAS_W,CANVAS_H);
+  ctx.fillRect(0,0,canvasW,canvasH);
   const imgW=item.img.width,imgH=item.img.height;
   let base=item.fitBaseScale!==null?item.fitBaseScale:1;
   let interactive=item.baseScale+item.dragOffset;
   let scale;
-  if(interactive>=0)scale=Math.min(3,base*(1+interactive/CANVAS_H));
-  else scale=Math.max(0.01,base*(1+interactive/CANVAS_W));
+  if(interactive>=0)scale=Math.min(3,base*(1+interactive/canvasH));
+  else scale=Math.max(0.01,base*(1+interactive/canvasW));
   let maxReached=false;
   if(!item.allowUpscale&&['png','jpg','jpeg','avif','webp'].includes(item.ext)){if(scale>1){scale=1;maxReached=true;}}
   const w=item.img.width*scale,h=item.img.height*scale;
   let rw=card_rw=item.card.querySelector('.rendered-w'),rh=item.card.querySelector('.rendered-h');
   rw.textContent=parseFloat(w).toFixed(1).replace(/\.?0+$/,'');
   rh.textContent=parseFloat(h).toFixed(1).replace(/\.?0+$/,'');
-  let overflowX=w-CANVAS_W,overflowY=h-CANVAS_H;
+  let overflowX=w-canvasW,overflowY=h-canvasH;
   let px=Math.min(150,Math.max(-50,item.x))/100,py=Math.min(150,Math.max(-50,item.y))/100;
   let cx,cy;
-  if(CANVAS_W>=imgW)cx=(CANVAS_W-w)*px;else cx=-(overflowX*px);
-  if(CANVAS_H>=imgH)cy=(CANVAS_H-h)*py;else cy=-(overflowY*py);
+  if(canvasW>=imgW)cx=(canvasW-w)*px;else cx=-(overflowX*px);
+  if(canvasH>=imgH)cy=(canvasH-h)*py;else cy=-(overflowY*py);
   ctx.save();
   const centerX=cx+w/2,centerY=cy+h/2;
   ctx.translate(centerX,centerY);
@@ -192,11 +263,11 @@ function getExportData(item){
 function getExportCanvas(item,type){
   if(type.mime!=='image/jpeg'&&type.mime!=='image/png')return item.canvas;
   const temp=document.createElement('canvas');
-  temp.width=CANVAS_W;temp.height=CANVAS_H;
+  temp.width=item.canvas.width;temp.height=item.canvas.height;
   const tctx=temp.getContext('2d');
   let bgColor=document.querySelector('input[name="bg-color"]:checked').value;
   tctx.fillStyle=(type.mime==='image/jpeg'&&bgColor==='transparent')?'#ffffff':bgColor;
-  tctx.fillRect(0,0,CANVAS_W,CANVAS_H);
+  tctx.fillRect(0,0,item.canvas.width,item.canvas.height);
   tctx.drawImage(item.canvas,0,0);return temp;
 }
 
