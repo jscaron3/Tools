@@ -1,7 +1,7 @@
 (() => {
   // Paths are relative so the site works under a GitHub Pages project URL (/repo/).
-  const SOURCES = { "divi-4": "data/divi-4.json", "divi-5": "data/divi-5.json" };
-  const META_PATH = "data/meta.json";
+  const SOURCES = { "divi-4": "tools/divi-changelog/data/divi-4.json", "divi-5": "tools/divi-changelog/data/divi-5.json" };
+  const META_PATH = "tools/divi-changelog/data/meta.json";
   const TYPE_LABELS = { feature: "Features", improvement: "Improvements", bug: "Bug fixes", security: "Security" };
 
   const state = {
