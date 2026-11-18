@@ -12,7 +12,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = ROOT / "data"
+DATA_DIR = ROOT / "/tools/divi-changelog/data"
 DIVI4_URL = "https://www.elegantthemes.com/api/changelog/divi.txt"
 DIVI5_URL = "https://www.elegantthemes.com/api/changelog/divi-5.txt"  # same format as DIVI4_URL
 USER_AGENT = "divi-changelog-updater/1.0"
