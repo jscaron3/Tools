@@ -3,6 +3,317 @@
   "source": "https://www.elegantthemes.com/api/changelog/divi-5.txt",
   "releases": [
     {
+      "version": "5.19.1",
+      "date": "2026-11-18",
+      "items": [
+        {
+          "type": "bug",
+          "text": "Fixed excessive AI Agent token usage when adding missing image alternative text."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed excessive AI Agent token usage when adding aria-label attributes to interaction triggers."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Accordion title size and alignment being overridden by option group presets."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Button option group presets failing to show an icon when the default element preset disabled it."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed inconsistent heading sizes in the Visual text editor when headings contained inline markup."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed the Divi Layout Block builder getting stuck loading in the WordPress 7.1 Block Editor."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Section Divider Horizontal Repeat 0x rendering the same shape as 1x."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Image Module Link copying, extension and preset resetting to preserve unrelated image fields."
+        },
+        {
+          "type": "improvement",
+          "text": "Clipboard entries now preserve the copied module type through cache serialization. Image Content paste therefore retains lightbox after the source module is deleted or the user navigates to another page. Older clipboard entries still use the live-source fallback."
+        },
+        {
+          "type": "improvement",
+          "text": "Divi 5 modules display their names in the WordPress Block Editor’s Document Overview List View."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed an issue that allowed users to access custom-field metadata for posts they did not have permission to edit."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Slider navigation becoming unresponsive while editing a child Slide in the Visual Builder."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed newly promoted Main canvases losing their layouts after leaving Canvas Grid View."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Menu Text hover transforms moving surrounding header elements when enabled through Composable Settings."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed canvas right-click actions, clipboard operations, library saves, and module movement using the wrong layout content."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed an issue where default Element Presets could override assigned Option Group Presets in the Visual Builder."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Gallery responsive width descriptors and measured larger-image selection for wide cells, while avoiding eager automatic original selection and preserving custom-fit thumbnails."
+        },
+        {
+          "type": "feature",
+          "text": "Added a public API for third-party developers to register custom AI Agent tools, with user trust controls, a Tools Catalog management UI, and developer documentation."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed authorization checks for local code snippet favorites, categories, tags and source duplication."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed oversized, right-aligned stars overlapping their rating labels in the Woo Product Reviews module."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed preset grid offset rules reappearing after being deleted from an individual module."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed parent Blurb layout and Text typography settings affecting nested modules of the same type."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Post Filter Reset leaving a radio option selected after reloading a filtered page."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed font dropdown jumps during arrow-key navigation in the Visual Builder."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Button group preset icons overriding locally selected icons on hover when using left icon placement."
+        },
+        {
+          "type": "feature",
+          "text": "Added missing sticky-post and current-post exclusion options in Theme Builder templates, including current-page queries."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed slow backend saves when Divi's static CSS cache contains many directories."
+        },
+        {
+          "type": "improvement",
+          "text": "Updated AI Agent HTML cleanup in Text modules to use compact discovery and reduce token usage."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed loop excerpts including the outer page title and unrelated canvas content."
+        },
+        {
+          "type": "improvement",
+          "text": "Enabled video, pattern, and mask backgrounds for Menu Text links."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Divi Library batch imports counting a timed-out file as both failed and successful."
+        },
+        {
+          "type": "improvement",
+          "text": "Improved settings-search performance by reducing repeated tooltip lookup work."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed blurry YouTube thumbnails in Slider, Fullwidth Slider and upload previews."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed collapsed or disappearing video slides in Visual Builder."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed blank video slides after overlapping navigation, responsive changes or revealing hidden containers."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed incorrect slide control colors after interrupted navigation and slider reinitialization."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed hidden Video Slider playback restarting after an interrupted departure."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed partially faded Gallery images after slider reinitialization."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed unauthorized access to post content and layout-preview data through Divi Layout block requests."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed shortcode previews exposing data from posts the current user cannot read."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed responsive Image module margins displaying differently in the Visual Builder and frontend."
+        },
+        {
+          "type": "feature",
+          "text": "Added WordPress Abilities discovery and approval-based execution to the Divi AI Agent, including read-only execution in Ask mode."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed entrance animations breaking native CSS sticky positioning on the front end in browsers supporting overflow clipping."
+        },
+        {
+          "type": "feature",
+          "text": "Added an explicit Static positioning option while preserving Default positioning."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed loop product dynamic prices ignoring WooCommerce shop tax display settings."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed responsive column widths defined in presets not applying on the frontend."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed unexpected scrolling when selecting layers on pages with Theme Builder templates."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed a JavaScript error on WooCommerce checkout pages when a Divi-built Terms and Conditions page contained section dividers."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed an issue where Divi AI image variant swaps could change image framing."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed background images disappearing on the front end when saved parallax settings omit an enabled value."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed duplicate Section CSS generated by overlapping default option group preset sources."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed loading saved layouts and existing pages containing presets and global variables for users with Editor permissions."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed the Post Filter Item field label appearing twice on the front end when the field type differs between desktop and mobile."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed a builder error and restored column-count changes in migrated Block specialty inner-row settings."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed accordion items scrolling out of view when large sticky sections leave no visible scroll destination."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed custom attribute sanitization so users without unfiltered HTML permission cannot save event handlers through flat attribute lists."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed composable settings failing to enable automatically when compatible option group presets were assigned between composite and direct option groups."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed the color picker resetting its selected hue when choosing black or gray colors."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed preset-based Grid layouts missing Grid styles or rendering columns too narrowly on published pages."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed tablet-width Sidebar widgets in Divi 5 while preserving full-width phone behavior."
+        },
+        {
+          "type": "improvement",
+          "text": "Restored undo shortcuts while editing Chart table values."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Group Carousel Groups layout defaults and alignment icons to match the vertical group direction."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed cleared transform values generating invalid CSS that prevented other transforms from applying."
+        },
+        {
+          "type": "improvement",
+          "text": "Improved Divi AI agent efficiency by keeping only the latest module data in later AI requests."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed an issue where a user who could edit posts could permanently delete or change a global canvas they were not allowed to manage."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed an issue where a user who can edit posts could permanently delete Divi Library layouts and Theme Builder templates."
+        },
+        {
+          "type": "improvement",
+          "text": "Deleted global elements will no longer display their local instances on the front end."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Post Filter parent bottom margins while preserving unset gutter and specialty-column defaults."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed vertical alignment of action icons in the canvas selector."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed HTML icons in navigation labels appearing as literal markup when displayed through an Icon List menu loop."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed extending column attributes to a parent row also affecting nested columns."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed Contact Form field hover shadows from presets."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed phone-width grid rows whose columns exceeded the row container."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed panel actions leaving their destination hidden behind another tab in a grouped panel."
+        },
+        {
+          "type": "improvement",
+          "text": "Prevented portability and Divi Library imports from uploading media without the required WordPress permission."
+        },
+        {
+          "type": "bug",
+          "text": "Fixed false save conflicts when staging websites rewrote image URLs in the Visual Builder."
+        }
+      ],
+      "files": []
+    },
+    {
       "version": "5.19.0",
       "date": "2026-11-06",
       "items": [
