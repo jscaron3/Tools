@@ -7,9 +7,9 @@
   const META_PATH = "tools/essentials/dev-dashboard/data/meta.json";
   const TYPE_LABELS = { feature: "Features", improvement: "Improvements", bug: "Bug fixes", security: "Security" };
   const KEYWORDS = [
-    {k:'WordPress', on:true}, {k:'PHP', on:true}, {k:'Divi', on:true},
+    {k:'WordPress', on:true}, {k:'PHP', on:true}, 
     {k:'jQuery', on:true}, {k:'DirectAdmin', on:true},
-    {k:'MySQL', on:true}, {k:'Apache HTTP Server', on:true}, {k:'nginx', on:true}
+    {k:'MySQL', on:true}, {k:'Apache', on:true}, {k:'nginx', on:true}
   ];
 
   const vulnData = { data: [], fetchedAt: null };
@@ -227,10 +227,21 @@ function stopLoading(btn) {
         `` +
         `<div><h3>
         <div class="score">${v.score != null ? v.score.toFixed(1) : '–'}<small>${sevLabel(v.sev)}</small></div>
-        <a href="https://nvd.nist.gov/vuln/detail/${encodeURIComponent(v.id)}" target="_blank" rel="noopener">${esc(v.id)}</a>` +
+        <a href="https://nvd.nist.gov/vuln/detail/${encodeURIComponent(v.id)}" target="_blank" rel="noopener">${esc(v.id)}</a>
+        <div class="tags">` +
         v.kws.map(k => `<span class="tag">${esc(k)}</span>`).join('') +
         (sort === 'score' ? `<span class="tag">${esc(new Date(v.published).toLocaleDateString())}</span>` : '') +
-        `</h3><p class="desc" title="Click to expand">${esc(v.desc)}</p></div></article>`;
+        `</div></h3><p class="desc" title="Click to expand">${esc(v.desc)}</p></div></article>`;
+
+        /*html += `<article class="item" style="--c:${col};border-left-color:${col}">` +
+  `<div class="score">${v.score != null ? v.score.toFixed(1) : '–'}<small>${sevLabel(v.sev)}</small></div>` +
+  `<div><h3>
+    <a href="https://nvd.nist.gov/vuln/detail/${encodeURIComponent(v.id)}" target="_blank" rel="noopener">${esc(v.id)}</a>
+    <div class="tags">` +
+      v.kws.map(k => `<span class="tag">${esc(k)}</span>`).join('') +
+      (sort === 'score' ? `<span class="tag">${esc(new Date(v.published).toLocaleDateString())}</span>` : '') +
+    `</div>
+  </h3><p class="desc" title="Click to expand">${esc(v.desc)}</p></div></article>`;*/
     });
     $('vulnLog').innerHTML = html;
   }

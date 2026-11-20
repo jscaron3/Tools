@@ -350,14 +350,21 @@ input[type=search] {
 	background: var(--c)
 }
 
+#vulnLog {
+	display: grid;
+	grid-template-columns: auto 1fr;
+}
+
 .day {
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--muted);
 	margin: 22px 0 6px;
 	padding-bottom: 4px;
-	border-bottom: 1px solid var(--line)
+	border-bottom: 1px solid var(--line);
+	grid-column: 1 / -1;
 }
+
 
 .item {
 	display: grid;
@@ -371,7 +378,38 @@ input[type=search] {
 	background: var(--panel);
 	margin-bottom: 6px;
 	cursor: pointer;
+	grid-template-columns: subgrid;
+	grid-column: 1 / -1;
 }
+
+.item > div {
+	display: grid;
+	/* grid-template-columns: auto 1fr; */
+	grid-template-columns: subgrid;
+	/* gap: 6px 18px; */
+	gap: 6px 6px;
+	grid-column: 1 / -1;
+
+}
+
+.item.open > div {
+	grid-template-columns: 1fr;
+}
+
+/*
+.item.open .score {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	width: auto;
+}
+
+.item.open .score small {
+	display: block;
+	margin: 0;
+}
+*/
+
 
 .score {
 	font-family: var(--mono);
@@ -402,6 +440,8 @@ input[type=search] {
 	display: none;
 }
 
+
+
 .item:has(.open), .item.open {
 	/* grid-template-columns: repeat(58px 1fr); */
 	/*.score {
@@ -416,12 +456,14 @@ input[type=search] {
 
 
 .item h3 {
-	margin: 0 0 3px;
+	/* margin: 0 0 3px; */
+	margin: 0;
 	font-size: 14px;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	align-items: baseline
+	/* align-items: baseline; */
+	align-items: center;
 }
 
 .item h3 a {
@@ -436,12 +478,19 @@ input[type=search] {
 	color: var(--accent)
 }
 
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	flex-direction: column;
+	align-items: flex-start;
+}
 .tag {
 	font-size: 12px;
 	color: var(--muted);
 	border: 1px solid var(--line);
 	border-radius: 3px;
-	padding: 0 6px
+	padding: 0 6px;
 }
 
 .desc {
@@ -452,7 +501,7 @@ input[type=search] {
 	-webkit-line-clamp: 1;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
-	padding-left: 45px;
+	/* padding-left: 45px; */
 }
 
 .desc.open, .item.open .desc {
