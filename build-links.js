@@ -7,6 +7,16 @@ import path from "path";
 
 const basePath = path.resolve(process.cwd(), "tools");
 const outputPath = path.resolve(process.cwd(), "index.html");
+const configPath = path.resolve(process.cwd(), "tools-config.json");
+
+// Load tools-config for favorites and group labels
+let config = { favorites: [], groups: {} };
+try {
+  const configData = fs.readFileSync(configPath, "utf-8");
+  config = JSON.parse(configData);
+} catch (e) {
+  console.warn("Could not load tools-config.json, using defaults");
+}
 
 const dirs = fs.readdirSync(basePath, { withFileTypes: true })
   .filter(d => d.isDirectory())
@@ -20,12 +30,14 @@ const escapeHtml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
-const buildCard = (dir, subDir) => {
+const buildCard = (dir, subDir, isFavorite = false) => {
   const label = escapeHtml((subDir ? subDir : dir).replaceAll("-", " "));
+  const starIcon = isFavorite ? ' ⭐' : '';
+  const cssClass = isFavorite ? ' tool-card--favorite' : '';
   const previewUrl = `./tools/${dir}${subDir ? `/${subDir}` : ""}/index.html`;
   const toolUrl = `./template.html?tool=${encodeURIComponent(subDir ? `${dir}/${subDir}` : dir)}`;
   return `
-      <a class="tool-card" href="${toolUrl}">
+      <a class="tool-card${cssClass}" href="${toolUrl}">
         <span class="tool-card__preview" aria-hidden="true">
           <iframe
             src="${previewUrl}"
@@ -35,7 +47,7 @@ const buildCard = (dir, subDir) => {
           ></iframe>
         </span>
         <span class="tool-card__meta">
-          <span class="tool-card__title">${label}</span>
+          <span class="tool-card__title">${label}${starIcon}</span>
           <span class="tool-card__action">Open tool</span>
         </span>
       </a>`;
@@ -52,18 +64,38 @@ flatLinks.push(`<div class="tools-group">
   <span class="tools-group__label">Other Tools</span>
 `);
 
-dirs.forEach((dir) => {
+// Sort directories based on groupOrder from config
+const orderedDirs = config.groupOrder ? 
+  config.groupOrder.filter(d => dirs.includes(d)).concat(dirs.filter(d => !config.groupOrder.includes(d))) :
+  dirs;
+
+orderedDirs.forEach((dir) => {
   const dirPath = path.join(basePath, dir);
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
   const hasIndexHtml = entries.some(e => e.isFile() && e.name === "index.html");
   const subDirs = entries.filter(d => d.isDirectory()).map(d => d.name);
 
   if (!hasIndexHtml && subDirs.length > 0) {
-    const groupLabel = escapeHtml(dir.replaceAll("-", " "));
-    const subCards = subDirs.map(subDir => {
+    // Remove numeric prefix (e.g., "essentials" -> "essentials")
+    const cleanedDir = dir.replace(/^\d+-/, '');
+    const groupLabel = config.groups[dir] || escapeHtml(cleanedDir.replaceAll("-", " "));
+    const favorites = new Set(config.favorites || []);
+    
+    // Separate favorites and regular tools, then combine with favorites first
+    const favTools = [];
+    const regTools = [];
+    
+    subDirs.forEach(subDir => {
       allToolPaths.push(`${dir}/${subDir}`);
-      return buildCard(dir, subDir);
-    }).join("\n");
+      const isFav = favorites.has(subDir);
+      if (isFav) {
+        favTools.push(buildCard(dir, subDir, true));
+      } else {
+        regTools.push(buildCard(dir, subDir, false));
+      }
+    });
+    
+    const subCards = [...favTools, ...regTools].join("\n");
     groupLinks.push(`
       <div class="tools-group">
         <span class="tools-group__label">${groupLabel}</span>

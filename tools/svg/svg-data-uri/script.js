@@ -27,8 +27,8 @@ function escapeRegExp(s) {
 
 
 
-    $("#encoding-toggle").on("click", "input[type='radio']", convertInput);
-    $("#output-types").on("click", "input[type='radio']", convertInput);
+    jQuery("#encoding-toggle").on("click", "input[type='radio']", convertInput);
+    jQuery("#output-types").on("click", "input[type='radio']", convertInput);
 
     document.getElementById("input").addEventListener("input", convertInput);
     document.getElementById("convert").addEventListener("click", convertInput);

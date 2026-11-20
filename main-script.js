@@ -1,4 +1,5 @@
 let tools = {};
+let config = { favorites: [], groups: {} };
 
 const params = new URLSearchParams(window.location.search);
 const toolName = params.get('tool');
@@ -9,12 +10,63 @@ const toolBack = document.getElementById('tool-back');
 
 function renderToolList() {
     title.textContent = 'Tools';
-    toolList.innerHTML = Object.values(tools)
-        .map(
-            (tool) =>
-                `<a class="tool-card" href="./template.html?tool=${encodeURIComponent(tool.label)}">${tool.label}</a>`
-        )
-        .join('');
+
+    console.log('test renderToolList');
+    
+    
+    // Group tools by folder prefix
+    const grouped = {};
+    const favorites = new Set(config.favorites || []);
+    console.log(favorites);
+    
+    
+    Object.entries(tools).forEach(([path, tool]) => {
+        const parts = path.split('/');
+        const group = parts.length > 1 ? parts[0] : 'other';
+        if (!grouped[group]) grouped[group] = { favorite: [], regular: [] };
+        
+        if (favorites.has(tool.id)) {
+            grouped[group].favorite.push(tool);
+        } else {
+            grouped[group].regular.push(tool);
+        }
+    });
+    
+    // Sort each group and render
+    let html = '';
+    
+    // Sort groups based on groupOrder from config
+    const groupOrder = config.groupOrder || [];
+    const sortedGroups = Object.keys(grouped).sort((a, b) => {
+        const indexA = groupOrder.indexOf(a);
+        const indexB = groupOrder.indexOf(b);
+        
+        // Items in groupOrder come first (in order), then others alphabetically
+        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
+    
+    sortedGroups.forEach(group => {
+        const groupLabel = config.groups[group] || group.replace(/^\d+-/, '').replaceAll('-', ' ');
+        const tools_in_group = [...grouped[group].favorite, ...grouped[group].regular];
+        
+        html += `<div class="tool-group">
+                <h2 class="group-title">${groupLabel}</h2>
+                <div class="tool-cards">`;
+        
+        tools_in_group.forEach(tool => {
+
+                
+                const isFavorite = favorites.has(tool.id) ? ' ⭐' : '';
+                html += `<a class="tool-card" href="./template.html?tool=${encodeURIComponent(tool.label)}">${tool.label}${isFavorite}</a>`;
+            });
+            
+            html += `</div></div>`;
+        });
+    
+    toolList.innerHTML = html;
     toolList.hidden = false;
     toolMount.hidden = true;
     toolBack.hidden = true;
@@ -113,11 +165,19 @@ async function init() {
         throw new Error('Template shell is missing required elements.');
     }
 
+    // Load tool config
+    try {
+        config = await fetch('./tools-config.json').then((r) => r.json());
+    } catch (e) {
+        console.warn('tools-config.json not found, using defaults');
+    }
+
     const toolPaths = await fetch('./tools.json').then((r) => r.json());
     tools = Object.fromEntries(
         toolPaths.map((toolPath) => [
             toolPath,
             {
+                id: toolPath.split('/').pop(),
                 label: toolPath.split('/').pop().replaceAll('-', ' '),
                 url: `./tools/${toolPath}/index.html`
             }

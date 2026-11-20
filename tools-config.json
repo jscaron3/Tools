@@ -1,0 +1,19 @@
+{
+  "favorites": [
+    "dev-dashboard",
+    "svg-data-uri",
+    "type-tools"
+  ],
+  "groupOrder": [
+    "essentials",
+    "converters",
+    "svg",
+    "utilities"
+  ],
+  "groups": {
+    "essentials": "Essential Tools",
+    "converters": "Converters & Generators",
+    "svg": "SVG Tools",
+    "utilities": "Utilities"
+  }
+}

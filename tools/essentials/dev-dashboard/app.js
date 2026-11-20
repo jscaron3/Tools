@@ -3,19 +3,57 @@
   const CACHE_VULN = 'merged-vuln-cache-v1';
   const CACHE_CHANGE = 'merged-change-cache-v1';
   const PREFS = 'merged-prefs-v1';
-  const SOURCES = { "divi-4": "tools/dev-dashboard/data/divi-4.json", "divi-5": "tools/dev-dashboard/data/divi-5.json" };
-  const META_PATH = "tools/dev-dashboard/data/meta.json";
+  const SOURCES = { "divi-4": "tools/essentials/dev-dashboard/data/divi-4.json", "divi-5": "tools/essentials/dev-dashboard/data/divi-5.json" };
+  const META_PATH = "tools/essentials/dev-dashboard/data/meta.json";
   const TYPE_LABELS = { feature: "Features", improvement: "Improvements", bug: "Bug fixes", security: "Security" };
   const KEYWORDS = [
     {k:'WordPress', on:true}, {k:'PHP', on:true}, {k:'Divi', on:true},
     {k:'Advanced Custom Fields', on:true}, {k:'jQuery', on:true},
-    {k:'MySQL', on:false}, {k:'Apache HTTP Server', on:false}, {k:'nginx', on:false}
+    {k:'MySQL', on:true}, {k:'Apache HTTP Server', on:true}, {k:'nginx', on:true}
   ];
 
   const vulnData = { data: [], fetchedAt: null };
   const changeData = { data: {}, meta: null };
 
   const $ = (id) => document.getElementById(id);
+
+
+
+
+  // Stop animation
+  const pendingStops = new WeakMap();
+
+
+  function startLoading(btn) {
+  pendingStops.get(btn)?.(); // cancel any pending stop
+  btn.classList.add('loading');
+}
+
+function stopLoading(btn) {
+  const svg = btn.querySelector('svg');
+  if (!svg || !btn.classList.contains('loading')) {
+    btn.classList.remove('loading');
+    return;
+  }
+
+  pendingStops.get(btn)?.(); // avoid stacking listeners
+
+  const finish = () => {
+    cancel();
+    btn.classList.remove('loading');
+  };
+  const cancel = () => {
+    clearTimeout(timer);
+    svg.removeEventListener('animationiteration', finish);
+    pendingStops.delete(btn);
+  };
+
+  // Fallback if the event never fires (hidden tab, reduced motion, etc.)
+  const timer = setTimeout(finish, 1200);
+  svg.addEventListener('animationiteration', finish);
+  pendingStops.set(btn, cancel);
+}
+
 
   /* ========== UTILITIES ========== */
   function esc(s){ return String(s).replace(/[&<>"']/g, c => ({
@@ -102,7 +140,9 @@
     if(!active.length){ setVulnStatus('Select at least one product.', true); return; }
     const btn = $('vulnUpdate');
     btn.disabled = true;
-    btn.textContent = 'Updating…';
+    // btn.textContent = 'Updating…';
+    // btn.classList.add('loading');
+    startLoading(btn);
     const end = new Date(), start = new Date(end.getTime() - DAYS*864e5);
     const map = {};
     try{
@@ -125,7 +165,9 @@
       setVulnStatus(`Update failed: ${e.message}. Showing last saved data if any.`, true);
     }finally{
       btn.disabled = false;
-      btn.textContent = 'Update vulnerabilities';
+      stopLoading(btn);
+      // btn.classList.remove('loading');
+      // btn.textContent = 'Update vulnerabilities';
     }
   }
 
@@ -212,7 +254,10 @@
     return response.json();
   }
 
-  async function loadChangelog(bust = false) {
+  /*async function loadChangelog(bust = false) {
+    const btn = $('changeRefresh');
+    // btn.classList.add('loading');
+    startLoading(btn);
     setChangeStatus("Loading…");
     const keys = Object.keys(SOURCES);
     const results = await Promise.allSettled([
@@ -236,8 +281,48 @@
     
     save(CACHE_CHANGE, changeData);
     renderChangelog();
+    // btn.classList.remove('loading');
+    stopLoading(btn);
     if (errors.length) setChangeStatus(`Some data could not be loaded: ${errors.join("; ")}`);
+  }*/
+
+
+    async function loadChangelog(bust = false) {
+  const btn = $('changeRefresh');
+  startLoading(btn);
+  setChangeStatus("Loading…");
+
+  try {
+    const keys = Object.keys(SOURCES);
+    const results = await Promise.allSettled([
+      ...keys.map(key => fetchJson(SOURCES[key], bust)),
+      fetchJson(META_PATH, bust),
+    ]);
+
+    const errors = [];
+    keys.forEach((key, index) => {
+      const result = results[index];
+      if (result.status === "fulfilled") {
+        changeData.data[key] = result.value;
+        changeData.data[key].releases.sort((a, b) => b.date.localeCompare(a.date));
+      } else {
+        errors.push(result.reason.message);
+      }
+    });
+
+    const metaResult = results[keys.length];
+    changeData.meta = metaResult.status === "fulfilled" ? metaResult.value : null;
+
+    save(CACHE_CHANGE, changeData);
+    renderChangelog();
+
+    if (errors.length) setChangeStatus(`Some data could not be loaded: ${errors.join("; ")}`);
+  } catch (e) {
+    setChangeStatus(`Update failed: ${e.message}`);
+  } finally {
+    stopLoading(btn);
   }
+}
 
   function visibleChangelogEntries() {
     const product = $('changeProduct').value;
@@ -338,6 +423,19 @@
   });
 
   $('changeRefresh').addEventListener('click', () => loadChangelog(true));
+  
+
+  
+    const showDiviFilters = document.querySelector('#showDiviFilters');
+
+  
+    if (showDiviFilters) {
+    showDiviFilters.addEventListener('click', function() {
+      this.classList.toggle('active');
+      document.querySelector('.diviFilters')?.classList.toggle('active');
+    });
+  }
+  
 
   /* ========== INITIALIZATION ========== */
   
