@@ -2,18 +2,18 @@
   "sources": {
     "divi-4": {
       "status": "ok",
-      "checkedAt": "2026-11-20T14:43:35+00:00",
-      "lastSuccess": "2026-11-20T14:43:35+00:00",
+      "checkedAt": "2026-11-20T15:00:14+00:00",
+      "lastSuccess": "2026-11-20T15:00:14+00:00",
       "lastError": null,
       "releaseCount": 370
     },
     "divi-5": {
       "status": "ok",
-      "checkedAt": "2026-11-20T14:43:35+00:00",
-      "lastSuccess": "2026-11-20T14:43:35+00:00",
+      "checkedAt": "2026-11-20T15:00:14+00:00",
+      "lastSuccess": "2026-11-20T15:00:14+00:00",
       "lastError": null,
       "releaseCount": 46
     }
   },
-  "lastSync": "2026-11-20T14:43:35+00:00"
+  "lastSync": "2026-11-20T15:00:14+00:00"
 }
