@@ -8,7 +8,7 @@
   const TYPE_LABELS = { feature: "Features", improvement: "Improvements", bug: "Bug fixes", security: "Security" };
   const KEYWORDS = [
     {k:'WordPress', on:true}, {k:'PHP', on:true}, {k:'Divi', on:true},
-    {k:'Advanced Custom Fields', on:true}, {k:'jQuery', on:true},
+    {k:'jQuery', on:true}, {k:'DirectAdmin', on:true},
     {k:'MySQL', on:true}, {k:'Apache HTTP Server', on:true}, {k:'nginx', on:true}
   ];
 
@@ -224,8 +224,10 @@ function stopLoading(btn) {
       }
       const col = sevColor(v.sev);
       html += `<article class="item" style="--c:${col};border-left-color:${col}">` +
-        `<div class="score">${v.score != null ? v.score.toFixed(1) : '–'}<small>${sevLabel(v.sev)}</small></div>` +
-        `<div><h3><a href="https://nvd.nist.gov/vuln/detail/${encodeURIComponent(v.id)}" target="_blank" rel="noopener">${esc(v.id)}</a>` +
+        `` +
+        `<div><h3>
+        <div class="score">${v.score != null ? v.score.toFixed(1) : '–'}<small>${sevLabel(v.sev)}</small></div>
+        <a href="https://nvd.nist.gov/vuln/detail/${encodeURIComponent(v.id)}" target="_blank" rel="noopener">${esc(v.id)}</a>` +
         v.kws.map(k => `<span class="tag">${esc(k)}</span>`).join('') +
         (sort === 'score' ? `<span class="tag">${esc(new Date(v.published).toLocaleDateString())}</span>` : '') +
         `</h3><p class="desc" title="Click to expand">${esc(v.desc)}</p></div></article>`;
@@ -237,8 +239,15 @@ function stopLoading(btn) {
   $('vulnQ').addEventListener('input', renderVulnerabilities);
   $('vulnSev').addEventListener('change', renderVulnerabilities);
   $('vulnSort').addEventListener('change', renderVulnerabilities);
+  // $('vulnLog').addEventListener('click', e => {
+  //   if(e.target.classList.contains('desc') || e.target.classList.contains('item')) e.target.classList.toggle('open');
+  // });
+
   $('vulnLog').addEventListener('click', e => {
-    if(e.target.classList.contains('desc')) e.target.classList.toggle('open');
+    if (e.target.closest('a')) return;
+
+    const item = e.target.closest('.item');
+    if (item) item.classList.toggle('open');
   });
 
   /* ========== CHANGELOG SECTION ========== */
@@ -427,14 +436,20 @@ function stopLoading(btn) {
 
   
     const showDiviFilters = document.querySelector('#showDiviFilters');
-
-  
     if (showDiviFilters) {
-    showDiviFilters.addEventListener('click', function() {
-      this.classList.toggle('active');
-      document.querySelector('.diviFilters')?.classList.toggle('active');
-    });
-  }
+      showDiviFilters.addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.querySelector('.diviFilters')?.classList.toggle('active');
+      });
+    }
+    
+    const showVulnFilters = document.querySelector('#showVulnFilters');
+    if (showVulnFilters) {
+      showVulnFilters.addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.querySelector('.vulnFilters')?.classList.toggle('active');
+      });
+    }
   
 
   /* ========== INITIALIZATION ========== */

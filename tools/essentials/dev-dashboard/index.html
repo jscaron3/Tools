@@ -4,226 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dev Dashboard</title>
-<style>
-:root{
-  --bg:#e9edf1; --panel:#f7f9fb; --ink:#18212b; --muted:#5d6b7a; --line:#cfd7df;
-  --accent:#0f6b73;
-  --crit:#a61b1b; --high:#c2410c; --med:#9a6700; --low:#2f7a4d; --na:#6b7785;
-  --feature:#2f7a4d; --improvement:#0969da; --bug:#9a6700; --security:#a61b1b;
-  --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root{ --bg:#141a21; --panel:#1b232c; --ink:#e4eaf0; --muted:#93a1b0; --line:#2f3a46; --accent:#4fb3bd;
-    --crit:#ff7b72; --high:#ffa657; --med:#e3b341; --low:#6fcf97; --na:#8b98a7;
-    --feature:#6fcf97; --improvement:#58a6ff; --bug:#e3b341; --security:#ff7b72; }
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font)}
-.wrap{width:90%;margin:0 auto;padding:28px 0 60px;}
-header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px}
-h1{margin:0;font-size:26px;letter-spacing:-.01em}
-.sub{color:var(--muted);font-size:13px;margin-top:2px}
-button{font:inherit;cursor:pointer}
-.btn-action{background:var(--accent);color:#fff;border:0;padding:10px 10px;border-radius:6px;font-weight:600}
-.btn-action:disabled{opacity:.6;cursor:wait}
-@media (prefers-color-scheme: dark){ .btn-action{color:#0b1317} }
 
-/*.update-btn.loading svg {
-  animation: spin 1s infinite forwards;
-}
+<link rel="stylesheet" href="./style.css" />
 
 
-@keyframes spin { 
-  100%{transform: rotate(.5turn)}
-}*/
-
-
-
-
-.update-btn svg {
-  transform: rotate(0deg);
-}
-
-.update-btn.loading svg {
-  animation: spin 1s infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(180deg); }
-}
-
-
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* margin-bottom: 18px; */
-  gap: 8px;
-}
-
-.section-header h2 {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.actions-wrap {
-  display: flex;
-  gap: 4px;
-}
-
-#changeRefresh {
-
-}
-.btn-action svg {
-  display: block;
-}
-
-.filters-btn:not(.active) {
-  background-color: var(--panel);
-  color: var(--muted);
-  /* border: 1px solid var(--line); */
-  box-shadow: inset 0 0 0 1px var(--line);
-}
-
-.diviFilters:not(.active) {
-  display: none;
-}
-
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px}
-
-.tabs-container{display:flex;gap:8px;margin-bottom:18px}
-.tab-btn{
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background:var(--panel);border:1px solid var(--line);padding:10px 16px;border-radius:6px;font-weight:500;cursor:pointer;color:var(--muted)}
-.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.tab-btn:hover{border-color:var(--accent)}
-
-.tab-btn svg{width:20px;height:20px}
-
-@media (prefers-color-scheme: dark){ .tab-btn.active{color:#0b1317} }
-
-/* .tab-content{display:none} */
-/* .tab-content.active{display:block} */
-
-.dashboard-layout{display:grid;grid-template-columns:1fr 410px;gap:12px}
-
-.filters{padding:14px;display:grid;gap:12px;margin-bottom:14px;}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.row > label.lbl{font-size:13px;color:var(--muted);min-width:64px}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-size:13px;cursor:pointer;user-select:none}
-.chip input{accent-color:var(--accent);margin:0}
-.chip:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
-select,input[type=search],input[type=date]{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink)}
-input[type=search]{flex:1;min-width:180px}
-
-.fieldset-compact{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.fieldset-compact legend{font-size:13px;color:var(--muted);padding:0;margin:0}
-.fieldset-compact label{display:inline-flex;gap:6px;align-items:center;font-size:13px}
-.fieldset-compact input[type=checkbox]{accent-color:var(--accent);margin:0}
-
-.status{font-size:13px;color:var(--muted);margin:0 0 10px;min-height:20px}
-.status.err{color:var(--crit)}
-.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--line);margin-bottom:6px}
-.bar i{display:block;height:100%}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin-bottom:18px}
-.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;background:var(--c)}
-
-.day{font-size:13px;font-weight:600;color:var(--muted);margin:22px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
-
-.item{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 14px;border:1px solid var(--line);border-left-width:4px;border-radius:5px;background:var(--panel);margin-bottom:6px}
-.score{font-family:var(--mono);font-weight:700;font-size:18px;text-align:center;line-height:1.1;color:var(--c);align-self:center}
-.score small{display:block;font-size:11px;font-weight:500;color:var(--muted);font-family:var(--font);margin-top:3px}
-.item h3{margin:0 0 3px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
-.item h3 a{font-family:var(--mono);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
-.item h3 a:hover{border-color:var(--accent);color:var(--accent)}
-.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 6px}
-.desc{margin:0;color:var(--ink);font-size:14px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
-.desc.open{-webkit-line-clamp:unset;display:block}
-
-.release-item{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:12px 14px;margin-bottom:6px; list-style:none;}
-.release-item details>summary{cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:600}
-.release-item summary::after{
-  /* content:"▸"; */
-  content:"";
-  color:var(--muted);
-  display:inline-block;
-  width: 0.9em;
-  height: 0.9em;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3e%3cg fill='%2393a1b0' stroke-linejoin='miter' stroke-linecap='butt'%3e%3cpath d='M3 11L16 24L29 11' stroke='%2393a1b0' stroke-width='5' stroke-miterlimit='10' stroke-linecap='square' fill='none'%3e%3c/path%3e%3c/g%3e%3c/svg%3e");
-  background-size: contain;
-  background-repeat: no-repeat;
-  rotate: 0deg;
-}
-.release-item details[open]>summary::after{
-  /* content:"▾"; */
-  rotate: 180deg;
-}
-.release-item .version{font-size:15px}
-.release-item .date{font-size:12px;color:var(--muted)}
-.release-item .badge{font-size:11px;padding:2px 8px;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
-.release-item .badge.product{color:var(--accent);border-color:var(--accent)}
-.release-item .badge.latest{background:var(--feature);color:#fff;border-color:var(--feature)}
-.release-item .badge.feature{color:var(--feature)}
-.release-item .badge.improvement{color:var(--improvement)}
-.release-item .badge.bug{color:var(--bug)}
-.release-item .badge.security{color:var(--security)}
-.release-item .count{
-  margin-left:auto;
-  font-size:12px;
-  color:var(--muted);
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid var(--line);
-}
-
-.change-group{
-  /* margin:8px 0 0 0; */
-  margin:16px 0 0 0;
-  font-size:14px;
-  /* padding-top: 8px; */
-  border-top: 1px solid var(--line);
-}
-.change-group h4{
-  /* margin:8px 0 4px 0; */
-  margin:16px 0 4px 0;
-  font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:inherit}
-.change-group h4.feature{color:var(--feature)}
-.change-group h4.improvement{color:var(--improvement)}
-.change-group h4.bug{color:var(--bug)}
-.change-group h4.security{color:var(--security)}
-.change-group ul{margin:0;padding-left:1.2rem}
-.change-group li{margin:0.2rem 0}
-
-.files{margin:8px 0 0 0;font-size:12px}
-.files summary{color:var(--muted);cursor:pointer;user-select:none}
-.files ul{margin:0.3rem 0 0 1.2rem;padding:0;font-family:var(--mono)}
-
-.empty{padding:40px 10px;text-align:center;color:var(--muted)}
-footer{margin-top:26px;font-size:12px;color:var(--muted)}
-footer a{color:var(--accent);text-decoration:none}
-footer a:hover{text-decoration:underline}
-@media (max-width:560px){ .item{grid-template-columns:46px 1fr;padding:10px} .tab-btn{padding:8px 12px;font-size:13px} }
-</style>
 </head>
 <body>
 <div class="wrap">
-  <header>
+  <!--<header>
     <div>
       <h1>Dev Dashboard</h1>
       <div class="sub">Track product changes and security vulnerabilities in one place</div>
     </div>
   </header>
-
+-->
+<!--
   <div class="tabs-container">
     <button class="tab-btn active" data-tab="vulnerabilities"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="m22.596,17.346L14.697,3.562c-.561-.979-1.569-1.562-2.697-1.562s-2.136.584-2.697,1.562L1.404,17.346c-.558.974-.555,2.134.008,3.104.562.971,1.568,1.55,2.689,1.55h15.798c1.122,0,2.127-.579,2.689-1.55.562-.971.565-2.131.008-3.104Zm-11.596-9.346h2v6h-2v-6Zm1,10c-.689,0-1.25-.561-1.25-1.25s.561-1.25,1.25-1.25,1.25.561,1.25,1.25-.561,1.25-1.25,1.25Z" stroke-width="0" fill="currentColor"></path></g></svg> Vulnerabilities</button>
     <button class="tab-btn" data-tab="changelog"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0784 1C10.2828 1 9.51972 1.31607 8.95711 1.87868L3.87868 6.95711C3.31607 7.51972 3 8.28278 3 9.07843V20C3 21.6569 4.34315 23 6 23H18C19.6569 23 21 21.6569 21 20V4C21 2.34315 19.6569 1 18 1H11.0784ZM11 9H5L11 3V9ZM14 7V9H17V7H14ZM7 11H17V13H7V11ZM7 15V17H17V15H7Z" fill="currentColor"></path> </g></svg> Changelog</button>
   </div>
+  -->
 
   <div class="dashboard-layout">
 
@@ -234,6 +34,9 @@ footer a:hover{text-decoration:underline}
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="m22.596,17.346L14.697,3.562c-.561-.979-1.569-1.562-2.697-1.562s-2.136.584-2.697,1.562L1.404,17.346c-.558.974-.555,2.134.008,3.104.562.971,1.568,1.55,2.689,1.55h15.798c1.122,0,2.127-.579,2.689-1.55.562-.971.565-2.131.008-3.104Zm-11.596-9.346h2v6h-2v-6Zm1,10c-.689,0-1.25-.561-1.25-1.25s.561-1.25,1.25-1.25,1.25.561,1.25,1.25-.561,1.25-1.25,1.25Z" stroke-width="0" fill="currentColor"></path></g></svg>
       Vulnerabilities</h2>
       <div class="actions-wrap">
+        <button id="showVulnFilters" class="btn-action filters-btn" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="M4.0001 3H20.0002C20.5525 3 21.0002 3.44764 21.0002 3.99987L21.0004 5.58569C21.0005 5.85097 20.8951 6.10538 20.7075 6.29295L14.293 12.7071C14.1055 12.8946 14.0001 13.149 14.0001 13.4142L14.0001 19.7192C14.0001 20.3698 13.3887 20.8472 12.7576 20.6894L10.7576 20.1894C10.3124 20.0781 10.0001 19.6781 10.0001 19.2192L10.0001 13.4142C10.0001 13.149 9.89474 12.8946 9.7072 12.7071L3.29299 6.29289C3.10545 6.10536 3.0001 5.851 3.0001 5.58579V4C3.0001 3.44772 3.44781 3 4.0001 3Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+        </button>
         <button id="vulnUpdate" class="btn-action update-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"> <path d="M3.5 2.5V7.5H8.5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none"></path> <path d="M20.5 21.5V16.5H15.5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none"></path> <path d="M2.49996 12C2.49996 17.2467 6.75325 21.5 12 21.5C15.6185 21.5 18.7646 19.4769 20.3687 16.5L20.2157 16.7729" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square" fill="none"></path> <path d="M21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C8.38143 2.5 5.23538 4.52315 3.63131 7.5L3.73595 7.311" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square" fill="none"></path> </g></svg></button>
 
       </div>
