@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog & Vulnerability Log</title>
+<style>
+:root{
+  --bg:#e9edf1; --panel:#f7f9fb; --ink:#18212b; --muted:#5d6b7a; --line:#cfd7df;
+  --accent:#0f6b73;
+  --crit:#a61b1b; --high:#c2410c; --med:#9a6700; --low:#2f7a4d; --na:#6b7785;
+  --feature:#2f7a4d; --improvement:#0969da; --bug:#9a6700; --security:#a61b1b;
+  --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#141a21; --panel:#1b232c; --ink:#e4eaf0; --muted:#93a1b0; --line:#2f3a46; --accent:#4fb3bd;
+    --crit:#ff7b72; --high:#ffa657; --med:#e3b341; --low:#6fcf97; --na:#8b98a7;
+    --feature:#6fcf97; --improvement:#58a6ff; --bug:#e3b341; --security:#ff7b72; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font)}
+.wrap{width:90%;max-width:980px;margin:0 auto;padding:28px 18px 60px;}
+header{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px}
+h1{margin:0;font-size:26px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13px;margin-top:2px}
+button{font:inherit;cursor:pointer}
+.btn-action{background:var(--accent);color:#fff;border:0;padding:10px 18px;border-radius:6px;font-weight:600}
+.btn-action:disabled{opacity:.6;cursor:wait}
+@media (prefers-color-scheme: dark){ .btn-action{color:#0b1317} }
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+
+.tabs-container{display:flex;gap:8px;margin-bottom:18px}
+.tab-btn{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background:var(--panel);border:1px solid var(--line);padding:10px 16px;border-radius:6px;font-weight:500;cursor:pointer;color:var(--muted)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-btn:hover{border-color:var(--accent)}
+
+.tab-btn svg{width:20px;height:20px}
+
+@media (prefers-color-scheme: dark){ .tab-btn.active{color:#0b1317} }
+
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.filters{padding:14px;display:grid;gap:12px;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row > label.lbl{font-size:13px;color:var(--muted);min-width:64px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-size:13px;cursor:pointer;user-select:none}
+.chip input{accent-color:var(--accent);margin:0}
+.chip:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+select,input[type=search],input[type=date]{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink)}
+input[type=search]{flex:1;min-width:180px}
+
+.fieldset-compact{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.fieldset-compact legend{font-size:13px;color:var(--muted);padding:0;margin:0}
+.fieldset-compact label{display:inline-flex;gap:6px;align-items:center;font-size:13px}
+.fieldset-compact input[type=checkbox]{accent-color:var(--accent);margin:0}
+
+.status{font-size:13px;color:var(--muted);margin:0 0 10px;min-height:20px}
+.status.err{color:var(--crit)}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--line);margin-bottom:6px}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin-bottom:18px}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;background:var(--c)}
+
+.day{font-size:13px;font-weight:600;color:var(--muted);margin:22px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+
+.item{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 14px;border:1px solid var(--line);border-left-width:4px;border-radius:5px;background:var(--panel);margin-bottom:6px}
+.score{font-family:var(--mono);font-weight:700;font-size:18px;text-align:center;line-height:1.1;color:var(--c);align-self:center}
+.score small{display:block;font-size:11px;font-weight:500;color:var(--muted);font-family:var(--font);margin-top:3px}
+.item h3{margin:0 0 3px;font-size:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.item h3 a{font-family:var(--mono);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.item h3 a:hover{border-color:var(--accent);color:var(--accent)}
+.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 6px}
+.desc{margin:0;color:var(--ink);font-size:14px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.desc.open{-webkit-line-clamp:unset;display:block}
+
+.release-item{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:12px 14px;margin-bottom:6px; list-style:none;}
+.release-item details>summary{cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:600}
+.release-item summary::after{
+  /* content:"▸"; */
+  content:"";
+  color:var(--muted);
+  display:inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3e%3cg fill='%2393a1b0' stroke-linejoin='miter' stroke-linecap='butt'%3e%3cpath d='M3 11L16 24L29 11' stroke='%2393a1b0' stroke-width='5' stroke-miterlimit='10' stroke-linecap='square' fill='none'%3e%3c/path%3e%3c/g%3e%3c/svg%3e");
+  background-size: contain;
+  background-repeat: no-repeat;
+  rotate: 0deg;
+}
+.release-item details[open]>summary::after{
+  /* content:"▾"; */
+  rotate: 180deg;
+}
+.release-item .version{font-size:15px}
+.release-item .date{font-size:12px;color:var(--muted)}
+.release-item .badge{font-size:11px;padding:2px 8px;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
+.release-item .badge.product{color:var(--accent);border-color:var(--accent)}
+.release-item .badge.latest{background:var(--feature);color:#fff;border-color:var(--feature)}
+.release-item .badge.feature{color:var(--feature)}
+.release-item .badge.improvement{color:var(--improvement)}
+.release-item .badge.bug{color:var(--bug)}
+.release-item .badge.security{color:var(--security)}
+.release-item .count{
+  margin-left:auto;
+  font-size:12px;
+  color:var(--muted);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+}
+
+.change-group{
+  /* margin:8px 0 0 0; */
+  margin:16px 0 0 0;
+  font-size:14px;
+  /* padding-top: 8px; */
+  border-top: 1px solid var(--line);
+}
+.change-group h4{
+  /* margin:8px 0 4px 0; */
+  margin:16px 0 4px 0;
+  font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:inherit}
+.change-group h4.feature{color:var(--feature)}
+.change-group h4.improvement{color:var(--improvement)}
+.change-group h4.bug{color:var(--bug)}
+.change-group h4.security{color:var(--security)}
+.change-group ul{margin:0;padding-left:1.2rem}
+.change-group li{margin:0.2rem 0}
+
+.files{margin:8px 0 0 0;font-size:12px}
+.files summary{color:var(--muted);cursor:pointer;user-select:none}
+.files ul{margin:0.3rem 0 0 1.2rem;padding:0;font-family:var(--mono)}
+
+.empty{padding:40px 10px;text-align:center;color:var(--muted)}
+footer{margin-top:26px;font-size:12px;color:var(--muted)}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media (max-width:560px){ .item{grid-template-columns:46px 1fr;padding:10px} .tab-btn{padding:8px 12px;font-size:13px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Changelog & Vulnerabilities</h1>
+      <div class="sub">Track product changes and security vulnerabilities in one place</div>
+    </div>
+  </header>
+
+  <div class="tabs-container">
+    <button class="tab-btn active" data-tab="vulnerabilities"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="m22.596,17.346L14.697,3.562c-.561-.979-1.569-1.562-2.697-1.562s-2.136.584-2.697,1.562L1.404,17.346c-.558.974-.555,2.134.008,3.104.562.971,1.568,1.55,2.689,1.55h15.798c1.122,0,2.127-.579,2.689-1.55.562-.971.565-2.131.008-3.104Zm-11.596-9.346h2v6h-2v-6Zm1,10c-.689,0-1.25-.561-1.25-1.25s.561-1.25,1.25-1.25,1.25.561,1.25,1.25-.561,1.25-1.25,1.25Z" stroke-width="0" fill="currentColor"></path></g></svg> Vulnerabilities</button>
+    <button class="tab-btn" data-tab="changelog"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0784 1C10.2828 1 9.51972 1.31607 8.95711 1.87868L3.87868 6.95711C3.31607 7.51972 3 8.28278 3 9.07843V20C3 21.6569 4.34315 23 6 23H18C19.6569 23 21 21.6569 21 20V4C21 2.34315 19.6569 1 18 1H11.0784ZM11 9H5L11 3V9ZM14 7V9H17V7H14ZM7 11H17V13H7V11ZM7 15V17H17V15H7Z" fill="currentColor"></path> </g></svg> Changelog</button>
+  </div>
+
+  <!-- VULNERABILITIES TAB -->
+  <div id="vulnerabilities" class="tab-content active">
+    <section class="panel filters" aria-label="Vulnerability Filters">
+      <div class="row" id="kwRow"><label class="lbl">Products</label></div>
+      <div class="row">
+        <label class="lbl" for="vulnSev">Severity</label>
+        <select id="vulnSev">
+          <option value="all">All</option>
+          <option value="CRITICAL">Critical</option>
+          <option value="HIGH">High and above</option>
+          <option value="MEDIUM">Medium and above</option>
+        </select>
+        <label class="lbl" for="vulnSort" style="min-width:auto;margin-left:8px">Sort</label>
+        <select id="vulnSort">
+          <option value="date">Newest first</option>
+          <option value="score">Highest score first</option>
+        </select>
+        <input type="search" id="vulnQ" placeholder="Filter by plugin, CVE ID or word">
+      </div>
+    </section>
+
+    <div style="margin:14px 0">
+      <button id="vulnUpdate" class="btn-action" type="button">Update vulnerabilities</button>
+    </div>
+    <p class="status" id="vulnStatus" role="status" aria-live="polite"></p>
+    <div id="vulnSummary"></div>
+    <div id="vulnLog"></div>
+    <footer>Data from the NVD API 2.0 (no API key: 5 requests per 30 seconds). Keyword search matches descriptions.</footer>
+  </div>
+
+  <!-- CHANGELOG TAB -->
+  <div id="changelog" class="tab-content">
+    <section class="panel filters" aria-label="Changelog Filters">
+      <div class="row">
+        <label class="lbl" for="changeProduct">Select Product</label>
+        <select id="changeProduct">
+          <option value="all">Combined</option>
+          <option value="divi-4">Divi 4</option>
+          <option value="divi-5">Divi 5</option>
+        </select>
+      </div>
+      <div class="row">
+        <input type="search" id="changeSearch" placeholder="Search version or release notes">
+        <label style="font-size:13px;color:var(--muted)">From <input id="changeFrom" type="date"></label>
+        <label style="font-size:13px;color:var(--muted)">To <input id="changeTo" type="date"></label>
+      </div>
+      <fieldset class="fieldset-compact" id="changeTypes">
+        <legend>Change types</legend>
+        <label><input type="checkbox" name="type" value="feature" checked> Features</label>
+        <label><input type="checkbox" name="type" value="improvement" checked> Improvements</label>
+        <label><input type="checkbox" name="type" value="bug" checked> Bug fixes</label>
+        <label><input type="checkbox" name="type" value="security" checked> Security</label>
+        <button type="button" id="changeReset" style="margin-left:auto">Reset filters</button>
+      </fieldset>
+    </section>
+
+    <div style="margin:14px 0">
+      <button id="changeRefresh" class="btn-action" type="button">Refresh changelog</button>
+    </div>
+    <p class="status" id="changeStatus" role="status" aria-live="polite"></p>
+    <div id="changeLog" role="region" aria-live="polite"></div>
+    <footer>Official changelogs: <a href="https://www.elegantthemes.com/api/changelog/divi.txt" target="_blank" rel="noopener">Divi 4</a> · <a href="https://www.elegantthemes.com/api/changelog/divi-5.txt" target="_blank" rel="noopener">Divi 5</a></footer>
+  </div>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>

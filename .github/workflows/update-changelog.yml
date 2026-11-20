@@ -23,17 +23,17 @@ jobs:
           python-version: "3.12"
 
       - name: Run tests
-        working-directory: tools/divi-changelog
+        working-directory: tools/dev-dashboard
         run: python -m unittest discover -s scripts -p "test_*.py"
 
       - name: Update changelog data
-        run: python tools/divi-changelog/scripts/update-changelog.py
+        run: python tools/dev-dashboard/scripts/update-changelog.py
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tools/divi-changelog/data
+          git add tools/dev-dashboard/data
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

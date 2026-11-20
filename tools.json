@@ -5,7 +5,7 @@
   "color-converter",
   "color-tools",
   "css-selectors",
-  "divi-changelog",
+  "dev-dashboard",
   "easing-generator",
   "google-font-picker",
   "logos-resizer",
@@ -17,6 +17,5 @@
   "text-formatter",
   "tool-extractor",
   "tool-template",
-  "typescale",
-  "vulnerability-log"
+  "typescale"
 ]
